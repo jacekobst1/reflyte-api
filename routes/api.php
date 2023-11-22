@@ -16,9 +16,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    // TODO Route [login] not defined.
-    return $request->user();
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/logged-user', function (Request $request) {
+        return $request->user();
+    });
 });
 
 Route::get('/test', function () {
