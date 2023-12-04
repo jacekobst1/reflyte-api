@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/logged-user', function (Request $request) {
         return $request->user();
+    });
+
+    Route::group(['middleware' => ['role:admin']], function () {
+        Route::get('/users', [UserController::class, 'index']);
     });
 });
 
