@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Modules\User\Requests;
 
-use _PHPStan_93af41bf5\Symfony\Contracts\Service\Attribute\Required;
 use App\Models\User;
 use Laravel\Fortify\Rules\Password;
 use Spatie\LaravelData\Attributes\Validation\Email;
 use Spatie\LaravelData\Attributes\Validation\Max;
+use Spatie\LaravelData\Attributes\Validation\Required;
 use Spatie\LaravelData\Attributes\Validation\Rule;
 use Spatie\LaravelData\Attributes\Validation\StringType;
 use Spatie\LaravelData\Attributes\Validation\Unique;
