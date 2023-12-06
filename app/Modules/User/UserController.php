@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Modules\Auth\Enums\RoleEnum;
 use App\Modules\User\Requests\CreateUserRequest;
+use App\Modules\User\Resources\UserResource;
 use App\Shared\Response\JsonResp;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
@@ -18,7 +19,9 @@ class UserController extends Controller
     {
         $users = User::all();
 
-        return JsonResp::success($users);
+        return JsonResp::success(
+            UserResource::collection($users)
+        );
     }
 
     public function store(CreateUserRequest $data): JsonResponse
