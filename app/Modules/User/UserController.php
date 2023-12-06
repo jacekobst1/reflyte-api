@@ -22,11 +22,13 @@ class UserController extends Controller
 
     public function store(CreateUserRequest $data): JsonResponse
     {
+        /** @var User $user */
         $user = User::create([
             'name' => $data->name,
             'email' => $data->email,
             'password' => Hash::make($data->password),
         ]);
+        $user->assignRole(['user']);
 
         return JsonResp::created(['id' => $user->id]);
     }

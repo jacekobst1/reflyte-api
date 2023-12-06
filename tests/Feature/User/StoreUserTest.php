@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\User;
 
+use App\Models\User;
 use Tests\Helpers\SanctumTrait;
 use Tests\TestCase;
 
@@ -30,9 +31,11 @@ class StoreUserTest extends TestCase
 
         // then
         $response->assertSuccessful();
-        $this->assertDatabaseHas('users', [
-            'name' => 'John Doe',
-            'email' => 'johndoe@gmail.com',
-        ]);
+        $user = User::whereEmail('johndoe@gmail.com')->first();
+        $roles = $user->roles;
+
+        $this->assertNotNull($user);
+        $this->assertCount(1, $roles);
+        $this->assertEquals('user', $roles->first()->name);
     }
 }
