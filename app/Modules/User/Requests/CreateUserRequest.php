@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Modules\User\Requests;
 
 use _PHPStan_93af41bf5\Symfony\Contracts\Service\Attribute\Required;
