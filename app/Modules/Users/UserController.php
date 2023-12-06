@@ -18,14 +18,12 @@ class UserController extends Controller
         return JsonResp::success($users);
     }
 
-    public function store(CreateUserRequest $request): JsonResponse
+    public function store(CreateUserRequest $data): JsonResponse
     {
-        $data = $request->validated();
-
         $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'name' => $data->name,
+            'email' => $data->email,
+            'password' => Hash::make($data->password),
         ]);
 
         return JsonResp::created(['id' => $user->id]);
