@@ -6,6 +6,7 @@ namespace App\Modules\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Modules\Auth\Enums\RoleEnum;
 use App\Modules\User\Requests\CreateUserRequest;
 use App\Shared\Response\JsonResp;
 use Illuminate\Http\JsonResponse;
@@ -28,7 +29,7 @@ class UserController extends Controller
             'email' => $data->email,
             'password' => Hash::make($data->password),
         ]);
-        $user->assignRole(['user']);
+        $user->assignRole([RoleEnum::User]);
 
         return JsonResp::created(['id' => $user->id]);
     }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\User;
 
 use App\Models\User;
+use App\Modules\Auth\Enums\RoleEnum;
 use Tests\Helpers\SanctumTrait;
 use Tests\TestCase;
 
@@ -36,6 +37,6 @@ class StoreUserTest extends TestCase
 
         $this->assertNotNull($user);
         $this->assertCount(1, $roles);
-        $this->assertEquals('user', $roles->first()->name);
+        $this->assertEquals(RoleEnum::User->value, $roles->first()->name);
     }
 }
