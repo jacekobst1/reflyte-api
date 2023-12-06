@@ -11,10 +11,18 @@ use App\Modules\User\Requests\CreateUserRequest;
 use App\Modules\User\Resources\UserResource;
 use App\Shared\Response\JsonResp;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function getLoggedUser(Request $request): JsonResponse
+    {
+        return JsonResp::success(
+            new UserResource($request->user())
+        );
+    }
+
     public function index(): JsonResponse
     {
         $users = User::all();

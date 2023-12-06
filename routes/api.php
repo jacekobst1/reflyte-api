@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use App\Modules\User\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,8 +17,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/logged-user', function (Request $request) {
-        return $request->user();
+    // Admin and User routes
+    Route::group(['middleware' => ['role:admin|user']], function () {
+        Route::get('/logged-user', [UserController::class, 'getLoggedUser']);
     });
 
     // Admin routes
@@ -29,6 +29,7 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('/', [UserController::class, 'store']);
         });
     });
+    // User routes
 });
 
 Route::get('/test', function () {
