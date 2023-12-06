@@ -7,10 +7,13 @@ namespace App\Shared\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
-use Illuminate\Support\Enumerable;
 
 final class JsonResp
 {
+    /**
+     * @param array<non-empty-string, mixed>|ResourceCollection|JsonResource|null $data
+     * @return JsonResponse
+     */
     public static function success(array|ResourceCollection|JsonResource|null $data = []): JsonResponse
     {
         return response()->json([
@@ -20,7 +23,11 @@ final class JsonResp
         ], JsonResponse::HTTP_OK);
     }
 
-    public static function created(array|Enumerable|null $data = []): JsonResponse
+    /**
+     * @param array<non-empty-string, mixed>|null $data
+     * @return JsonResponse
+     */
+    public static function created(array|null $data = []): JsonResponse
     {
         return response()->json([
             'status' => JsonResponse::HTTP_CREATED,
