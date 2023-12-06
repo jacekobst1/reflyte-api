@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Modules\Users;
+declare(strict_types=1);
+
+namespace App\Modules\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Modules\Users\Requests\CreateUserRequest;
+use App\Modules\User\Requests\CreateUserRequest;
 use App\Shared\Response\JsonResp;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;

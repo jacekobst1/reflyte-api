@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Modules\Users\UserController;
+use App\Modules\User\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

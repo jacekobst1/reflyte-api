@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Users\Requests;
+namespace App\Modules\User\Requests;
 
 use _PHPStan_93af41bf5\Symfony\Contracts\Service\Attribute\Required;
 use App\Models\User;
