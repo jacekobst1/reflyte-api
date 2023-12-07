@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Team;
 
+use App\Casts\Model\UuidModelCast;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,6 +23,11 @@ class Team extends Model
     protected $fillable = [
         'name',
         'owner_user_id',
+    ];
+
+    protected $casts = [
+        'id' => UuidModelCast::class,
+        'owner_user_id' => UuidModelCast::class,
     ];
 
     public function users(): HasMany

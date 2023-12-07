@@ -14,7 +14,7 @@ namespace App\Models{
 /**
  * App\Models\User
  *
- * @property string $id
+ * @property \Ramsey\Uuid\UuidInterface|null $id
  * @property string $name
  * @property string $email
  * @property \Illuminate\Support\Carbon|null $email_verified_at
@@ -24,7 +24,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $two_factor_secret
  * @property string|null $two_factor_recovery_codes
- * @property string|null $team_id
+ * @property \Ramsey\Uuid\UuidInterface|null|null $team_id
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read \App\Modules\Team\Team|null $ownedTeam
@@ -123,9 +123,9 @@ namespace App\Modules\Team{
 /**
  * App\Modules\Team\Team
  *
- * @property string $id
+ * @property \Ramsey\Uuid\UuidInterface|null $id
  * @property string $name
- * @property string $owner_user_id
+ * @property \Ramsey\Uuid\UuidInterface|null $owner_user_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\User $owner

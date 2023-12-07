@@ -1,6 +1,6 @@
 <?php
 
-use App\Casts\UuidCast;
+use App\Casts\SpatieData\UuidDataCast;
 use Illuminate\Contracts\Support\Arrayable;
 use Ramsey\Uuid\UuidInterface;
 use Spatie\LaravelData\Transformers\ArrayableTransformer;
@@ -31,7 +31,7 @@ return [
     'casts' => [
         DateTimeInterface::class => Spatie\LaravelData\Casts\DateTimeInterfaceCast::class,
         BackedEnum::class => Spatie\LaravelData\Casts\EnumCast::class,
-        UuidInterface::class => UuidCast::class,
+        UuidInterface::class => UuidDataCast::class,
     ],
 
     /*

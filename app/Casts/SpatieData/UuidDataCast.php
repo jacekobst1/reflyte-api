@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Casts;
+namespace App\Casts\SpatieData;
 
 use Exception;
 use Ramsey\Uuid\Uuid;
@@ -12,7 +12,7 @@ use Spatie\LaravelData\Exceptions\CannotCastEnum;
 use Spatie\LaravelData\Support\DataProperty;
 use Throwable;
 
-class UuidCast implements Cast
+class UuidDataCast implements Cast
 {
     /**
      * @throws CannotCastEnum

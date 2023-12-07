@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Casts\Model\UuidModelCast;
 use App\Modules\Team\Team;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -53,8 +54,10 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
+        'id' => UuidModelCast::class,
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'team_id' => UuidModelCast::class,
     ];
 
     public function team(): BelongsTo
