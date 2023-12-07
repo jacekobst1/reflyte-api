@@ -5,43 +5,38 @@ declare(strict_types=1);
 namespace App\Modules\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Modules\Auth\Enums\RoleEnum;
 use App\Modules\User\Requests\CreateUserRequest;
 use App\Modules\User\Resources\UserResource;
+use App\Modules\User\Services\UserCreator;
+use App\Modules\User\Services\UserGetter;
 use App\Shared\Response\JsonResp;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function getLoggedUser(Request $request): JsonResponse
+    public function getLoggedUser(Request $request, UserGetter $getter): JsonResponse
     {
+        $loggedUser = $getter->getLoggedUser($request);
+
         return JsonResp::success(
-            new UserResource($request->user())
+            new UserResource($loggedUser)
         );
     }
 
-    public function index(): JsonResponse
+    public function index(UserGetter $getter): JsonResponse
     {
-        $users = User::all();
+        $users = $getter->getAll();
 
         return JsonResp::success(
             UserResource::collection($users)
         );
     }
 
-    public function store(CreateUserRequest $data): JsonResponse
+    public function store(CreateUserRequest $data, UserCreator $creator): JsonResponse
     {
-        /** @var User $user */
-        $user = User::create([
-            'name' => $data->name,
-            'email' => $data->email,
-            'password' => Hash::make($data->password),
-        ]);
-        $user->assignRole([RoleEnum::User]);
+        $userId = $creator->createUser($data);
 
-        return JsonResp::created(['id' => $user->id]);
+        return JsonResp::created(['id' => $userId]);
     }
 }
