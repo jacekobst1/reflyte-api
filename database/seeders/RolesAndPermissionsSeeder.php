@@ -10,9 +10,6 @@ use Illuminate\Database\Seeder;
 
 final class RolesAndPermissionsSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
         Role::create(['name' => RoleEnum::Admin]);
