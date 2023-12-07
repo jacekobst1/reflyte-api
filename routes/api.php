@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Modules\Team\TeamController;
 use App\Modules\User\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,7 +30,13 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('/', [UserController::class, 'store']);
         });
     });
+
     // User routes
+    Route::group(['middleware' => ['role:user']], function () {
+        Route::prefix('/teams')->group(function () {
+            Route::post('/', [TeamController::class, 'store']);
+        });
+    });
 });
 
 Route::get('/test', function () {

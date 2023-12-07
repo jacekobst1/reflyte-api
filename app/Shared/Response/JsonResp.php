@@ -35,4 +35,12 @@ final class JsonResp
             'data' => $data,
         ], JsonResponse::HTTP_CREATED);
     }
+
+    public static function badRequest(string $message = 'Bad Request'): JsonResponse
+    {
+        return response()->json([
+            'status' => JsonResponse::HTTP_BAD_REQUEST,
+            'message' => $message,
+        ], JsonResponse::HTTP_BAD_REQUEST);
+    }
 }
