@@ -11,14 +11,14 @@ trait SanctumTrait
 {
     private function actAsAdmin(): void
     {
-        $adminForTests = User::whereEmail('admin@admin.com')->first();
+        $adminForTests = User::whereEmail('admin@test.com')->first();
 
         Sanctum::actingAs($adminForTests);
     }
 
     private function actAsUser(): void
     {
-        $userForTests = User::whereEmail('user@user.com')->first();
+        $userForTests = User::whereEmail('user@test.com')->first();
 
         Sanctum::actingAs($userForTests);
     }

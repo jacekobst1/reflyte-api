@@ -70,6 +70,40 @@ namespace App\Modules\Auth\Models{
 	class IdeHelperRole {}
 }
 
+namespace App\Modules\Newsletter{
+/**
+ * App\Modules\Newsletter\Newsletter
+ *
+ * @property \Ramsey\Uuid\UuidInterface|null $id
+ * @property string $name
+ * @property string $description
+ * @property \Ramsey\Uuid\UuidInterface|null $team_id
+ * @property string $esp_name
+ * @property string $esp_api_key
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Modules\Team\Team $team
+ * @method static \Illuminate\Database\Eloquent\Builder|Newsletter newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Newsletter newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Newsletter onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Newsletter query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Newsletter whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Newsletter whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Newsletter whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Newsletter whereEspApiKey($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Newsletter whereEspName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Newsletter whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Newsletter whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Newsletter whereTeamId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Newsletter whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Newsletter withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Newsletter withoutTrashed()
+ * @mixin \Eloquent
+ */
+	class IdeHelperNewsletter {}
+}
+
 namespace App\Modules\Team{
 /**
  * App\Modules\Team\Team
@@ -79,6 +113,7 @@ namespace App\Modules\Team{
  * @property \Ramsey\Uuid\UuidInterface|null $owner_user_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Modules\Newsletter\Newsletter|null $newsletter
  * @property-read \App\Modules\User\User $owner
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Modules\User\User> $users
  * @property-read int|null $users_count

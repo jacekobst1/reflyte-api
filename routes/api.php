@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Modules\Auth\Enums\RoleEnum;
+use App\Modules\Newsletter\NewsletterController;
 use App\Modules\Team\TeamController;
 use App\Modules\User\UserController;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +29,10 @@ Route::middleware('auth:sanctum')->group(function () use ($admin, $user) {
     Route::group(['middleware' => ["role:$user"]], function () {
         Route::prefix('/teams')->group(function () {
             Route::post('/', [TeamController::class, 'store']);
+        });
+
+        Route::prefix('/newsletters')->group(function () {
+            Route::post('/', [NewsletterController::class, 'store']);
         });
     });
 });
