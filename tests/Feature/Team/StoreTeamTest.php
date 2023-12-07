@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Team;
 
-use App\Models\User;
 use App\Modules\Team\Team;
 use App\Modules\Team\TeamRelations;
+use App\Modules\User\User;
 use Tests\Helpers\SanctumTrait;
 use Tests\TestCase;
 

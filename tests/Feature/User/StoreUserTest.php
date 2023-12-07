@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Feature\User;
 
-use App\Models\User;
 use App\Modules\Auth\Enums\RoleEnum;
+use App\Modules\User\User;
 use Illuminate\Support\Facades\Hash;
 use Tests\Helpers\SanctumTrait;
 use Tests\TestCase;

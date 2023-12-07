@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\User\Requests;
 
-use App\Models\User;
+use App\Modules\User\User;
 use Laravel\Fortify\Rules\Password;
 use Spatie\LaravelData\Attributes\Validation\Email;
 use Spatie\LaravelData\Attributes\Validation\Max;

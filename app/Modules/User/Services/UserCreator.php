@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Modules\User\Services;
 
-use App\Models\User;
 use App\Modules\Auth\Enums\RoleEnum;
 use App\Modules\User\Requests\CreateUserRequest;
+use App\Modules\User\User;
 use Illuminate\Support\Facades\Hash;
 use Ramsey\Uuid\UuidInterface;
 

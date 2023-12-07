@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Team\Requests;
 
-use App\Models\User;
+use App\Modules\User\User;
 use Ramsey\Uuid\UuidInterface;
 use Spatie\LaravelData\Attributes\Validation\Exists;
 use Spatie\LaravelData\Attributes\Validation\Required;

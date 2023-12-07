@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Database\Factories;
+namespace Database\Factories\Modules\User;
 
-use App\Models\User;
+use App\Modules\User\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
  */
 class UserFactory extends Factory
 {
+    protected $model = User::class;
     protected static ?string $password;
 
     /**

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Models;
+namespace App\Modules\User;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Casts\Model\UuidModelCast;

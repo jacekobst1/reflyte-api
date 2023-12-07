@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Team;
 
 use App\Casts\Model\UuidModelCast;
-use App\Models\User;
+use App\Modules\User\User;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

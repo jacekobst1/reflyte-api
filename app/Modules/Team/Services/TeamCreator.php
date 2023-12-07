@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Modules\Team\Services;
 
 use App\Exceptions\BadRequestException;
-use App\Models\User;
 use App\Modules\Team\Requests\CreateTeamRequest;
 use App\Modules\Team\Team;
+use App\Modules\User\User;
 
 final class TeamCreator
 {

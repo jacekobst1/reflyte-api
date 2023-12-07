@@ -10,55 +10,6 @@
  */
 
 
-namespace App\Models{
-/**
- * App\Models\User
- *
- * @property \Ramsey\Uuid\UuidInterface|null $id
- * @property string $name
- * @property string $email
- * @property \Illuminate\Support\Carbon|null $email_verified_at
- * @property mixed $password
- * @property string|null $remember_token
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string|null $two_factor_secret
- * @property string|null $two_factor_recovery_codes
- * @property \Ramsey\Uuid\UuidInterface|null|null $team_id
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
- * @property-read int|null $notifications_count
- * @property-read \App\Modules\Team\Team|null $ownedTeam
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Modules\Auth\Models\Permission> $permissions
- * @property-read int|null $permissions_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Modules\Auth\Models\Role> $roles
- * @property-read int|null $roles_count
- * @property-read \App\Modules\Team\Team|null $team
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
- * @property-read int|null $tokens_count
- * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|User permission($permissions, $without = false)
- * @method static \Illuminate\Database\Eloquent\Builder|User query()
- * @method static \Illuminate\Database\Eloquent\Builder|User role($roles, $guard = null, $without = false)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereTeamId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereTwoFactorRecoveryCodes($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereTwoFactorSecret($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User withoutPermission($permissions)
- * @method static \Illuminate\Database\Eloquent\Builder|User withoutRole($roles, $guard = null)
- * @mixin \Eloquent
- */
-	class IdeHelperUser {}
-}
-
 namespace App\Modules\Auth\Models{
 /**
  * App\Modules\Auth\Models\Permission
@@ -72,7 +23,7 @@ namespace App\Modules\Auth\Models{
  * @property-read int|null $permissions_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Modules\Auth\Models\Role> $roles
  * @property-read int|null $roles_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Modules\User\User> $users
  * @property-read int|null $users_count
  * @method static \Illuminate\Database\Eloquent\Builder|Permission newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Permission newQuery()
@@ -102,7 +53,7 @@ namespace App\Modules\Auth\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Modules\Auth\Models\Permission> $permissions
  * @property-read int|null $permissions_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Modules\User\User> $users
  * @property-read int|null $users_count
  * @method static \Illuminate\Database\Eloquent\Builder|Role newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Role newQuery()
@@ -128,8 +79,8 @@ namespace App\Modules\Team{
  * @property \Ramsey\Uuid\UuidInterface|null $owner_user_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\User $owner
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
+ * @property-read \App\Modules\User\User $owner
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Modules\User\User> $users
  * @property-read int|null $users_count
  * @method static \Database\Factories\Modules\Team\TeamFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Team newModelQuery()
@@ -143,5 +94,54 @@ namespace App\Modules\Team{
  * @mixin \Eloquent
  */
 	class IdeHelperTeam {}
+}
+
+namespace App\Modules\User{
+/**
+ * App\Modules\User\User
+ *
+ * @property \Ramsey\Uuid\UuidInterface|null $id
+ * @property string $name
+ * @property string $email
+ * @property \Illuminate\Support\Carbon|null $email_verified_at
+ * @property mixed $password
+ * @property string|null $remember_token
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $two_factor_secret
+ * @property string|null $two_factor_recovery_codes
+ * @property \Ramsey\Uuid\UuidInterface|null|null $team_id
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
+ * @property-read int|null $notifications_count
+ * @property-read \App\Modules\Team\Team|null $ownedTeam
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Modules\Auth\Models\Permission> $permissions
+ * @property-read int|null $permissions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Modules\Auth\Models\Role> $roles
+ * @property-read int|null $roles_count
+ * @property-read \App\Modules\Team\Team|null $team
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
+ * @property-read int|null $tokens_count
+ * @method static \Database\Factories\Modules\User\UserFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|User permission($permissions, $without = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|User query()
+ * @method static \Illuminate\Database\Eloquent\Builder|User role($roles, $guard = null, $without = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereTeamId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereTwoFactorRecoveryCodes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereTwoFactorSecret($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User withoutPermission($permissions)
+ * @method static \Illuminate\Database\Eloquent\Builder|User withoutRole($roles, $guard = null)
+ * @mixin \Eloquent
+ */
+	class IdeHelperUser {}
 }
 
