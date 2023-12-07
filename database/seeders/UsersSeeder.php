@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Modules\Auth\Enums\RoleEnum;
 use App\Modules\User\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -21,7 +22,7 @@ final class UsersSeeder extends Seeder
             'email' => 'jacek@reflyte.com',
             'password' => Hash::make('j'),
         ]);
-        $admin->assignRole('admin');
+        $admin->assignRole(RoleEnum::Admin);
 
         if (app()->isLocal()) {
             $adminForTests = User::create([
@@ -29,14 +30,14 @@ final class UsersSeeder extends Seeder
                 'email' => 'admin@admin.com',
                 'password' => Hash::make(Str::random()),
             ]);
-            $adminForTests->assignRole('admin');
+            $adminForTests->assignRole(RoleEnum::Admin);
 
             $userForTests = User::create([
                 'name' => 'Test User',
                 'email' => 'user@user.com',
                 'password' => Hash::make(Str::random()),
             ]);
-            $userForTests->assignRole('user');
+            $userForTests->assignRole(RoleEnum::User);
         }
     }
 }
