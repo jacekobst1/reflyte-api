@@ -31,9 +31,3 @@ Route::middleware('auth:sanctum')->group(function () use ($admin, $user) {
         });
     });
 });
-
-Route::get('/test', function () {
-    return response()->json([
-        'message' => 'App is working!',
-    ], 200);
-});
