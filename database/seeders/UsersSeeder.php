@@ -7,8 +7,8 @@ namespace Database\Seeders;
 use App\Modules\Auth\Enums\RoleEnum;
 use App\Modules\User\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 final class UsersSeeder extends Seeder
 {
@@ -28,14 +28,14 @@ final class UsersSeeder extends Seeder
             $adminForTests = User::create([
                 'name' => 'Test Admin',
                 'email' => 'admin@admin.com',
-                'password' => Hash::make(Str::random()),
+                'password' => Hash::make(Config::get('env.test_admin_password')),
             ]);
             $adminForTests->assignRole(RoleEnum::Admin);
 
             $userForTests = User::create([
                 'name' => 'Test User',
                 'email' => 'user@user.com',
-                'password' => Hash::make(Str::random()),
+                'password' => Hash::make(Config::get('env.test_user_password')),
             ]);
             $userForTests->assignRole(RoleEnum::User);
         }
