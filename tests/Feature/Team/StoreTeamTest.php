@@ -6,6 +6,7 @@ namespace Tests\Feature\Team;
 
 use App\Models\User;
 use App\Modules\Team\Team;
+use App\Modules\Team\TeamRelations;
 use Tests\Helpers\SanctumTrait;
 use Tests\TestCase;
 
@@ -33,7 +34,7 @@ class StoreTeamTest extends TestCase
 
         // then
         $response->assertSuccessful();
-        $team = Team::whereName('MKos Media Interactive Agency')->with('users')->first();
+        $team = Team::whereName('MKos Media Interactive Agency')->with(TeamRelations::USERS)->first();
         $this->assertEquals($user->id, $team->owner_user_id);
         $this->assertCount(1, $team->users);
         $this->assertEquals($user->id, $team->users->first()->id);
@@ -56,7 +57,7 @@ class StoreTeamTest extends TestCase
         // then
         $response->assertBadRequest();
         $this->assertEquals('User already has a team', $response->json('message'));
-        $team = Team::whereName('MKos Media Interactive Agency')->with('users')->first();
+        $team = Team::whereName('MKos Media Interactive Agency')->with(TeamRelations::USERS)->first();
         $this->assertNull($team);
     }
 }
