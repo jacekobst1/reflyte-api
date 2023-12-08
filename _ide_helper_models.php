@@ -78,12 +78,14 @@ namespace App\Modules\Newsletter{
  * @property \Ramsey\Uuid\UuidInterface|null $team_id
  * @property string $name
  * @property string $description
- * @property string $esp_name
+ * @property \App\Modules\ESP\EspName $esp_name
  * @property mixed $esp_api_key
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \App\Modules\ReferralProgram\ReferralProgram|null $referralProgram
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Modules\Subscriber\Subscriber> $subscribers
+ * @property-read int|null $subscribers_count
  * @property-read \App\Modules\Team\Team $team
  * @method static \Database\Factories\Modules\Newsletter\NewsletterFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Newsletter newModelQuery()
@@ -110,16 +112,14 @@ namespace App\Modules\ReferralProgram{
 /**
  * App\Modules\ReferralProgram\ReferralProgram
  *
- * @property string $id
- * @property string $newsletter_id
+ * @property \Ramsey\Uuid\UuidInterface|null $id
+ * @property \Ramsey\Uuid\UuidInterface|null $newsletter_id
  * @property string $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Modules\Newsletter\Newsletter|null $newsletter
+ * @property-read \App\Modules\Newsletter\Newsletter $newsletter
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Modules\Reward\Reward> $rewards
  * @property-read int|null $rewards_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Modules\Subscriber\Subscriber> $subscribers
- * @property-read int|null $subscribers_count
  * @method static \Illuminate\Database\Eloquent\Builder|ReferralProgram newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ReferralProgram newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ReferralProgram query()
@@ -137,14 +137,14 @@ namespace App\Modules\Reward{
 /**
  * App\Modules\Reward\Reward
  *
- * @property string $id
- * @property string $referral_program_id
+ * @property \Ramsey\Uuid\UuidInterface|null $id
+ * @property \Ramsey\Uuid\UuidInterface|null $referral_program_id
  * @property string $name
  * @property string $description
  * @property int $points
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Modules\ReferralProgram\ReferralProgram|null $referralProgram
+ * @property-read \App\Modules\ReferralProgram\ReferralProgram $referralProgram
  * @method static \Illuminate\Database\Eloquent\Builder|Reward newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Reward newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Reward query()
@@ -165,18 +165,28 @@ namespace App\Modules\Subscriber{
  * App\Modules\Subscriber\Subscriber
  *
  * @property string $id
- * @property string $referral_program_id
+ * @property string $newsletter_id
  * @property string $email
+ * @property string $ref_code
+ * @property string $ref_link
+ * @property string $is_ref
+ * @property int $ref_count
+ * @property string $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Modules\ReferralProgram\ReferralProgram|null $referralProgram
+ * @property-read \App\Modules\ReferralProgram\ReferralProgram $referralProgram
  * @method static \Illuminate\Database\Eloquent\Builder|Subscriber newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Subscriber newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Subscriber query()
  * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereReferralProgramId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereIsRef($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereNewsletterId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereRefCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereRefCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereRefLink($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereUpdatedAt($value)
  * @mixin \Eloquent
  */

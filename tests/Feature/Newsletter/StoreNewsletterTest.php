@@ -14,6 +14,7 @@ class StoreNewsletterTest extends TestCase
 {
     use SanctumTrait;
 
+    // TODO fix test (mock or test subscribers synchronization)
     public function testStoreNewsletter(): void
     {
         $this->actAsCompleteUser();
@@ -69,7 +70,7 @@ class StoreNewsletterTest extends TestCase
         $this->assertEquals('Team already has a newsletter', $response->json('message'));
     }
 
-    public function testCannoStoreNewsletterIfInvalidApiKey(): void
+    public function testCannotStoreNewsletterIfInvalidApiKey(): void
     {
         $this->actAsCompleteUser();
         $this->loggedUser->team->newsletter()->delete();

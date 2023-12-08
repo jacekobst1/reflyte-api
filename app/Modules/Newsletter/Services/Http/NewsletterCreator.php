@@ -6,10 +6,12 @@ namespace App\Modules\Newsletter\Services\Http;
 
 use App\Exceptions\ConflictException;
 use App\Modules\ESP\EspName;
+use App\Modules\ESP\Integration\ClientFactory;
 use App\Modules\ESP\Services\ApiKeyValidator;
 use App\Modules\Newsletter\Newsletter;
 use App\Modules\Newsletter\Requests\CreateNewsletterRequest;
 use App\Modules\Team\Team;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Throwable;
 
@@ -30,7 +32,11 @@ final class NewsletterCreator
         $this->checkIfTeamHasNoNewsletter($team);
         $this->validateEspApiKey($data->esp_name, $data->esp_api_key);
 
-        return $this->storeNewsletter($data, $team);
+        $newsletter = $this->storeNewsletter($data, $team);
+
+        $this->syncSubscribers($data->esp_name, $data->esp_api_key);
+
+        return $newsletter;
     }
 
     /**
@@ -66,5 +72,14 @@ final class NewsletterCreator
         $newsletter->saveOrFail();
 
         return $newsletter;
+    }
+
+    private function syncSubscribers(EspName $espName, string $apiKey): void
+    {
+        /** @var ClientFactory $clientFactory */
+        $clientFactory = App::make(ClientFactory::class);
+
+        $client = $clientFactory->make($espName, $apiKey);
+        $client->getAllSubscribers();
     }
 }

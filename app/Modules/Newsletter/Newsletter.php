@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Newsletter;
 
 use App\Casts\Model\UuidModelCast;
+use App\Modules\ESP\EspName;
 use App\Modules\ReferralProgram\ReferralProgram;
 use App\Modules\Subscriber\Subscriber;
 use App\Modules\Team\Team;
@@ -25,9 +26,11 @@ class Newsletter extends Model
     use HasFactory;
     use SoftDeletes;
 
+    // TODO add method getEspConfig() and VO
     protected $casts = [
         'id' => UuidModelCast::class,
         'team_id' => UuidModelCast::class,
+        'esp_name' => EspName::class,
         'esp_api_key' => 'encrypted',
     ];
 
