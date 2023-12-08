@@ -7,7 +7,7 @@ namespace App\Modules\Team;
 use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
 use App\Modules\Team\Requests\CreateTeamRequest;
-use App\Modules\Team\Services\TeamCreator;
+use App\Modules\Team\Services\Http\TeamCreator;
 use App\Shared\Response\JsonResp;
 use Illuminate\Http\JsonResponse;
 use Throwable;

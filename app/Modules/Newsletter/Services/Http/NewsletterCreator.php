@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Newsletter\Services;
+namespace App\Modules\Newsletter\Services\Http;
 
 use App\Exceptions\ConflictException;
 use App\Modules\ESP\EspName;

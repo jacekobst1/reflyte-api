@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\User\Services;
+namespace App\Modules\User\Services\Http;
 
 use App\Modules\Auth\Enums\RoleEnum;
 use App\Modules\User\Requests\CreateUserRequest;

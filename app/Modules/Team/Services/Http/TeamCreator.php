@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Team\Services;
+namespace App\Modules\Team\Services\Http;
 
 use App\Exceptions\BadRequestException;
 use App\Modules\Team\Requests\CreateTeamRequest;

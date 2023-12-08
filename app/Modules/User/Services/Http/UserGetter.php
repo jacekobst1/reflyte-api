@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\User\Services;
+namespace App\Modules\User\Services\Http;
 
 use App\Modules\User\User;
 use Illuminate\Database\Eloquent\Collection;

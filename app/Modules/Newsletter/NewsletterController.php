@@ -8,7 +8,7 @@ use App\Exceptions\ConflictException;
 use App\Http\Controllers\Controller;
 use App\Modules\Newsletter\Requests\CreateNewsletterRequest;
 use App\Modules\Newsletter\Resources\NewsletterResource;
-use App\Modules\Newsletter\Services\NewsletterCreator;
+use App\Modules\Newsletter\Services\Http\NewsletterCreator;
 use App\Shared\Response\JsonResp;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
