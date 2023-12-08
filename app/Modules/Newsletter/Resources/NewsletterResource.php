@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Modules\Newsletter\Resources;
 
-use App\Modules\User\User;
+use App\Modules\Newsletter\Newsletter;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin User
+ * @mixin Newsletter
  */
 class NewsletterResource extends JsonResource
 {

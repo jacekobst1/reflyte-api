@@ -84,6 +84,7 @@ namespace App\Modules\Newsletter{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \App\Modules\Team\Team $team
+ * @method static \Database\Factories\Modules\Newsletter\NewsletterFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Newsletter newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Newsletter newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Newsletter onlyTrashed()
