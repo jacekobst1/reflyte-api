@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\Modules\Newsletter;
 
 use App\Casts\Model\UuidModelCast;
+use App\Modules\ReferralProgram\ReferralProgram;
 use App\Modules\Team\Team;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -37,5 +39,10 @@ class Newsletter extends Model
     public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);
+    }
+
+    public function referralProgram(): HasOne
+    {
+        return $this->hasOne(ReferralProgram::class);
     }
 }
