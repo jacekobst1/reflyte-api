@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Modules\Auth\Enums\RoleEnum;
+use App\Modules\Newsletter\Newsletter;
+use App\Modules\Team\Team;
 use App\Modules\User\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
+use Ramsey\Uuid\UuidInterface;
 
 final class TestUsersSeeder extends Seeder
 {
@@ -18,54 +20,53 @@ final class TestUsersSeeder extends Seeder
         $testPassword = Hash::make(Config::get('env.test_user_password'));
 
         // Admin
-        $admin = User::create([
-            'name' => 'Test Admin',
+        $admin = User::factory()->create([
             'email' => 'admin@test.com',
             'password' => $testPassword,
         ]);
         $admin->assignRole(RoleEnum::Admin);
 
         // User
-        $user = User::create([
-            'name' => 'Test User',
+        $user = User::factory()->create([
             'email' => 'user@test.com',
             'password' => $testPassword,
         ]);
         $user->assignRole(RoleEnum::User);
 
         // User with team
-        $userWithTeam = User::create([
-            'name' => 'Test User With Team',
+        $userWithTeam = User::factory()->create([
             'email' => 'userwt@test.com',
             'password' => $testPassword,
         ]);
         $userWithTeam->assignRole(RoleEnum::User);
-
-        $team = $userWithTeam->ownedTeam()->create([
-            'name' => 'Test Team',
-        ]);
-        $userWithTeam->team()->associate($team);
-        $userWithTeam->save();
+        $this->createTeam($userWithTeam);
 
         // User with team and newsletter
-        $userWithTeamAndNewsletter = User::create([
-            'name' => 'Test User With Team And Newsletter',
+        $userWithTeamAndNewsletter = User::factory()->create([
             'email' => 'userwtn@test.com',
             'password' => $testPassword,
         ]);
         $userWithTeamAndNewsletter->assignRole(RoleEnum::User);
+        $team = $this->createTeam($userWithTeamAndNewsletter);
+        $this->createNewsletter($team->id);
+    }
 
-        $team = $userWithTeamAndNewsletter->ownedTeam()->create([
-            'name' => 'Test Team',
+    private function createTeam(User $user): Team
+    {
+        $team = Team::factory()->create([
+            'owner_user_id' => $user->id,
         ]);
-        $userWithTeamAndNewsletter->team()->associate($team);
-        $userWithTeamAndNewsletter->save();
 
-        $team->newsletter()->create([
-            'name' => 'Test Newsletter',
-            'description' => 'Test Newsletter Description',
-            'esp_name' => 'mailer_lite',
-            'esp_api_key' => Str::random()
+        $user->team()->associate($team);
+        $user->save();
+
+        return $team;
+    }
+
+    private function createNewsletter(UuidInterface $teamId): Newsletter
+    {
+        return Newsletter::factory()->create([
+            'team_id' => $teamId,
         ]);
     }
 }
