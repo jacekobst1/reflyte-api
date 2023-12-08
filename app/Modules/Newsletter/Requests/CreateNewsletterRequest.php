@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Newsletter\Requests;
 
-use App\Shared\Enums\EspName;
+use App\Modules\ESP\EspName;
 use Spatie\LaravelData\Attributes\Validation\Enum;
 use Spatie\LaravelData\Attributes\Validation\Required;
 use Spatie\LaravelData\Attributes\Validation\StringType;

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Database\Factories\Modules\Newsletter;
 
+use App\Modules\ESP\EspName;
 use App\Modules\Newsletter\Newsletter;
-use App\Shared\Enums\EspName;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
