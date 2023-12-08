@@ -6,11 +6,13 @@ namespace App\Modules\Newsletter;
 
 use App\Casts\Model\UuidModelCast;
 use App\Modules\ReferralProgram\ReferralProgram;
+use App\Modules\Subscriber\Subscriber;
 use App\Modules\Team\Team;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -44,5 +46,10 @@ class Newsletter extends Model
     public function referralProgram(): HasOne
     {
         return $this->hasOne(ReferralProgram::class);
+    }
+
+    public function subscribers(): HasMany
+    {
+        return $this->hasMany(Subscriber::class);
     }
 }

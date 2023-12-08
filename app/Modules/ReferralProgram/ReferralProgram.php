@@ -6,7 +6,6 @@ namespace App\Modules\ReferralProgram;
 
 use App\Modules\Newsletter\Newsletter;
 use App\Modules\Reward\Reward;
-use App\Modules\Subscriber\Subscriber;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -24,11 +23,6 @@ class ReferralProgram extends Model
     public function newsletter(): BelongsTo
     {
         return $this->belongsTo(Newsletter::class);
-    }
-
-    public function subscribers(): HasMany
-    {
-        return $this->hasMany(Subscriber::class);
     }
 
     public function rewards(): HasMany

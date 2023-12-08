@@ -1,5 +1,6 @@
 <?php
 
+use Database\OnDelete;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,6 +18,11 @@ return new class extends Migration {
             $table->text('description');
             $table->integer('points');
             $table->timestamps();
+
+            $table->foreign('referral_program_id')
+                ->references('id')
+                ->on('referral_programs')
+                ->onDelete(OnDelete::CASCADE);
         });
     }
 
