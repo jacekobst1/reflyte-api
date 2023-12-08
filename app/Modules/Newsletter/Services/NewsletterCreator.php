@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Modules\Newsletter\Services;
 
 use App\Exceptions\ConflictException;
+use App\Modules\ESP\EspName;
+use App\Modules\ESP\Services\ApiKeyValidator;
 use App\Modules\Newsletter\Newsletter;
 use App\Modules\Newsletter\Requests\CreateNewsletterRequest;
 use App\Modules\Team\Team;
@@ -13,6 +15,10 @@ use Throwable;
 
 final class NewsletterCreator
 {
+    public function __construct(private readonly ApiKeyValidator $apiKeyValidator)
+    {
+    }
+
     /**
      * @throws Throwable
      * @throws ConflictException
@@ -22,6 +28,7 @@ final class NewsletterCreator
         $team = Auth::user()->team;
 
         $this->checkIfTeamHasNoNewsletter($team);
+        $this->validateEspApiKey($data->esp_name, $data->esp_api_key);
 
         return $this->storeNewsletter($data, $team);
     }
@@ -33,6 +40,16 @@ final class NewsletterCreator
     {
         if ($team->newsletter()->exists()) {
             throw new ConflictException('Team already has a newsletter');
+        }
+    }
+
+    /**
+     * @throws ConflictException
+     */
+    private function validateEspApiKey(EspName $espName, string $apiKey): void
+    {
+        if (!$this->apiKeyValidator->apiKeyIsValid($espName, $apiKey)) {
+            throw new ConflictException('Invalid ESP API key');
         }
     }
 

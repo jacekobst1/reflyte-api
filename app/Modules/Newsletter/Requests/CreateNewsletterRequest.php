@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Modules\Newsletter\Requests;
 
 use App\Modules\ESP\EspName;
-use Spatie\LaravelData\Attributes\Validation\Enum;
 use Spatie\LaravelData\Attributes\Validation\Required;
 use Spatie\LaravelData\Attributes\Validation\StringType;
 use Spatie\LaravelData\Data;
@@ -19,8 +18,8 @@ class CreateNewsletterRequest extends Data
         #[Required, StringType]
         public readonly string $description,
 
-        #[Required, Enum(EspName::class)]
-        public readonly string $esp_name,
+        #[Required]
+        public readonly EspName $esp_name,
 
         #[Required, StringType]
         public readonly string $esp_api_key,
