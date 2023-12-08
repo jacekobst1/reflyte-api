@@ -24,6 +24,7 @@ class Newsletter extends Model
     protected $casts = [
         'id' => UuidModelCast::class,
         'team_id' => UuidModelCast::class,
+        'esp_api_key' => 'encrypted',
     ];
 
     protected $fillable = [

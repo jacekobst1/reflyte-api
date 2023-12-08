@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Newsletter;
 
 use App\Modules\ESP\Services\ApiKeyValidator;
+use App\Modules\Newsletter\Newsletter;
 use Illuminate\Support\Str;
 use Tests\Helpers\SanctumTrait;
 use Tests\TestCase;
@@ -43,8 +44,9 @@ class StoreNewsletterTest extends TestCase
             'name' => $requestData['name'],
             'description' => $requestData['description'],
             'esp_name' => $requestData['esp_name'],
-            'esp_api_key' => $requestData['esp_api_key'],
         ]);
+        $apiKey = Newsletter::find($newsletterId)->esp_api_key;
+        $this->assertEquals($requestData['esp_api_key'], $apiKey);
     }
 
     public function testCannotStoreNewsletterIfTeamAlreadyHasOne(): void
