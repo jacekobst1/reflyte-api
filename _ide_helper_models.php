@@ -75,14 +75,15 @@ namespace App\Modules\Newsletter{
  * App\Modules\Newsletter\Newsletter
  *
  * @property \Ramsey\Uuid\UuidInterface|null $id
+ * @property \Ramsey\Uuid\UuidInterface|null $team_id
  * @property string $name
  * @property string $description
- * @property \Ramsey\Uuid\UuidInterface|null $team_id
  * @property string $esp_name
- * @property string $esp_api_key
+ * @property mixed $esp_api_key
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Modules\ReferralProgram\ReferralProgram|null $referralProgram
  * @property-read \App\Modules\Team\Team $team
  * @method static \Database\Factories\Modules\Newsletter\NewsletterFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Newsletter newModelQuery()
@@ -105,13 +106,90 @@ namespace App\Modules\Newsletter{
 	class IdeHelperNewsletter {}
 }
 
+namespace App\Modules\ReferralProgram{
+/**
+ * App\Modules\ReferralProgram\ReferralProgram
+ *
+ * @property string $id
+ * @property string $newsletter_id
+ * @property string $status
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Modules\Newsletter\Newsletter|null $newsletter
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Modules\Reward\Reward> $rewards
+ * @property-read int|null $rewards_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Modules\Subscriber\Subscriber> $subscribers
+ * @property-read int|null $subscribers_count
+ * @method static \Illuminate\Database\Eloquent\Builder|ReferralProgram newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ReferralProgram newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ReferralProgram query()
+ * @method static \Illuminate\Database\Eloquent\Builder|ReferralProgram whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ReferralProgram whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ReferralProgram whereNewsletterId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ReferralProgram whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ReferralProgram whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
+	class IdeHelperReferralProgram {}
+}
+
+namespace App\Modules\Reward{
+/**
+ * App\Modules\Reward\Reward
+ *
+ * @property string $id
+ * @property string $referral_program_id
+ * @property string $name
+ * @property string $description
+ * @property int $points
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Modules\ReferralProgram\ReferralProgram|null $referralProgram
+ * @method static \Illuminate\Database\Eloquent\Builder|Reward newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Reward newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Reward query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Reward whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reward whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reward whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reward whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reward wherePoints($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reward whereReferralProgramId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reward whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
+	class IdeHelperReward {}
+}
+
+namespace App\Modules\Subscriber{
+/**
+ * App\Modules\Subscriber\Subscriber
+ *
+ * @property string $id
+ * @property string $referral_program_id
+ * @property string $email
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Modules\ReferralProgram\ReferralProgram|null $referralProgram
+ * @method static \Illuminate\Database\Eloquent\Builder|Subscriber newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Subscriber newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Subscriber query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereReferralProgramId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
+	class IdeHelperSubscriber {}
+}
+
 namespace App\Modules\Team{
 /**
  * App\Modules\Team\Team
  *
  * @property \Ramsey\Uuid\UuidInterface|null $id
- * @property string $name
  * @property \Ramsey\Uuid\UuidInterface|null $owner_user_id
+ * @property string $name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Modules\Newsletter\Newsletter|null $newsletter
