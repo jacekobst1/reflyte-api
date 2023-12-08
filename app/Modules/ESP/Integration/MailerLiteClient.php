@@ -8,13 +8,15 @@ final class MailerLiteClient implements ClientInterface
 {
     use MakeRequestTrait;
 
+    private string $baseUrl = 'https://connect.mailerlite.com/api';
+
     public function __construct(protected readonly string $apiKey)
     {
     }
 
     public function apiKeyIsValid(): bool
     {
-        $response = $this->makeRequest()->get('https://connect.mailerlite.com/api/groups?page=1000');
+        $response = $this->makeRequest()->get('groups?page=1000');
 
         return $response->successful();
     }

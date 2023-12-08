@@ -11,6 +11,8 @@ trait MakeRequestTrait
 {
     private function makeRequest(): PendingRequest
     {
-        return Http::acceptJson()->withToken($this->apiKey);
+        return Http::acceptJson()
+            ->withToken($this->apiKey)
+            ->baseUrl($this->baseUrl);
     }
 }
