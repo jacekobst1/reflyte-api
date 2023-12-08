@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\ReferralProgram;
 
 use App\Modules\Newsletter\Newsletter;
+use App\Modules\Reward\Reward;
 use App\Modules\Subscriber\Subscriber;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -25,5 +26,10 @@ class ReferralProgram extends Model
     public function subscribers(): HasMany
     {
         return $this->hasMany(Subscriber::class);
+    }
+
+    public function rewards(): HasMany
+    {
+        return $this->hasMany(Reward::class);
     }
 }
