@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Reward;
 
+use App\Casts\Model\UuidModelCast;
 use App\Modules\ReferralProgram\ReferralProgram;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,6 +18,11 @@ class Reward extends Model
 {
     use HasUuids;
     use HasFactory;
+
+    protected $casts = [
+        'id' => UuidModelCast::class,
+        'referral_program_id' => UuidModelCast::class,
+    ];
 
     public function referralProgram(): BelongsTo
     {

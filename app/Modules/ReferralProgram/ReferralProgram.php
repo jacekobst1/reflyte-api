@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\ReferralProgram;
 
+use App\Casts\Model\UuidModelCast;
 use App\Modules\Newsletter\Newsletter;
 use App\Modules\Reward\Reward;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -19,6 +20,11 @@ class ReferralProgram extends Model
 {
     use HasUuids;
     use HasFactory;
+
+    protected $casts = [
+        'id' => UuidModelCast::class,
+        'newsletter_id' => UuidModelCast::class,
+    ];
 
     public function newsletter(): BelongsTo
     {
