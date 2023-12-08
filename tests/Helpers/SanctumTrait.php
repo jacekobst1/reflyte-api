@@ -9,31 +9,29 @@ use Laravel\Sanctum\Sanctum;
 
 trait SanctumTrait
 {
+    private User $loggedUser;
+
     private function actAsAdmin(): void
     {
-        $adminForTests = User::whereEmail('admin@test.com')->first();
+        $admin = User::whereEmail('admin@test.com')->first();
 
-        Sanctum::actingAs($adminForTests);
+        Sanctum::actingAs($admin);
+        $this->loggedUser = $admin;
     }
 
     private function actAsUser(): void
     {
-        $userForTests = User::whereEmail('user@test.com')->first();
+        $user = User::whereEmail('user@test.com')->first();
 
-        Sanctum::actingAs($userForTests);
+        Sanctum::actingAs($user);
+        $this->loggedUser = $user;
     }
 
-    private function actAsUserWithTeam(): void
+    private function actAsCompleteUser(): void
     {
-        $userForTests = User::whereEmail('userwt@test.com')->first();
+        $completeUser = User::whereEmail('complete-user@test.com')->first();
 
-        Sanctum::actingAs($userForTests);
-    }
-
-    private function actAsUserWithTeamAndNewsletter(): void
-    {
-        $userForTests = User::whereEmail('userwtn@test.com')->first();
-
-        Sanctum::actingAs($userForTests);
+        Sanctum::actingAs($completeUser);
+        $this->loggedUser = $completeUser;
     }
 }

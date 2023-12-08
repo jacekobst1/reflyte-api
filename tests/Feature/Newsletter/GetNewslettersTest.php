@@ -15,7 +15,7 @@ class GetNewslettersTest extends TestCase
     {
         parent::setUp();
 
-        $this->actAsUserWithTeamAndNewsletter();
+        $this->actAsCompleteUser();
     }
 
     public function testGetNewsletters(): void

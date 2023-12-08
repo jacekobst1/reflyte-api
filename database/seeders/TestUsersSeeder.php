@@ -33,21 +33,13 @@ final class TestUsersSeeder extends Seeder
         ]);
         $user->assignRole(RoleEnum::User);
 
-        // User with team
-        $userWithTeam = User::factory()->create([
-            'email' => 'userwt@test.com',
+        // User with everything
+        $completeUser = User::factory()->create([
+            'email' => 'complete-user@test.com',
             'password' => $testPassword,
         ]);
-        $userWithTeam->assignRole(RoleEnum::User);
-        $this->createTeam($userWithTeam);
-
-        // User with team and newsletter
-        $userWithTeamAndNewsletter = User::factory()->create([
-            'email' => 'userwtn@test.com',
-            'password' => $testPassword,
-        ]);
-        $userWithTeamAndNewsletter->assignRole(RoleEnum::User);
-        $team = $this->createTeam($userWithTeamAndNewsletter);
+        $completeUser->assignRole(RoleEnum::User);
+        $team = $this->createTeam($completeUser);
         $this->createNewsletter($team->id);
     }
 
