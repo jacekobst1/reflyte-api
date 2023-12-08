@@ -32,6 +32,7 @@ Route::middleware('auth:sanctum')->group(function () use ($admin, $user) {
         });
 
         Route::prefix('/newsletters')->group(function () {
+            Route::get('/', [NewsletterController::class, 'index']);
             Route::post('/', [NewsletterController::class, 'store']);
         });
     });

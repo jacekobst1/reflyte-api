@@ -6,6 +6,7 @@ namespace App\Modules\User;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Casts\Model\UuidModelCast;
+use App\Modules\Newsletter\Newsletter;
 use App\Modules\Team\Team;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -68,5 +69,10 @@ class User extends Authenticatable
     public function ownedTeam(): HasOne
     {
         return $this->hasOne(Team::class, 'owner_user_id');
+    }
+
+    public function getNewsletter(): Newsletter
+    {
+        return $this->team->newsletter;
     }
 }
