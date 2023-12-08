@@ -15,10 +15,10 @@ return new class extends Migration {
     {
         Schema::create('newsletters', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->uuid('team_id');
             $table->text('name');
             $table->text('description');
 //            $table->uuid('image_id');
-            $table->uuid('team_id');
             $table->text('esp_name');
             $table->text('esp_api_key');
             $table->timestamps();
