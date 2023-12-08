@@ -22,4 +22,11 @@ trait SanctumTrait
 
         Sanctum::actingAs($userForTests);
     }
+
+    private function actAsUserWithTeam(): void
+    {
+        $userForTests = User::whereEmail('userwt@test.com')->first();
+
+        Sanctum::actingAs($userForTests);
+    }
 }

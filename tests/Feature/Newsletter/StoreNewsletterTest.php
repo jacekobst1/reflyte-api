@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Newsletter;
 
-use App\Modules\Team\Team;
-use App\Modules\Team\TeamRelations;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Tests\Helpers\SanctumTrait;
 use Tests\TestCase;
 
@@ -18,7 +16,7 @@ class StoreNewsletterTest extends TestCase
     {
         parent::setUp();
 
-        $this->actAsUser();
+        $this->actAsUserWithTeam();
     }
 
     public function testStoreNewsletter(): void
@@ -27,6 +25,8 @@ class StoreNewsletterTest extends TestCase
         $requestData = [
             'name' => 'MKos Media Interactive Agency',
             'description' => 'MKos Media Interactive Agency',
+            'esp_name' => 'mailer_lite',
+            'esp_api_key' => Str::random(),
         ];
 
         // when
@@ -34,9 +34,13 @@ class StoreNewsletterTest extends TestCase
 
         // then
         $response->assertSuccessful();
-        $team = Team::whereName('MKos Media Interactive Agency')->with(TeamRelations::USERS)->first();
-        $this->assertEquals(Auth::id(), $team->owner_user_id);
-        $this->assertCount(1, $team->users);
-        $this->assertEquals(Auth::id(), $team->users->first()->id);
+        $newsletterId = $response->json('data.id');
+        $this->assertDatabaseHas('newsletters', [
+            'id' => $newsletterId,
+            'name' => $requestData['name'],
+            'description' => $requestData['description'],
+            'esp_name' => $requestData['esp_name'],
+            'esp_api_key' => $requestData['esp_api_key'],
+        ]);
     }
 }
