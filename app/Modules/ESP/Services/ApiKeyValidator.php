@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Modules\ESP\Services;
 
 use App\Modules\ESP\EspName;
-use App\Modules\ESP\Integration\ClientFactory;
+use App\Modules\ESP\Integration\EspClientFactory;
 
 class ApiKeyValidator
 {
-    public function __construct(private readonly ClientFactory $clientFactory)
+    public function __construct(private readonly EspClientFactory $clientFactory)
     {
     }
 

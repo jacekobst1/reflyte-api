@@ -6,7 +6,7 @@ namespace App\Modules\ESP\Integration;
 
 use Spatie\LaravelData\DataCollection;
 
-interface ClientInterface
+interface EspClientInterface
 {
     public function apiKeyIsValid(): bool;
 

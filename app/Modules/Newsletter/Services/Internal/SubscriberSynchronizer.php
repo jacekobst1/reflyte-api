@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Modules\Newsletter\Services\Internal;
 
-use App\Modules\ESP\Integration\ClientInterface;
+use App\Modules\ESP\Integration\EspClientInterface;
 
 final class SubscriberSynchronizer
 {
-    public function __construct(private readonly ClientInterface $espClient)
+    public function __construct(private readonly EspClientInterface $espClient)
     {
     }
 

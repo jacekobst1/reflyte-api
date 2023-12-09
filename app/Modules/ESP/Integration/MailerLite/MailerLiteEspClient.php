@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Modules\ESP\Integration\MailerLite;
 
 use App\Modules\ESP\Dto\SubscriberDto;
-use App\Modules\ESP\Integration\ClientInterface;
+use App\Modules\ESP\Integration\EspClientInterface;
 use App\Modules\ESP\Integration\MailerLite\Dto\FieldDto;
 use App\Modules\ESP\Integration\MailerLite\Dto\ResponseDto;
 use App\Modules\ESP\Integration\MakeRequestTrait;
 use Spatie\LaravelData\DataCollection;
 
-final class MailerLiteClient implements ClientInterface
+final class MailerLiteEspClient implements EspClientInterface
 {
     use MakeRequestTrait;
 
