@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\ESP\Integration\MailerLite\Dto;
+namespace App\Modules\ESP\Dto;
 
 use Spatie\LaravelData\Data;
 
