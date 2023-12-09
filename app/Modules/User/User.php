@@ -71,7 +71,7 @@ class User extends Authenticatable
         return $this->hasOne(Team::class, 'owner_user_id');
     }
 
-    public function getNewsletter(): Newsletter
+    public function getNewsletter(): ?Newsletter
     {
         return $this->team->newsletter;
     }

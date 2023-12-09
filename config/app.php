@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Providers\EspClientServiceProvider;
 use App\Providers\FortifyServiceProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
@@ -160,11 +161,6 @@ return [
 
     'providers' => ServiceProvider::defaultProviders()->merge([
         /*
-         * Package Service Providers...
-         */
-        FortifyServiceProvider::class,
-
-        /*
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
@@ -172,6 +168,16 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+        /*
+         * Package Service Providers...
+        */
+        FortifyServiceProvider::class,
+
+        /*
+         * Own Service Providers...
+         */
+        EspClientServiceProvider::class,
     ])->toArray(),
 
     /*

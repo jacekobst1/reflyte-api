@@ -11,4 +11,8 @@ interface ClientInterface
     public function apiKeyIsValid(): bool;
 
     public function getAllSubscribers(): DataCollection;
+
+    public function getAllFields(): DataCollection;
+
+    public function createField(string $name, string $type): bool;
 }

@@ -6,6 +6,7 @@ namespace App\Modules\ESP\Integration\MailerLite;
 
 use App\Modules\ESP\Dto\SubscriberDto;
 use App\Modules\ESP\Integration\ClientInterface;
+use App\Modules\ESP\Integration\MailerLite\Dto\FieldDto;
 use App\Modules\ESP\Integration\MailerLite\Dto\ResponseDto;
 use App\Modules\ESP\Integration\MakeRequestTrait;
 use Spatie\LaravelData\DataCollection;
@@ -49,5 +50,24 @@ final class MailerLiteClient implements ClientInterface
         }
 
         return SubscriberDto::collection($subscribers);
+    }
+
+    public function getAllFields(): DataCollection
+    {
+        $response = ResponseDto::from(
+            $this->makeRequest()->get('fields?limit=1000')->json()
+        );
+
+        return FieldDto::collection($response->data);
+    }
+
+    public function createField(string $name, string $type): bool
+    {
+        $response = $this->makeRequest()->post('fields', [
+            'name' => $name,
+            'type' => $type,
+        ]);
+
+        return $response->created();
     }
 }

@@ -6,10 +6,10 @@ namespace App\Modules\Newsletter\Services\Http;
 
 use App\Exceptions\ConflictException;
 use App\Modules\ESP\EspName;
-use App\Modules\ESP\Integration\ClientFactory;
 use App\Modules\ESP\Services\ApiKeyValidator;
 use App\Modules\Newsletter\Newsletter;
 use App\Modules\Newsletter\Requests\CreateNewsletterRequest;
+use App\Modules\Newsletter\Services\Internal\FieldsSynchronizer;
 use App\Modules\Team\Team;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -17,8 +17,9 @@ use Throwable;
 
 final class NewsletterCreator
 {
-    public function __construct(private readonly ApiKeyValidator $apiKeyValidator)
-    {
+    public function __construct(
+        private readonly ApiKeyValidator $apiKeyValidator,
+    ) {
     }
 
     /**
@@ -34,7 +35,8 @@ final class NewsletterCreator
 
         $newsletter = $this->storeNewsletter($data, $team);
 
-        $this->syncSubscribers($data->esp_name, $data->esp_api_key);
+        $this->syncFields();
+        $this->syncSubscribers();
 
         return $newsletter;
     }
@@ -74,12 +76,15 @@ final class NewsletterCreator
         return $newsletter;
     }
 
-    private function syncSubscribers(EspName $espName, string $apiKey): void
+    private function syncFields(): void
     {
-        /** @var ClientFactory $clientFactory */
-        $clientFactory = App::make(ClientFactory::class);
+        /** @var FieldsSynchronizer $fieldsSynchronizer */
+        $fieldsSynchronizer = App::make(FieldsSynchronizer::class);
+        $fieldsSynchronizer->sync();
+    }
 
-        $client = $clientFactory->make($espName, $apiKey);
-        $client->getAllSubscribers();
+    private function syncSubscribers(): void
+    {
+        // TODO
     }
 }
