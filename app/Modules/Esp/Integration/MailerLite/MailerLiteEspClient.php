@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\ESP\Integration\MailerLite;
+namespace App\Modules\Esp\Integration\MailerLite;
 
-use App\Modules\ESP\Dto\FieldDto;
-use App\Modules\ESP\Dto\SubscriberDto;
-use App\Modules\ESP\Integration\EspClientInterface;
-use App\Modules\ESP\Integration\MailerLite\Dto\ResponseDto;
-use App\Modules\ESP\Integration\MakeRequestTrait;
+use App\Modules\Esp\Dto\FieldDto;
+use App\Modules\Esp\Dto\SubscriberDto;
+use App\Modules\Esp\Integration\EspClientInterface;
+use App\Modules\Esp\Integration\MailerLite\Dto\ResponseDto;
+use App\Modules\Esp\Integration\MakeRequestTrait;
 use Spatie\LaravelData\DataCollection;
 
 final class MailerLiteEspClient implements EspClientInterface

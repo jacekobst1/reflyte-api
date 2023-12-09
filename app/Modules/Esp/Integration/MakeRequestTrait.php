@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\ESP\Integration;
+namespace App\Modules\Esp\Integration;
 
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;

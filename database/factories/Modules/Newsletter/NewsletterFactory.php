@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories\Modules\Newsletter;
 
-use App\Modules\ESP\EspName;
+use App\Modules\Esp\EspName;
 use App\Modules\Newsletter\Newsletter;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

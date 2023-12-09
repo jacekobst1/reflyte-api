@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\ESP\Integration;
+namespace App\Modules\Esp\Integration;
 
-use App\Modules\ESP\EspName;
-use App\Modules\ESP\Integration\MailerLite\MailerLiteEspClient;
+use App\Modules\Esp\EspName;
+use App\Modules\Esp\Integration\MailerLite\MailerLiteEspClient;
 
 final class EspClientFactory
 {

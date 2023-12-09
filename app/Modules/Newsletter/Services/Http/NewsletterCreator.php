@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Modules\Newsletter\Services\Http;
 
 use App\Exceptions\ConflictException;
-use App\Modules\ESP\EspName;
-use App\Modules\ESP\Services\ApiKeyValidator;
+use App\Modules\Esp\EspName;
+use App\Modules\Esp\Services\ApiKeyValidator;
 use App\Modules\Newsletter\Newsletter;
 use App\Modules\Newsletter\Requests\CreateNewsletterRequest;
 use App\Modules\Newsletter\Services\Internal\FieldsSynchronizer;
+use App\Modules\Newsletter\Services\Internal\SubscriberSynchronizer;
 use App\Modules\Team\Team;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -85,6 +86,8 @@ final class NewsletterCreator
 
     private function syncSubscribers(): void
     {
-        // TODO
+        /** @var SubscriberSynchronizer $subscriberSynchronizer */
+        $subscriberSynchronizer = App::make(SubscriberSynchronizer::class);
+        $subscriberSynchronizer->sync();
     }
 }

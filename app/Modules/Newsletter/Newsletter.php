@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Newsletter;
 
 use App\Casts\Model\UuidModelCast;
-use App\Modules\ESP\EspName;
+use App\Modules\Esp\EspName;
 use App\Modules\ReferralProgram\ReferralProgram;
 use App\Modules\Subscriber\Subscriber;
 use App\Modules\Team\Team;

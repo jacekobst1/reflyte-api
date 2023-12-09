@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\ESP\Services;
+namespace App\Modules\Esp\Services;
 
-use App\Modules\ESP\EspName;
-use App\Modules\ESP\Integration\EspClientFactory;
+use App\Modules\Esp\EspName;
+use App\Modules\Esp\Integration\EspClientFactory;
 
 class ApiKeyValidator
 {

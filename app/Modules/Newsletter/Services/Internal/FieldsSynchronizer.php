@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Newsletter\Services\Internal;
 
-use App\Modules\ESP\Integration\EspClientInterface;
+use App\Modules\Esp\Integration\EspClientInterface;
 
 final class FieldsSynchronizer
 {

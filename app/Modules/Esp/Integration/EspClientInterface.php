@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\ESP\Integration;
+namespace App\Modules\Esp\Integration;
 
-use App\Modules\ESP\Dto\FieldDto;
-use App\Modules\ESP\Dto\SubscriberDto;
+use App\Modules\Esp\Dto\FieldDto;
+use App\Modules\Esp\Dto\SubscriberDto;
 use Spatie\LaravelData\DataCollection;
 
 interface EspClientInterface

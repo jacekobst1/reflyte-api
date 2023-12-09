@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\ESP;
+namespace App\Modules\Esp;
 
 enum EspName: string
 {

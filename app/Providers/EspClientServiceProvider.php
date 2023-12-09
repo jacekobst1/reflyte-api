@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Modules\ESP\Integration\EspClientFactory;
-use App\Modules\ESP\Integration\EspClientInterface;
+use App\Modules\Esp\Integration\EspClientFactory;
+use App\Modules\Esp\Integration\EspClientInterface;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;

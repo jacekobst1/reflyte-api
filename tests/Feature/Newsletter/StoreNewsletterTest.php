@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Newsletter;
 
-use App\Modules\ESP\Services\ApiKeyValidator;
+use App\Modules\Esp\Services\ApiKeyValidator;
 use App\Modules\Newsletter\Newsletter;
 use Illuminate\Support\Str;
 use Tests\Helpers\SanctumTrait;
