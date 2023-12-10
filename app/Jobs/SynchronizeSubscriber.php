@@ -10,12 +10,13 @@ use App\Modules\Newsletter\Vo\NewsletterEspConfig;
 use App\Modules\Subscriber\Services\Internal\SubscriberCreator;
 use Exception;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldBeEncrypted;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class SynchronizeSubscriber implements ShouldQueue
+class SynchronizeSubscriber implements ShouldQueue, ShouldBeEncrypted
 {
     use Dispatchable;
     use InteractsWithQueue;
