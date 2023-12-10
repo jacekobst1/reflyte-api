@@ -25,6 +25,10 @@ final class MailerLiteEspClient implements EspClientInterface
     {
         $response = $this->makeRequest()->get('groups?page=1000');
 
+        if ($response->status() === 429) {
+            dd('TOO MANY REQUESTS', $response);
+        }
+
         return $response->successful();
     }
 
@@ -35,7 +39,7 @@ final class MailerLiteEspClient implements EspClientInterface
     public function getAllSubscribers(): DataCollection
     {
         $subscribers = [];
-        $url = 'subscribers';
+        $url = 'subscribers?limit=1000&filter[status]=active';
 
         while ($url) {
             $response = ResponseDto::from(
@@ -69,5 +73,12 @@ final class MailerLiteEspClient implements EspClientInterface
         ]);
 
         return $response->created();
+    }
+
+    public function updateSubscriber(string $id, array $data): bool
+    {
+        $response = $this->makeRequest()->put("subscribers/{$id}", $data);
+
+        return $response->successful();
     }
 }

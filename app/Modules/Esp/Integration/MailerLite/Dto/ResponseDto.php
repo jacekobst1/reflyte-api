@@ -11,6 +11,7 @@ final class ResponseDto extends Data
     public function __construct(
         public readonly array $data,
         public readonly ResponseLinksDto $links,
+        public readonly array $meta,
     ) {
     }
 }

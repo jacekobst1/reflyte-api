@@ -18,6 +18,16 @@ class Subscriber extends Model
     use HasUuids;
     use HasFactory;
 
+    protected $fillable = [
+        'newsletter_id',
+        'email',
+        'ref_code',
+        'ref_link',
+        'is_ref',
+        'ref_count',
+        'status',
+    ];
+
     public function referralProgram(): BelongsTo
     {
         return $this->belongsTo(ReferralProgram::class);

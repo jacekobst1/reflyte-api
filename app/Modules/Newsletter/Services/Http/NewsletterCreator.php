@@ -12,6 +12,7 @@ use App\Modules\Newsletter\Requests\CreateNewsletterRequest;
 use App\Modules\Newsletter\Services\Internal\FieldsSynchronizer;
 use App\Modules\Newsletter\Services\Internal\SubscriberSynchronizer;
 use App\Modules\Team\Team;
+use Exception;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Throwable;
@@ -84,6 +85,9 @@ final class NewsletterCreator
         $fieldsSynchronizer->sync();
     }
 
+    /**
+     * @throws Exception
+     */
     private function syncSubscribers(): void
     {
         /** @var SubscriberSynchronizer $subscriberSynchronizer */
