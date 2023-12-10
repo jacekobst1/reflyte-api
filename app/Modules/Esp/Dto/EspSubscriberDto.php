@@ -6,13 +6,11 @@ namespace App\Modules\Esp\Dto;
 
 use Spatie\LaravelData\Data;
 
-final class FieldDto extends Data
+final class EspSubscriberDto extends Data
 {
     public function __construct(
         public readonly string $id,
-        public readonly string $name,
-        public readonly string $key,
-        public readonly string $type,
+        public readonly string $email,
     ) {
     }
 }

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Modules\Esp\Integration\MailerLite;
 
-use App\Modules\Esp\Dto\FieldDto;
-use App\Modules\Esp\Dto\SubscriberDto;
+use App\Modules\Esp\Dto\EspFieldDto;
+use App\Modules\Esp\Dto\EspSubscriberDto;
 use App\Modules\Esp\Integration\EspClientInterface;
 use App\Modules\Esp\Integration\MailerLite\Dto\ResponseDto;
 use App\Modules\Esp\Integration\MakeRequestTrait;
@@ -16,6 +16,7 @@ final class MailerLiteEspClient implements EspClientInterface
     use MakeRequestTrait;
 
     private string $baseUrl = 'https://connect.mailerlite.com/api';
+    private int $maxRequestsPerMinute = 120;
 
     public function __construct(protected readonly string $apiKey)
     {
@@ -32,28 +33,42 @@ final class MailerLiteEspClient implements EspClientInterface
         return $response->successful();
     }
 
-    /**
-     * TODO return subscribers in batches
-     * @return DataCollection<array-key, SubscriberDto>
-     */
-    public function getAllSubscribers(): DataCollection
+//    /**
+//     * TODO return subscribers in batches
+//     * @return DataCollection<array-key, SubscriberDto>
+//     */
+//    public function getAllSubscribers(): DataCollection
+//    {
+//        $subscribers = [];
+//        $url = 'subscribers?limit=1000&filter[status]=active';
+//
+//        while ($url) {
+//            $response = ResponseDto::from(
+//                $this->makeRequest()->get($url)->json()
+//            );
+//
+//            foreach ($response->data as $item) {
+//                $subscribers[] = $item;
+//            }
+//
+//            $url = $response->links->next;
+//        }
+//
+//        return SubscriberDto::collection($subscribers);
+//    }
+
+    public function getSubscribersBatch(?string $url = null): array
     {
-        $subscribers = [];
-        $url = 'subscribers?limit=1000&filter[status]=active';
-
-        while ($url) {
-            $response = ResponseDto::from(
-                $this->makeRequest()->get($url)->json()
-            );
-
-            foreach ($response->data as $item) {
-                $subscribers[] = $item;
-            }
-
-            $url = $response->links->next;
+        if (!$url) {
+            $url = 'subscribers?limit=1000&filter[status]=active';
         }
 
-        return SubscriberDto::collection($subscribers);
+        $response = ResponseDto::from(
+            $this->makeRequest()->get($url)->json()
+        );
+        $subscribers = EspSubscriberDto::collection($response->data);
+
+        return [$subscribers, $response->links];
     }
 
     public function getAllFields(): DataCollection
@@ -62,7 +77,7 @@ final class MailerLiteEspClient implements EspClientInterface
             $this->makeRequest()->get('fields?limit=1000')->json()
         );
 
-        return FieldDto::collection($response->data);
+        return EspFieldDto::collection($response->data);
     }
 
     public function createField(string $name, string $type): bool

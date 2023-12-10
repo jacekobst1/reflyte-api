@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace App\Modules\Subscriber\Services\Internal;
 
-use App\Modules\Esp\Dto\SubscriberDto;
+use App\Modules\Esp\Dto\EspSubscriberDto;
 use App\Modules\Subscriber\Subscriber;
 use Exception;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Ramsey\Uuid\UuidInterface;
 
 final class SubscriberCreator
 {
     /**
      * @throws Exception
      */
-    public function firstOrCreate(SubscriberDto $subscriberDto): Subscriber
+    public function firstOrCreate(UuidInterface $newsletterId, EspSubscriberDto $subscriberDto): Subscriber
     {
-        $subscriber = Subscriber::whereNewsletterId(Auth::user()->getNewsletter()->id)
+        $subscriber = Subscriber::whereNewsletterId($newsletterId)
             ->whereEmail($subscriberDto->email)
             ->first();
 
@@ -32,7 +32,7 @@ final class SubscriberCreator
         $status = 'synchronized';
 
         return Subscriber::create([
-            'newsletter_id' => Auth::user()->getNewsletter()->id,
+            'newsletter_id' => $newsletterId,
             'email' => $subscriberDto->email,
             'ref_code' => $refCode,
             'ref_link' => $refLink,

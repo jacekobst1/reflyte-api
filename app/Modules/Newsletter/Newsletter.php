@@ -6,6 +6,7 @@ namespace App\Modules\Newsletter;
 
 use App\Casts\Model\UuidModelCast;
 use App\Modules\Esp\EspName;
+use App\Modules\Newsletter\Vo\NewsletterEspConfig;
 use App\Modules\ReferralProgram\ReferralProgram;
 use App\Modules\Subscriber\Subscriber;
 use App\Modules\Team\Team;
@@ -41,6 +42,9 @@ class Newsletter extends Model
         'esp_api_key',
     ];
 
+    /**
+     * Relations
+     */
     public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);
@@ -54,5 +58,13 @@ class Newsletter extends Model
     public function subscribers(): HasMany
     {
         return $this->hasMany(Subscriber::class);
+    }
+
+    /**
+     * Custom methods
+     */
+    public function getEspConfig(): NewsletterEspConfig
+    {
+        return new NewsletterEspConfig($this->id, $this->esp_name, $this->esp_api_key);
     }
 }

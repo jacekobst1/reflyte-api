@@ -4,19 +4,22 @@ declare(strict_types=1);
 
 namespace App\Modules\Esp\Services;
 
-use App\Modules\Esp\Integration\EspClientInterface;
+use App\Modules\Esp\Integration\EspClientFactory;
+use App\Modules\Newsletter\Vo\NewsletterEspConfig;
 use App\Modules\Subscriber\Subscriber;
 use App\Shared\RltFields;
 
 final class EspSubscriberUpdater
 {
-    public function __construct(private readonly EspClientInterface $espClient)
+    public function __construct(private readonly EspClientFactory $espClientFactory)
     {
     }
 
-    public function fillFields(string $id, Subscriber $subscriber): void
+    public function fillFields(NewsletterEspConfig $espConfig, string $id, Subscriber $subscriber): void
     {
-        $this->espClient->updateSubscriber($id, [
+        $espClient = $this->espClientFactory->make($espConfig->espName, $espConfig->espApiKey);
+
+        $espClient->updateSubscriber($id, [
             'fields' => RltFields::getSubscriberFields($subscriber),
         ]);
     }

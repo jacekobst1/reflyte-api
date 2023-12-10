@@ -4,21 +4,27 @@ declare(strict_types=1);
 
 namespace App\Modules\Esp\Integration;
 
-use App\Modules\Esp\Dto\FieldDto;
-use App\Modules\Esp\Dto\SubscriberDto;
+use App\Modules\Esp\Dto\EspFieldDto;
+use App\Modules\Esp\Dto\EspSubscriberDto;
+use App\Modules\Esp\Integration\MailerLite\Dto\ResponseLinksDto;
 use Spatie\LaravelData\DataCollection;
 
 interface EspClientInterface
 {
     public function apiKeyIsValid(): bool;
 
-    /**
-     * @return DataCollection<array-key, SubscriberDto>
-     */
-    public function getAllSubscribers(): DataCollection;
+//    /**
+//     * @return DataCollection<array-key, SubscriberDto>
+//     */
+//    public function getAllSubscribers(): DataCollection;
 
     /**
-     * @return DataCollection<array-key, FieldDto>
+     * @return array{DataCollection<array-key, EspSubscriberDto>, ResponseLinksDto}
+     */
+    public function getSubscribersBatch(?string $url = null): array;
+
+    /**
+     * @return DataCollection<array-key, EspFieldDto>
      */
     public function getAllFields(): DataCollection;
 
