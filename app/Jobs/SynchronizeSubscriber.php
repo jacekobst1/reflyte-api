@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Jobs;
 
-use App\Exceptions\ConflictException;
 use App\Modules\Esp\Dto\EspSubscriberDto;
 use App\Modules\Esp\Services\EspSubscriberUpdater;
 use App\Modules\Newsletter\Vo\NewsletterEspConfig;
@@ -51,7 +50,6 @@ class SynchronizeSubscriber implements ShouldQueue, ShouldBeEncrypted
         SubscriberCreator $subscriberCreator,
         EspSubscriberUpdater $espSubscriberUpdater,
     ): void {
-        throw new ConflictException('test failed job');
         $subscriber = $subscriberCreator->firstOrCreate($this->espConfig->newsletterId, $this->espSubscriber);
         $espSubscriberUpdater->fillFields($this->espConfig, $this->espSubscriber->id, $subscriber);
     }
