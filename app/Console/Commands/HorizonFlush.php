@@ -19,7 +19,7 @@ class HorizonFlush extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Clear failed_jobs db table and flush redis queue';
 
     /**
      * Execute the console command.
@@ -27,14 +27,6 @@ class HorizonFlush extends Command
     public function handle(): void
     {
         $this->call('queue:flush');
-
-        Redis::connection()->del([config('horizon.prefix') . 'failed:*']);
-        $this->info('each individual failed job flushed');
-
-        Redis::connection()->del([config('horizon.prefix') . 'failed_jobs']);
-        $this->info('failed_jobs flushed');
-
         Redis::command('flushdb');
-        $this->info('reddis flushed');
     }
 }
