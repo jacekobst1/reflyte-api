@@ -30,6 +30,7 @@ class StoreNewsletterTest extends TestCase
         $requestData = [
             'name' => 'MKos Media Interactive Agency',
             'description' => 'MKos Media Interactive Agency',
+            'landing_url' => 'https://google.com',
             'esp_name' => 'mailer_lite',
             'esp_api_key' => Str::random(),
         ];
@@ -43,6 +44,7 @@ class StoreNewsletterTest extends TestCase
         $this->assertDatabaseHas('newsletters', [
             'id' => $newsletterId,
             'name' => $requestData['name'],
+            'landing_url' => $requestData['landing_url'],
             'description' => $requestData['description'],
             'esp_name' => $requestData['esp_name'],
         ]);
