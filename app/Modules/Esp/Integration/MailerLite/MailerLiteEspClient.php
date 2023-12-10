@@ -26,36 +26,8 @@ final class MailerLiteEspClient implements EspClientInterface
     {
         $response = $this->makeRequest()->get('groups?page=1000');
 
-        if ($response->status() === 429) {
-            dd('TOO MANY REQUESTS', $response);
-        }
-
         return $response->successful();
     }
-
-//    /**
-//     * TODO return subscribers in batches
-//     * @return DataCollection<array-key, SubscriberDto>
-//     */
-//    public function getAllSubscribers(): DataCollection
-//    {
-//        $subscribers = [];
-//        $url = 'subscribers?limit=1000&filter[status]=active';
-//
-//        while ($url) {
-//            $response = ResponseDto::from(
-//                $this->makeRequest()->get($url)->json()
-//            );
-//
-//            foreach ($response->data as $item) {
-//                $subscribers[] = $item;
-//            }
-//
-//            $url = $response->links->next;
-//        }
-//
-//        return SubscriberDto::collection($subscribers);
-//    }
 
     public function getSubscribersBatch(?string $url = null): array
     {
