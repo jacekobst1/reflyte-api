@@ -33,13 +33,7 @@ class StoreNewsletterTest extends TestCase
             ->once();
 
         // given
-        $requestData = [
-            'name' => 'MKos Media Interactive Agency',
-            'description' => 'MKos Media Interactive Agency',
-            'landing_url' => 'https://google.com',
-            'esp_name' => 'mailer_lite',
-            'esp_api_key' => Str::random(),
-        ];
+        $requestData = $this->getRequestData();
 
         // when
         $response = $this->postJson('/api/newsletters', $requestData);
@@ -63,17 +57,8 @@ class StoreNewsletterTest extends TestCase
     {
         $this->actAsCompleteUser();
 
-        // given
-        $requestData = [
-            'name' => 'MKos Media Interactive Agency',
-            'description' => 'MKos Media Interactive Agency',
-            'landing_url' => 'https://google.com',
-            'esp_name' => 'mailer_lite',
-            'esp_api_key' => Str::random(),
-        ];
-
         // when
-        $response = $this->postJson('/api/newsletters', $requestData);
+        $response = $this->postJson('/api/newsletters', $this->getRequestData());
 
         // then
         $response->assertConflict();
@@ -91,20 +76,22 @@ class StoreNewsletterTest extends TestCase
             ->once()
             ->andReturnFalse();
 
-        // given
-        $requestData = [
+        // when
+        $response = $this->postJson('/api/newsletters', $this->getRequestData());
+
+        // then
+        $response->assertConflict();
+        $this->assertEquals('Invalid ESP API key', $response->json('message'));
+    }
+
+    private function getRequestData(): array
+    {
+        return [
             'name' => 'MKos Media Interactive Agency',
             'description' => 'MKos Media Interactive Agency',
             'landing_url' => 'https://google.com',
             'esp_name' => 'mailer_lite',
             'esp_api_key' => Str::random(),
         ];
-
-        // when
-        $response = $this->postJson('/api/newsletters', $requestData);
-
-        // then
-        $response->assertConflict();
-        $this->assertEquals('Invalid ESP API key', $response->json('message'));
     }
 }
