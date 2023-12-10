@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Newsletter;
 
+use App\Jobs\IntegrateWithEsp;
 use App\Modules\Esp\Services\EspApiKeyValidator;
+use App\Modules\Esp\Services\EspFieldsCreator;
 use App\Modules\Newsletter\Newsletter;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Str;
 use Tests\Helpers\SanctumTrait;
 use Tests\TestCase;
@@ -14,9 +17,9 @@ class StoreNewsletterTest extends TestCase
 {
     use SanctumTrait;
 
-    // TODO fix test (mock or test subscribers synchronization)
     public function testStoreNewsletter(): void
     {
+        Queue::fake([IntegrateWithEsp::class]);
         $this->actAsCompleteUser();
         $this->loggedUser->team->newsletter()->delete();
 
@@ -25,6 +28,9 @@ class StoreNewsletterTest extends TestCase
             ->shouldReceive('apiKeyIsValid')
             ->once()
             ->andReturnTrue();
+        $this->mock(EspFieldsCreator::class)
+            ->shouldReceive('createFieldsIfNotExists')
+            ->once();
 
         // given
         $requestData = [
@@ -50,6 +56,7 @@ class StoreNewsletterTest extends TestCase
         ]);
         $apiKey = Newsletter::find($newsletterId)->esp_api_key;
         $this->assertEquals($requestData['esp_api_key'], $apiKey);
+        Queue::assertPushed(IntegrateWithEsp::class);
     }
 
     public function testCannotStoreNewsletterIfTeamAlreadyHasOne(): void
@@ -60,6 +67,7 @@ class StoreNewsletterTest extends TestCase
         $requestData = [
             'name' => 'MKos Media Interactive Agency',
             'description' => 'MKos Media Interactive Agency',
+            'landing_url' => 'https://google.com',
             'esp_name' => 'mailer_lite',
             'esp_api_key' => Str::random(),
         ];
@@ -87,6 +95,7 @@ class StoreNewsletterTest extends TestCase
         $requestData = [
             'name' => 'MKos Media Interactive Agency',
             'description' => 'MKos Media Interactive Agency',
+            'landing_url' => 'https://google.com',
             'esp_name' => 'mailer_lite',
             'esp_api_key' => Str::random(),
         ];

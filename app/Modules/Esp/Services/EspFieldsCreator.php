@@ -7,7 +7,7 @@ namespace App\Modules\Esp\Services;
 use App\Modules\Esp\Integration\EspClientInterface;
 use App\Shared\RltFields;
 
-final class EspFieldsCreator
+class EspFieldsCreator
 {
     public function __construct(private readonly EspClientInterface $espClient)
     {
