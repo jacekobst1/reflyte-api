@@ -5,28 +5,10 @@ declare(strict_types=1);
 namespace App\Modules\Esp\Services;
 
 use App\Modules\Esp\Integration\EspClientInterface;
+use App\Shared\RltFields;
 
 final class EspFieldsCreator
 {
-    private const FIELDS = [
-        [
-            'name' => 'RLT_REF_CODE',
-            'type' => 'text',
-        ],
-        [
-            'name' => 'RLT_REF_LINK',
-            'type' => 'text',
-        ],
-        [
-            'name' => 'RLT_IS_REF',
-            'type' => 'text',
-        ],
-        [
-            'name' => 'RLT_REF_COUNT',
-            'type' => 'number',
-        ]
-    ];
-
     public function __construct(private readonly EspClientInterface $espClient)
     {
     }
@@ -35,7 +17,7 @@ final class EspFieldsCreator
     {
         $espFields = $this->espClient->getAllFields();
 
-        foreach (self::FIELDS as $field) {
+        foreach (RltFields::getFieldsStructure() as $field) {
             $espField = $espFields->where('name', $field['name'])->first();
 
             if (!$espField) {
