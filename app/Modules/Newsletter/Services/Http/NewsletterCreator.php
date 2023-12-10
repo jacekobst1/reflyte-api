@@ -37,7 +37,7 @@ final class NewsletterCreator
 
         $newsletter = $this->storeNewsletter($data, $team);
 
-        $this->syncFields();
+        $this->createEspFields();
         $this->syncSubscribers();
 
         return $newsletter;
@@ -78,11 +78,11 @@ final class NewsletterCreator
         return $newsletter;
     }
 
-    private function syncFields(): void
+    private function createEspFields(): void
     {
-        /** @var EspFieldsCreator $fieldsSynchronizer */
-        $fieldsSynchronizer = App::make(EspFieldsCreator::class);
-        $fieldsSynchronizer->createFieldsIfNotExists();
+        /** @var EspFieldsCreator $espFieldsCreator */
+        $espFieldsCreator = App::make(EspFieldsCreator::class);
+        $espFieldsCreator->createFieldsIfNotExists();
     }
 
     /**
