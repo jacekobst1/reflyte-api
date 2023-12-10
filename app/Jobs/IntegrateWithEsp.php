@@ -26,6 +26,16 @@ class IntegrateWithEsp implements ShouldQueue, ShouldBeEncrypted
     private readonly EspClientInterface $espClient;
 
     /**
+     * Calculate the number of seconds to wait before retrying the job.
+     *
+     * @return array<int, int>
+     */
+    public function backoff(): array
+    {
+        return [600, 1800, 3600, 7200];
+    }
+
+    /**
      * Create a new job instance.
      */
     public function __construct(private readonly NewsletterEspConfig $espConfig)

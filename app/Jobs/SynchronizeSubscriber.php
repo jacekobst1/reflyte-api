@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Jobs;
 
+use App\Exceptions\ConflictException;
 use App\Modules\Esp\Dto\EspSubscriberDto;
 use App\Modules\Esp\Services\EspSubscriberUpdater;
 use App\Modules\Newsletter\Vo\NewsletterEspConfig;
@@ -24,6 +25,16 @@ class SynchronizeSubscriber implements ShouldQueue, ShouldBeEncrypted
     use SerializesModels;
 
     /**
+     * Calculate the number of seconds to wait before retrying the job.
+     *
+     * @return array<int, int>
+     */
+    public function backoff(): array
+    {
+        return [120, 480, 1200, 3600];
+    }
+
+    /**
      * Create a new job instance.
      */
     public function __construct(
@@ -40,6 +51,7 @@ class SynchronizeSubscriber implements ShouldQueue, ShouldBeEncrypted
         SubscriberCreator $subscriberCreator,
         EspSubscriberUpdater $espSubscriberUpdater,
     ): void {
+        throw new ConflictException('test failed job');
         $subscriber = $subscriberCreator->firstOrCreate($this->espConfig->newsletterId, $this->espSubscriber);
         $espSubscriberUpdater->fillFields($this->espConfig, $this->espSubscriber->id, $subscriber);
     }
