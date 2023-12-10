@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Newsletter;
 
-use App\Modules\Esp\Services\ApiKeyValidator;
+use App\Modules\Esp\Services\EspApiKeyValidator;
 use App\Modules\Newsletter\Newsletter;
 use Illuminate\Support\Str;
 use Tests\Helpers\SanctumTrait;
@@ -21,7 +21,7 @@ class StoreNewsletterTest extends TestCase
         $this->loggedUser->team->newsletter()->delete();
 
         // mock
-        $this->mock(ApiKeyValidator::class)
+        $this->mock(EspApiKeyValidator::class)
             ->shouldReceive('apiKeyIsValid')
             ->once()
             ->andReturnTrue();
@@ -76,7 +76,7 @@ class StoreNewsletterTest extends TestCase
         $this->loggedUser->team->newsletter()->delete();
 
         // mock
-        $this->mock(ApiKeyValidator::class)
+        $this->mock(EspApiKeyValidator::class)
             ->shouldReceive('apiKeyIsValid')
             ->once()
             ->andReturnFalse();

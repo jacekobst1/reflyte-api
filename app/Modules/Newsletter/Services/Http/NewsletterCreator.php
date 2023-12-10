@@ -6,10 +6,10 @@ namespace App\Modules\Newsletter\Services\Http;
 
 use App\Exceptions\ConflictException;
 use App\Modules\Esp\EspName;
-use App\Modules\Esp\Services\ApiKeyValidator;
+use App\Modules\Esp\Services\EspApiKeyValidator;
+use App\Modules\Esp\Services\EspFieldsCreator;
 use App\Modules\Newsletter\Newsletter;
 use App\Modules\Newsletter\Requests\CreateNewsletterRequest;
-use App\Modules\Newsletter\Services\Internal\FieldsSynchronizer;
 use App\Modules\Newsletter\Services\Internal\SubscriberSynchronizer;
 use App\Modules\Team\Team;
 use Exception;
@@ -20,7 +20,7 @@ use Throwable;
 final class NewsletterCreator
 {
     public function __construct(
-        private readonly ApiKeyValidator $apiKeyValidator,
+        private readonly EspApiKeyValidator $apiKeyValidator,
     ) {
     }
 
@@ -80,9 +80,9 @@ final class NewsletterCreator
 
     private function syncFields(): void
     {
-        /** @var FieldsSynchronizer $fieldsSynchronizer */
-        $fieldsSynchronizer = App::make(FieldsSynchronizer::class);
-        $fieldsSynchronizer->sync();
+        /** @var EspFieldsCreator $fieldsSynchronizer */
+        $fieldsSynchronizer = App::make(EspFieldsCreator::class);
+        $fieldsSynchronizer->createFieldsIfNotExists();
     }
 
     /**

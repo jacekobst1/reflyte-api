@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Newsletter\Services\Internal;
+namespace App\Modules\Esp\Services;
 
 use App\Modules\Esp\Integration\EspClientInterface;
 
-final class FieldsSynchronizer
+final class EspFieldsCreator
 {
     private const FIELDS = [
         [
@@ -31,7 +31,7 @@ final class FieldsSynchronizer
     {
     }
 
-    public function sync(): void
+    public function createFieldsIfNotExists(): void
     {
         $espFields = $this->espClient->getAllFields();
 
