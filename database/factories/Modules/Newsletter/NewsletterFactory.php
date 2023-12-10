@@ -25,6 +25,7 @@ class NewsletterFactory extends Factory
         return [
             'name' => fake()->name(),
             'description' => fake()->sentence(),
+            'landing_url' => fake()->url(),
             'esp_name' => EspName::MailerLite->value,
             'esp_api_key' => fake()->sha256(),
         ];

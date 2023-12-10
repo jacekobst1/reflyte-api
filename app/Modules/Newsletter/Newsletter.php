@@ -38,6 +38,7 @@ class Newsletter extends Model
     protected $fillable = [
         'name',
         'description',
+        'landing_url',
         'esp_name',
         'esp_api_key',
     ];

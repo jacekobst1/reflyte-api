@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->uuid('team_id');
             $table->text('name');
             $table->text('description');
-//            $table->uuid('image_id');
+            $table->text('landing_url');
             $table->text('esp_name');
             $table->text('esp_api_key');
             $table->timestamps();
