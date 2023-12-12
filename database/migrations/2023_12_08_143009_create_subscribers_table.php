@@ -14,6 +14,7 @@ return new class extends Migration {
         Schema::create('subscribers', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('newsletter_id');
+            $table->uuid('referer_subscriber_id')->nullable()->index();
             $table->text('email');
             $table->text('ref_code');
             $table->text('ref_link');
@@ -26,6 +27,13 @@ return new class extends Migration {
                 ->references('id')
                 ->on('newsletters')
                 ->onDelete(OnDelete::CASCADE);
+        });
+
+        Schema::table('subscribers', function (Blueprint $table) {
+            $table->foreign('referer_subscriber_id')
+                ->references('id')
+                ->on('subscribers')
+                ->onDelete(OnDelete::SET_NULL);
         });
     }
 
