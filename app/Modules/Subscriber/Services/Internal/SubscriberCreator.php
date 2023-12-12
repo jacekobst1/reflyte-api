@@ -25,7 +25,12 @@ final class SubscriberCreator
             return $subscriber;
         }
 
-        $refCode = strtolower(Str::random(8));
+        // TODO zadbaj o to, żeby ref_code był unikalny
+        // dodaj unique na bazie
+        // zadbaj o sytuację, gdy leci exception
+
+        // TODO niech ref code się generuje automatycznie przy tworzeniu subskrybenta
+        $refCode = strtolower(Str::random(10));
         $refLink = 'https://join.reflyte.com/' . $refCode;
         $isRef = 'no';
         $refCount = 0;

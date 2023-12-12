@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories\Modules\Subscriber;
 
+use App\Modules\Newsletter\Newsletter;
 use App\Modules\Subscriber\Subscriber;
 use App\Modules\Subscriber\SubscriberStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -24,9 +25,10 @@ class SubscriberFactory extends Factory
     public function definition(): array
     {
         return [
+            'newsletter_id' => Newsletter::factory(),
             'referer_subscriber_id' => null,
             'email' => fake()->email(),
-            'ref_code' => Str::random(10),
+            'ref_code' => strtolower(Str::random(10)),
             'ref_link' => 'https://join.reflyte.com/' . Str::random(10),
             'is_ref' => 'no',
             'ref_count' => 0,

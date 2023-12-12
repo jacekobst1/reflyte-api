@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories\Modules\Team;
 
 use App\Modules\Team\Team;
+use App\Modules\User\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -22,6 +23,7 @@ class TeamFactory extends Factory
     public function definition(): array
     {
         return [
+            'owner_user_id' => User::factory(),
             'name' => fake()->name(),
         ];
     }

@@ -6,6 +6,7 @@ namespace Database\Factories\Modules\Newsletter;
 
 use App\Modules\Esp\EspName;
 use App\Modules\Newsletter\Newsletter;
+use App\Modules\Team\Team;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -23,6 +24,7 @@ class NewsletterFactory extends Factory
     public function definition(): array
     {
         return [
+            'team_id' => Team::factory(),
             'name' => fake()->name(),
             'description' => fake()->sentence(),
             'landing_url' => fake()->url(),
