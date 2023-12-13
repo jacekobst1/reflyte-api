@@ -24,7 +24,7 @@ class SubscriberController extends Controller
             return JsonResp::badRequest('Invalid ref code');
         }
 
-        return redirect($subscriber->newsletter->landing_url);
+        return redirect($subscriber->newsletter->landing_url . "?reflyteCode=$refCode");
     }
 
     // TODO move method logic to separate service
