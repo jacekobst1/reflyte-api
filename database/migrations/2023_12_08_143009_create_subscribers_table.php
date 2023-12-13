@@ -16,8 +16,8 @@ return new class extends Migration {
             $table->uuid('newsletter_id');
             $table->uuid('referer_subscriber_id')->nullable()->index();
             $table->text('email');
-            $table->text('ref_code');
-            $table->text('ref_link');
+            $table->text('ref_code')->unique();
+            $table->text('ref_link')->unique();
             $table->text('is_ref');
             $table->integer('ref_count');
             $table->text('status');
