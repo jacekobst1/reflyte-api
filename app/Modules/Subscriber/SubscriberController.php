@@ -50,6 +50,8 @@ class SubscriberController extends Controller
             'email' => $email,
         ]);
 
+        // TODO init reward awarding mechanism
+
         return JsonResp::created();
     }
 }
