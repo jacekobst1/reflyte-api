@@ -26,8 +26,11 @@ final class StoreSubscriberFromLandingTest extends TestCase
         $response->assertSuccessful();
         $this->assertDatabaseHas('subscribers', [
             'email' => $data['email'],
+            'newsletter_id' => $existingSubscriber->newsletter_id,
             'referer_subscriber_id' => $existingSubscriber->id,
             'status' => SubscriberStatus::Received,
+            'is_ref' => 'no',
+            'ref_count' => 0,
         ]);
         $this->assertCount(1, $existingSubscriber->referrals);
     }

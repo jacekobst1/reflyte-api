@@ -30,19 +30,10 @@ class CorsFreeController extends Controller
             return JsonResp::badRequest('Invalid ref code');
         }
 
-        $refCode = strtolower(Str::random(10));
-        $refLink = 'https://join.reflyte.com/' . $refCode;
-        $isRef = 'no';
-        $refCount = 0;
         Subscriber::create([
             'referer_subscriber_id' => $referer->id,
             'newsletter_id' => $referer->newsletter_id,
             'email' => $email,
-            'status' => SubscriberStatus::Received,
-            'ref_code' => $refCode,
-            'ref_link' => $refLink,
-            'is_ref' => $isRef,
-            'ref_count' => $refCount,
         ]);
 
         return JsonResp::created();

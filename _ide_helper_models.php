@@ -167,16 +167,21 @@ namespace App\Modules\Subscriber{
  * App\Modules\Subscriber\Subscriber
  *
  * @property string $id
- * @property string $newsletter_id
+ * @property \Ramsey\Uuid\UuidInterface|null $newsletter_id
+ * @property \Ramsey\Uuid\UuidInterface|null|null $referer_subscriber_id
  * @property string $email
  * @property string $ref_code
  * @property string $ref_link
  * @property string $is_ref
  * @property int $ref_count
- * @property string $status
+ * @property \App\Modules\Subscriber\SubscriberStatus $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Modules\Newsletter\Newsletter $newsletter
  * @property-read \App\Modules\ReferralProgram\ReferralProgram $referralProgram
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Subscriber> $referrals
+ * @property-read int|null $referrals_count
+ * @method static \Database\Factories\Modules\Subscriber\SubscriberFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Subscriber newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Subscriber newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Subscriber query()
@@ -188,6 +193,7 @@ namespace App\Modules\Subscriber{
  * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereRefCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereRefCount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereRefLink($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereRefererSubscriberId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereUpdatedAt($value)
  * @mixin \Eloquent
