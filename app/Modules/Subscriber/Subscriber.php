@@ -42,11 +42,10 @@ class Subscriber extends Model
     protected static function booted(): void
     {
         // TODO zadbaj o to, żeby ref_code był unikalny
-        // dodaj unique na bazie
         // zadbaj o sytuację, gdy leci exception
         static::creating(function (Subscriber $subscriber) {
             $subscriber->ref_code = strtolower(Str::random(10));
-            $subscriber->ref_link = 'https://join.reflyte.com/' . $subscriber->ref_code;
+            $subscriber->ref_link = 'https://reflyte.com/join/' . $subscriber->ref_code;
             $subscriber->is_ref = 'no';
             $subscriber->ref_count = 0;
             $subscriber->status = SubscriberStatus::Received;

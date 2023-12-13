@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Modules\Auth\Enums\RoleEnum;
 use App\Modules\Newsletter\NewsletterController;
+use App\Modules\Subscriber\SubscriberController;
 use App\Modules\Team\TeamController;
 use App\Modules\User\UserController;
 use Illuminate\Support\Facades\Route;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 $admin = RoleEnum::Admin->value;
 $user = RoleEnum::User->value;
 
-Route::middleware('auth:sanctum')->group(function () use ($admin, $user) {
+Route::prefix('/api')->middleware('auth:sanctum')->group(function () use ($admin, $user) {
     // Admin and User routes
     Route::group(['middleware' => ["role:$admin|$user"]], function () {
         Route::get('/logged-user', [UserController::class, 'getLoggedUser']);
@@ -37,3 +38,6 @@ Route::middleware('auth:sanctum')->group(function () use ($admin, $user) {
         });
     });
 });
+
+Route::get('/join/{refCode}', [SubscriberController::class, 'redirectByRefCode'])->whereAlphaNumeric('refCode');
+

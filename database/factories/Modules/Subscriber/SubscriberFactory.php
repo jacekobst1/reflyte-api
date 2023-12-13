@@ -29,7 +29,7 @@ class SubscriberFactory extends Factory
             'referer_subscriber_id' => null,
             'email' => fake()->email(),
             'ref_code' => strtolower(Str::random(10)),
-            'ref_link' => 'https://join.reflyte.com/' . Str::random(10),
+            'ref_link' => 'https://reflyte.com/join/' . Str::random(10),
             'is_ref' => 'no',
             'ref_count' => 0,
             'status' => SubscriberStatus::Synchronized,
