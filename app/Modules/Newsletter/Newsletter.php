@@ -27,7 +27,6 @@ class Newsletter extends Model
     use HasFactory;
     use SoftDeletes;
 
-    // TODO add method getEspConfig() and VO
     protected $casts = [
         'id' => UuidModelCast::class,
         'team_id' => UuidModelCast::class,
