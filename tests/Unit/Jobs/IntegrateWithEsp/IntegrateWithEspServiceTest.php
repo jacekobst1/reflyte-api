@@ -54,6 +54,7 @@ final class IntegrateWithEspServiceTest extends TestCase
             ->andReturn($mailerLiteEspClientMock);
 
         // when
+        /** @var IntegrateWithEspService $service */
         $service = App::make(IntegrateWithEspService::class);
         $service->handle($espConfig);
 
