@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Jobs\IntegrateWithEsp;
 
-use App\Jobs\SynchronizeSubscriber;
+use App\Jobs\SynchronizeSubscriber\SynchronizeSubscriberJob;
 use App\Modules\Esp\Integration\EspClientFactory;
 use App\Modules\Esp\Integration\EspClientInterface;
 use App\Modules\Newsletter\Vo\NewsletterEspConfig;
@@ -33,7 +33,7 @@ class IntegrateWithEspService
         // TODO write test and save every subscriber status to database (active/inactive)
 
         foreach ($espSubscribers as $espSubscriber) {
-            SynchronizeSubscriber::dispatch($this->espConfig, $espSubscriber)
+            SynchronizeSubscriberJob::dispatch($this->espConfig, $espSubscriber)
                 ->delay(now()->addSeconds($this->commandCounter));
 
             $this->commandCounter++;

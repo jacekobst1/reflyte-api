@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Jobs\IntegrateWithEsp;
 
 use App\Jobs\IntegrateWithEsp\IntegrateWithEspService;
-use App\Jobs\SynchronizeSubscriber;
+use App\Jobs\SynchronizeSubscriber\SynchronizeSubscriberJob;
 use App\Modules\Esp\Dto\EspSubscriberDto;
 use App\Modules\Esp\EspName;
 use App\Modules\Esp\Integration\EspClientFactory;
@@ -21,7 +21,7 @@ final class IntegrateWithEspServiceTest extends TestCase
 {
     public function testHandle(): void
     {
-        Queue::fake([SynchronizeSubscriber::class]);
+        Queue::fake([SynchronizeSubscriberJob::class]);
 
         // given
         $espConfig = new NewsletterEspConfig(
@@ -58,6 +58,6 @@ final class IntegrateWithEspServiceTest extends TestCase
         $service->handle($espConfig);
 
         // then
-        Queue::assertPushed(SynchronizeSubscriber::class);
+        Queue::assertPushed(SynchronizeSubscriberJob::class);
     }
 }
