@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Modules\Auth\Enums\RoleEnum;
 use App\Modules\Newsletter\NewsletterController;
+use App\Modules\Subscriber\SubscriberController;
 use App\Modules\Team\TeamController;
 use App\Modules\User\UserController;
 use Illuminate\Support\Facades\Route;
@@ -35,5 +36,11 @@ Route::middleware('auth:sanctum')->group(function () use ($admin, $user) {
             Route::get('/', [NewsletterController::class, 'index']);
             Route::post('/', [NewsletterController::class, 'store']);
         });
+    });
+});
+
+Route::prefix('/esp')->group(function () {
+    Route::prefix('/webhook')->group(function () {
+        Route::post('/mailer-lite', [SubscriberController::class, 'mailerLiteWebhookEvent']);
     });
 });

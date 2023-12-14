@@ -6,7 +6,9 @@ namespace App\Modules\Subscriber;
 
 use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
+use App\Modules\Esp\Dto\EspSubscriberStatus;
 use App\Modules\Subscriber\Requests\CreateSubscriberRequest;
+use App\Modules\Subscriber\Requests\MailerLiteWebhookEventRequest;
 use App\Modules\Subscriber\Services\Http\SubscriberFromLandingCreator;
 use App\Shared\Response\JsonResp;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
@@ -40,5 +42,18 @@ class SubscriberController extends Controller
         $subscriber = $creator->create($data);
 
         return JsonResp::created(['id' => $subscriber->id]);
+    }
+
+    public function mailerLiteWebhookEvent(MailerLiteWebhookEventRequest $data): JsonResponse
+    {
+        $status = $data->status === EspSubscriberStatus::Active->value
+            ? SubscriberStatus::Active
+            : SubscriberStatus::Inactive;
+
+        Subscriber::whereEmail($data->email)->update(['status' => $status]);
+
+        // TODO reward logic
+
+        return JsonResp::success();
     }
 }
