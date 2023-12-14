@@ -13,11 +13,6 @@ interface EspClientInterface
 {
     public function apiKeyIsValid(): bool;
 
-//    /**
-//     * @return DataCollection<array-key, SubscriberDto>
-//     */
-//    public function getAllSubscribers(): DataCollection;
-
     /**
      * @return array{DataCollection<array-key, EspSubscriberDto>, ResponseLinksDto}
      */
