@@ -7,7 +7,7 @@ namespace App\Jobs;
 use App\Modules\Esp\Dto\EspSubscriberDto;
 use App\Modules\Esp\Services\EspSubscriberUpdater;
 use App\Modules\Newsletter\Vo\NewsletterEspConfig;
-use App\Modules\Subscriber\Services\Internal\SubscriberCreator;
+use App\Modules\Subscriber\Services\Internal\SubscriberFromEspCreator;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeEncrypted;
@@ -47,7 +47,7 @@ class SynchronizeSubscriber implements ShouldQueue, ShouldBeEncrypted
      * @throws Exception
      */
     public function handle(
-        SubscriberCreator $subscriberCreator,
+        SubscriberFromEspCreator $subscriberCreator,
         EspSubscriberUpdater $espSubscriberUpdater,
     ): void {
         $subscriber = $subscriberCreator->firstOrCreate($this->espConfig->newsletterId, $this->espSubscriber);

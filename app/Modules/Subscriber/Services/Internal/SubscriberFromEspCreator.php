@@ -9,7 +9,7 @@ use App\Modules\Subscriber\Subscriber;
 use Exception;
 use Ramsey\Uuid\UuidInterface;
 
-final class SubscriberCreator
+final class SubscriberFromEspCreator
 {
     /**
      * @throws Exception

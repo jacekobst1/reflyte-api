@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Modules\Subscriber;
 
+use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
+use App\Modules\Subscriber\Requests\CreateSubscriberRequest;
+use App\Modules\Subscriber\Services\Http\SubscriberFromLandingCreator;
 use App\Shared\Response\JsonResp;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\View\View;
 
@@ -28,31 +30,15 @@ class SubscriberController extends Controller
         return redirect($subscriber->newsletter->landing_url . "?reflyteCode=$refCode");
     }
 
-    // TODO move method logic to separate service
-    public function storeNewSubscriberFromLanding(Request $request): JsonResponse
-    {
-        $request->validate([
-            'email' => ['required', 'email'],
-            'ref_code' => ['required', 'string', 'alpha_num', 'lowercase', 'size:10'],
-        ]);
+    /**
+     * @throws BadRequestException
+     */
+    public function storeNewSubscriberFromLanding(
+        CreateSubscriberRequest $data,
+        SubscriberFromLandingCreator $creator,
+    ): JsonResponse {
+        $subscriber = $creator->create($data);
 
-        $email = $request->input('email');
-        $refCode = $request->input('ref_code');
-
-        $referer = Subscriber::whereRefCode($refCode)->first();
-
-        if (!$referer) {
-            return JsonResp::badRequest('Invalid ref code');
-        }
-
-        Subscriber::create([
-            'referer_subscriber_id' => $referer->id,
-            'newsletter_id' => $referer->newsletter_id,
-            'email' => $email,
-        ]);
-
-        // TODO init reward awarding mechanism
-
-        return JsonResp::created();
+        return JsonResp::created(['id' => $subscriber->id]);
     }
 }
