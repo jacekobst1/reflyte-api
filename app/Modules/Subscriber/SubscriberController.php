@@ -12,16 +12,17 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\View\View;
 
 class SubscriberController extends Controller
 {
     public function redirectByRefCode(
         string $refCode
-    ): ApplicationContract|Application|RedirectResponse|Redirector|JsonResponse {
+    ): ApplicationContract|Application|RedirectResponse|Redirector|View {
         $subscriber = Subscriber::whereRefCode($refCode)->with('newsletter')->first();
 
         if (!$subscriber) {
-            return JsonResp::badRequest('Invalid ref code');
+            return view('invalid-ref-code');
         }
 
         return redirect($subscriber->newsletter->landing_url . "?reflyteCode=$refCode");
