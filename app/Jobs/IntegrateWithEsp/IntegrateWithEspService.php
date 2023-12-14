@@ -30,7 +30,6 @@ class IntegrateWithEspService
     private function process(string $url = null): void
     {
         [$espSubscribers, $links] = $this->espClient->getSubscribersBatch($url);
-        // TODO write test and save every subscriber status to database (active/inactive)
 
         foreach ($espSubscribers as $espSubscriber) {
             SynchronizeSubscriberJob::dispatch($this->espConfig, $espSubscriber)
