@@ -6,6 +6,7 @@ namespace App\Jobs\SynchronizeSubscriber;
 
 use App\Modules\Esp\Dto\EspSubscriberDto;
 use App\Modules\Newsletter\Vo\NewsletterEspConfig;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeEncrypted;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -31,6 +32,9 @@ class SynchronizeSubscriberJob implements ShouldQueue, ShouldBeEncrypted
     ) {
     }
 
+    /**
+     * @throws Exception
+     */
     public function handle(SynchronizeSubscriberService $service): void
     {
         $service->handle($this->espConfig, $this->espSubscriber);

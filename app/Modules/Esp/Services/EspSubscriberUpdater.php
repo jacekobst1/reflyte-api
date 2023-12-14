@@ -9,7 +9,7 @@ use App\Modules\Newsletter\Vo\NewsletterEspConfig;
 use App\Modules\Subscriber\Subscriber;
 use App\Shared\RltFields;
 
-final class EspSubscriberUpdater
+class EspSubscriberUpdater
 {
     public function __construct(private readonly EspClientFactory $espClientFactory)
     {
