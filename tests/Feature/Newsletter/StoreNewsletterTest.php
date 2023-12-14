@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Newsletter;
 
-use App\Jobs\IntegrateWithEsp;
+use App\Jobs\IntegrateWithEsp\IntegrateWithEspJob;
 use App\Modules\Esp\Services\EspApiKeyValidator;
 use App\Modules\Esp\Services\EspFieldsCreator;
 use App\Modules\Newsletter\Newsletter;
@@ -19,7 +19,7 @@ class StoreNewsletterTest extends TestCase
 
     public function testStoreNewsletter(): void
     {
-        Queue::fake([IntegrateWithEsp::class]);
+        Queue::fake([IntegrateWithEspJob::class]);
         $this->actAsCompleteUser();
         $this->loggedUser->team->newsletter()->delete();
 
@@ -50,7 +50,7 @@ class StoreNewsletterTest extends TestCase
         ]);
         $apiKey = Newsletter::find($newsletterId)->esp_api_key;
         $this->assertEquals($requestData['esp_api_key'], $apiKey);
-        Queue::assertPushed(IntegrateWithEsp::class);
+        Queue::assertPushed(IntegrateWithEspJob::class);
     }
 
     public function testCannotStoreNewsletterIfTeamAlreadyHasOne(): void

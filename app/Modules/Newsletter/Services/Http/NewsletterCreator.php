@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Newsletter\Services\Http;
 
 use App\Exceptions\ConflictException;
-use App\Jobs\IntegrateWithEsp;
+use App\Jobs\IntegrateWithEsp\IntegrateWithEspJob;
 use App\Modules\Esp\EspName;
 use App\Modules\Esp\Services\EspApiKeyValidator;
 use App\Modules\Esp\Services\EspFieldsCreator;
@@ -92,6 +92,6 @@ final class NewsletterCreator
     {
         $espConfig = Auth::user()->getNewsletter()->getEspConfig();
 
-        IntegrateWithEsp::dispatch($espConfig);
+        IntegrateWithEspJob::dispatch($espConfig);
     }
 }
