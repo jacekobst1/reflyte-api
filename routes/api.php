@@ -41,6 +41,6 @@ Route::middleware('auth:sanctum')->group(function () use ($admin, $user) {
 
 Route::prefix('/esp')->group(function () {
     Route::prefix('/webhook')->group(function () {
-        Route::post('/mailer-lite', [SubscriberController::class, 'mailerLiteWebhookEvent']);
+        Route::post('/{newsletterId}', [SubscriberController::class, 'webhookEvent']);
     });
 });
