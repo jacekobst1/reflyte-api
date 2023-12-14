@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Subscriber;
+namespace App\Modules\Esp\Dto;
 
-enum SubscriberStatus: string
+enum EspSubscriberStatus: string
 {
-    case Received = 'received';
     case Active = 'active';
     case Inactive = 'inactive';
 }

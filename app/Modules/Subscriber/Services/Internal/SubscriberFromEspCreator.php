@@ -27,6 +27,7 @@ final class SubscriberFromEspCreator
         return Subscriber::create([
             'newsletter_id' => $newsletterId,
             'email' => $subscriberDto->email,
+            'status' => $subscriberDto->status,
         ]);
     }
 }

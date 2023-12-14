@@ -48,7 +48,6 @@ class Subscriber extends Model
             $subscriber->ref_link = 'https://reflyte.com/join/' . $subscriber->ref_code;
             $subscriber->is_ref = 'no';
             $subscriber->ref_count = 0;
-            $subscriber->status = SubscriberStatus::Received;
         });
     }
 

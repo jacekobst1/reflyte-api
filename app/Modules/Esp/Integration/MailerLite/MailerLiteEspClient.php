@@ -6,6 +6,7 @@ namespace App\Modules\Esp\Integration\MailerLite;
 
 use App\Modules\Esp\Dto\EspFieldDto;
 use App\Modules\Esp\Dto\EspSubscriberDto;
+use App\Modules\Esp\Dto\EspSubscriberStatus;
 use App\Modules\Esp\Integration\EspClientInterface;
 use App\Modules\Esp\Integration\MailerLite\Dto\ResponseDto;
 use App\Modules\Esp\Integration\MakeRequestTrait;
@@ -32,13 +33,22 @@ final class MailerLiteEspClient implements EspClientInterface
     public function getSubscribersBatch(?string $url = null): array
     {
         if (!$url) {
-            $url = 'subscribers?limit=1000&filter[status]=active';
+            $url = 'subscribers?limit=1000';
         }
 
         $response = ResponseDto::from(
             $this->makeRequest()->get($url)->json()
         );
-        $subscribers = EspSubscriberDto::collection($response->data);
+
+        $data = array_map(function ($subscriber) {
+            return [
+                'id' => $subscriber['id'],
+                'email' => $subscriber['email'],
+                'status' => $subscriber['status'] === 'active' ? EspSubscriberStatus::Active : EspSubscriberStatus::Inactive,
+            ];
+        }, $response->data);
+
+        $subscribers = EspSubscriberDto::collection($data);
 
         return [$subscribers, $response->links];
     }
