@@ -8,7 +8,6 @@ use App\Jobs\SynchronizeSubscriber;
 use App\Modules\Esp\Integration\EspClientFactory;
 use App\Modules\Esp\Integration\EspClientInterface;
 use App\Modules\Newsletter\Vo\NewsletterEspConfig;
-use Illuminate\Support\Facades\App;
 
 class IntegrateWithEspService
 {
@@ -16,12 +15,13 @@ class IntegrateWithEspService
     private EspClientInterface $espClient;
     private NewsletterEspConfig $espConfig;
 
+    public function __construct(private readonly EspClientFactory $espClientFactory)
+    {
+    }
+
     public function handle(NewsletterEspConfig $espConfig): void
     {
-        /** @var EspClientFactory $espClientFactory */
-        $espClientFactory = App::make(EspClientFactory::class);
-
-        $this->espClient = $espClientFactory->make($espConfig->espName, $espConfig->espApiKey);
+        $this->espClient = $this->espClientFactory->make($espConfig->espName, $espConfig->espApiKey);
         $this->espConfig = $espConfig;
 
         $this->process();
@@ -30,7 +30,6 @@ class IntegrateWithEspService
     private function process(string $url = null): void
     {
         [$espSubscribers, $links] = $this->espClient->getSubscribersBatch($url);
-
         // TODO write test and save every subscriber status to database (active/inactive)
 
         foreach ($espSubscribers as $espSubscriber) {

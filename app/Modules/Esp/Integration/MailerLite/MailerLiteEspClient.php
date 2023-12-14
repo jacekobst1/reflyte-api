@@ -12,7 +12,7 @@ use App\Modules\Esp\Integration\MailerLite\Dto\ResponseDto;
 use App\Modules\Esp\Integration\MakeRequestTrait;
 use Spatie\LaravelData\DataCollection;
 
-final class MailerLiteEspClient implements EspClientInterface
+class MailerLiteEspClient implements EspClientInterface
 {
     use MakeRequestTrait;
 

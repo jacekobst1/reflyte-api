@@ -7,7 +7,7 @@ namespace App\Modules\Esp\Integration;
 use App\Modules\Esp\EspName;
 use App\Modules\Esp\Integration\MailerLite\MailerLiteEspClient;
 
-final class EspClientFactory
+class EspClientFactory
 {
     public function make(EspName $espName, string $apiKey): EspClientInterface
     {

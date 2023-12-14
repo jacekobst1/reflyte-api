@@ -32,7 +32,7 @@ class SubscriberFactory extends Factory
             'ref_link' => 'https://reflyte.com/join/' . Str::random(10),
             'is_ref' => 'no',
             'ref_count' => 0,
-            'status' => SubscriberStatus::Synchronized,
+            'status' => SubscriberStatus::Active,
         ];
     }
 }
