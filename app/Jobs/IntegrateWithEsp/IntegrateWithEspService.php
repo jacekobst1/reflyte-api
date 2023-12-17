@@ -29,7 +29,7 @@ class IntegrateWithEspService
      */
     public function handle(NewsletterEspConfig $espConfig): void
     {
-        $this->espClient = $this->espClientFactory->make($espConfig->espName, $espConfig->espApiKey);
+        $this->espClient = $this->espClientFactory->make($espConfig);
         $this->espConfig = $espConfig;
 
         $subscribersCount = $this->getEspSubscribersCount();

@@ -27,7 +27,7 @@ class EspClientServiceProvider extends ServiceProvider
 
             $clientFactory = $app->make(EspClientFactory::class);
 
-            return $clientFactory->make($newsletter->esp_name, $newsletter->esp_api_key);
+            return $clientFactory->make($newsletter->getEspConfig());
         });
     }
 

@@ -17,7 +17,7 @@ class EspSubscriberUpdater
 
     public function fillFields(NewsletterEspConfig $espConfig, string $id, Subscriber $subscriber): void
     {
-        $espClient = $this->espClientFactory->make($espConfig->espName, $espConfig->espApiKey);
+        $espClient = $this->espClientFactory->make($espConfig);
 
         $espClient->updateSubscriber($id, [
             'fields' => RltFields::getSubscriberFields($subscriber),
