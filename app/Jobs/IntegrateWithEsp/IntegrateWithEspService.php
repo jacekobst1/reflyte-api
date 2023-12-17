@@ -38,9 +38,7 @@ class IntegrateWithEspService
         $this->process();
 
         Bus::batch($this->synchronizeSubscriberJobs)
-            ->then(function (Batch $batch) {
-                // create webhook
-            })
+            ->then(fn(Batch $batch) => $this->listenForSubscriberWebhooks())
             ->name("Synchronize subscribers | newsletterId: $espConfig->newsletterId")
             ->dispatch();
     }
@@ -66,5 +64,10 @@ class IntegrateWithEspService
         if ($links->next) {
             $this->process($url);
         }
+    }
+
+    private function listenForSubscriberWebhooks(): void
+    {
+        $this->espClient->listenForSubscriberWebhooks($this->espConfig->newsletterId);
     }
 }

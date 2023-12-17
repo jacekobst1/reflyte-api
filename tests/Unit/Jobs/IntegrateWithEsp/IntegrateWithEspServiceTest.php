@@ -12,16 +12,21 @@ use App\Modules\Esp\Integration\EspClientFactory;
 use App\Modules\Esp\Integration\MailerLite\Dto\ResponseLinksDto;
 use App\Modules\Esp\Integration\MailerLite\MailerLiteEspClient;
 use App\Modules\Newsletter\Vo\NewsletterEspConfig;
+use Illuminate\Bus\PendingBatch;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Queue;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Str;
 use Tests\TestCase;
+use Throwable;
 
 final class IntegrateWithEspServiceTest extends TestCase
 {
+    /**
+     * @throws Throwable
+     */
     public function testHandle(): void
     {
-        Queue::fake([SynchronizeSubscriberJob::class]);
+        Bus::fake([SynchronizeSubscriberJob::class]);
 
         // given
         $espConfig = new NewsletterEspConfig(
@@ -62,6 +67,9 @@ final class IntegrateWithEspServiceTest extends TestCase
         $service->handle($espConfig);
 
         // then
-        Queue::assertPushed(SynchronizeSubscriberJob::class);
+        Bus::assertBatched(function (PendingBatch $batch) use ($espConfig) {
+            return $batch->name === "Synchronize subscribers | newsletterId: $espConfig->newsletterId"
+                && $batch->jobs->count() === 2;
+        });
     }
 }
