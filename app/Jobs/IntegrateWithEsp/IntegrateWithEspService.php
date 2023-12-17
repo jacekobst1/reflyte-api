@@ -8,7 +8,6 @@ use App\Jobs\SynchronizeSubscriber\SynchronizeSubscriberJob;
 use App\Modules\Esp\Integration\EspClientFactory;
 use App\Modules\Esp\Integration\EspClientInterface;
 use App\Modules\Newsletter\Vo\NewsletterEspConfig;
-use Illuminate\Bus\Batch;
 use Illuminate\Support\Facades\Bus;
 use Throwable;
 
@@ -38,7 +37,7 @@ class IntegrateWithEspService
         $this->process();
 
         Bus::batch($this->synchronizeSubscriberJobs)
-            ->then(fn(Batch $batch) => $this->listenForSubscriberWebhooks())
+//            ->then(fn(Batch $batch) => $this->listenForSubscriberWebhooks())
             ->name("Synchronize subscribers | newsletterId: $espConfig->newsletterId")
             ->dispatch();
     }
@@ -62,7 +61,7 @@ class IntegrateWithEspService
         }
 
         if ($links->next) {
-            $this->process($url);
+            $this->process($links->next);
         }
     }
 
