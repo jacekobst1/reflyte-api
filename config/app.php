@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Providers\EspClientServiceProvider;
 use App\Providers\FortifyServiceProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
@@ -178,7 +177,6 @@ return [
         /*
          * Own Service Providers...
          */
-        EspClientServiceProvider::class,
     ])->toArray(),
 
     /*

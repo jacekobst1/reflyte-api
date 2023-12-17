@@ -11,9 +11,9 @@ use App\Modules\Esp\Services\EspApiKeyValidator;
 use App\Modules\Esp\Services\EspFieldsCreator;
 use App\Modules\Newsletter\Newsletter;
 use App\Modules\Newsletter\Requests\CreateNewsletterRequest;
+use App\Modules\Newsletter\Vo\NewsletterEspConfig;
 use App\Modules\Team\Team;
 use Exception;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Throwable;
 
@@ -21,6 +21,7 @@ final class NewsletterCreator
 {
     public function __construct(
         private readonly EspApiKeyValidator $apiKeyValidator,
+        private readonly EspFieldsCreator $espFieldsCreator,
     ) {
     }
 
@@ -37,8 +38,8 @@ final class NewsletterCreator
 
         $newsletter = $this->storeNewsletter($data, $team);
 
-        $this->createEspFields();
-        $this->syncSubscribers();
+        $this->createEspFields($newsletter->getEspConfig());
+        $this->syncSubscribers($newsletter->getEspConfig());
 
         return $newsletter;
     }
@@ -78,20 +79,16 @@ final class NewsletterCreator
         return $newsletter;
     }
 
-    private function createEspFields(): void
+    private function createEspFields(NewsletterEspConfig $espConfig): void
     {
-        /** @var EspFieldsCreator $espFieldsCreator */
-        $espFieldsCreator = App::make(EspFieldsCreator::class);
-        $espFieldsCreator->createFieldsIfNotExists();
+        $this->espFieldsCreator->createFieldsIfNotExists($espConfig);
     }
 
     /**
      * @throws Exception
      */
-    private function syncSubscribers(): void
+    private function syncSubscribers(NewsletterEspConfig $espConfig): void
     {
-        $espConfig = Auth::user()->getNewsletter()->getEspConfig();
-
         IntegrateWithEspJob::dispatch($espConfig);
     }
 }
