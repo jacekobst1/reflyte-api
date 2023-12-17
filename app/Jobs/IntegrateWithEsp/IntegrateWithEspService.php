@@ -8,6 +8,7 @@ use App\Jobs\SynchronizeSubscriber\SynchronizeSubscriberJob;
 use App\Modules\Esp\Integration\EspClientFactory;
 use App\Modules\Esp\Integration\EspClientInterface;
 use App\Modules\Newsletter\Vo\NewsletterEspConfig;
+use Throwable;
 
 class IntegrateWithEspService
 {
@@ -29,7 +30,14 @@ class IntegrateWithEspService
 
     private function process(string $url = null): void
     {
-        [$espSubscribers, $links] = $this->espClient->getSubscribersBatch($url);
+        // TODO maybe first we should download all subscribers, store them in DB and then synchronize
+        try {
+            [$espSubscribers, $links] = $this->espClient->getSubscribersBatch($url);
+        } catch (Throwable) {
+            sleep(60);
+            $this->process($url);
+            return;
+        }
 
         foreach ($espSubscribers as $espSubscriber) {
             SynchronizeSubscriberJob::dispatch($this->espConfig, $espSubscriber)
