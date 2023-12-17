@@ -41,7 +41,9 @@ class MailerLiteEspClient implements EspClientInterface
 
     public function getSubscribersBatch(?string $url = null): array
     {
-        if (!$url) {
+        if ($url) {
+            $url .= '&limit=1000';
+        } else {
             $url = 'subscribers?limit=1000';
         }
 
