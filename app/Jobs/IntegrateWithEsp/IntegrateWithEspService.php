@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Jobs\IntegrateWithEsp;
 
+use App\Jobs\CreateWebhook\CreateWebhookJob;
 use App\Jobs\SynchronizeSubscriber\SynchronizeSubscriberJob;
 use App\Modules\Esp\Integration\EspClientFactory;
 use App\Modules\Esp\Integration\EspClientInterface;
 use App\Modules\Newsletter\Vo\NewsletterEspConfig;
+use Illuminate\Bus\Batch;
 use Illuminate\Support\Facades\Bus;
 use Throwable;
 
@@ -34,10 +36,12 @@ class IntegrateWithEspService
         $subscribersCount = $this->getEspSubscribersCount();
         $this->globalDelay = $numberOfFetchCommands = (int)ceil($subscribersCount / 1000);
 
-        $this->process();
+        $this->addJobsToArray();
+
+        [$newsletterId, $espName, $espApiKey] = $this->extractEspConfig($espConfig);
 
         Bus::batch($this->synchronizeSubscriberJobs)
-//            ->then(fn(Batch $batch) => $this->listenForSubscriberWebhooks())
+            ->then(fn(Batch $batch) => CreateWebhookJob::dispatch($newsletterId, $espName, $espApiKey))
             ->name("Synchronize subscribers | newsletterId: $espConfig->newsletterId")
             ->dispatch();
     }
@@ -47,7 +51,7 @@ class IntegrateWithEspService
         return $this->espClient->getSubscribersTotalNumber();
     }
 
-    private function process(string $url = null): void
+    private function addJobsToArray(string $url = null): void
     {
         sleep(1);
         [$espSubscribers, $links] = $this->espClient->getSubscribersBatch($url);
@@ -61,12 +65,12 @@ class IntegrateWithEspService
         }
 
         if ($links->next) {
-            $this->process($links->next);
+            $this->addJobsToArray($links->next);
         }
     }
 
-    private function listenForSubscriberWebhooks(): void
+    private function extractEspConfig(NewsletterEspConfig $espConfig): array
     {
-        $this->espClient->listenForSubscriberWebhooks($this->espConfig->newsletterId);
+        return [$espConfig->newsletterId, $espConfig->espName, $espConfig->espApiKey];
     }
 }
