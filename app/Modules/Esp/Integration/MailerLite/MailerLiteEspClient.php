@@ -91,7 +91,7 @@ class MailerLiteEspClient implements EspClientInterface
         return $response->successful();
     }
 
-    public function listenForSubscriberWebhooks(UuidInterface $newsletterId): bool
+    public function createWebhook(UuidInterface $newsletterId): bool
     {
         $newsletterIdString = $newsletterId->toString();
 

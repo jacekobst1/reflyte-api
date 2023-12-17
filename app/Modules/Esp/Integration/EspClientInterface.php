@@ -30,5 +30,5 @@ interface EspClientInterface
 
     public function updateSubscriber(string $id, array $data): bool;
 
-    public function listenForSubscriberWebhooks(UuidInterface $newsletterId): bool;
+    public function createWebhook(UuidInterface $newsletterId): bool;
 }
