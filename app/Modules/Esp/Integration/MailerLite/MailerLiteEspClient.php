@@ -21,7 +21,7 @@ class MailerLiteEspClient implements EspClientInterface
     private string $baseUrl = 'https://connect.mailerlite.com/api';
     private int $maxRequestsPerMinute = 120;
 
-    public function __construct(protected readonly string $apiKey)
+    public function __construct(private readonly string $apiKey)
     {
     }
 
