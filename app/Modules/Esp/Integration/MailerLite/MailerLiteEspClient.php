@@ -32,6 +32,13 @@ class MailerLiteEspClient implements EspClientInterface
         return $response->successful();
     }
 
+    public function getSubscribersTotalNumber(): int
+    {
+        $response = $this->makeRequest()->get('subscribers?limit=0');
+
+        return $response->json()['total'];
+    }
+
     public function getSubscribersBatch(?string $url = null): array
     {
         if (!$url) {

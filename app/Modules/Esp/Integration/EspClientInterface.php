@@ -14,6 +14,8 @@ interface EspClientInterface
 {
     public function apiKeyIsValid(): bool;
 
+    public function getSubscribersTotalNumber(): int;
+
     /**
      * @return array{DataCollection<array-key, EspSubscriberDto>, ResponseLinksDto}
      */
