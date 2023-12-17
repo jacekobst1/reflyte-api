@@ -11,6 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Throwable;
 
 class IntegrateWithEspJob implements ShouldQueue, ShouldBeEncrypted
 {
@@ -28,6 +29,9 @@ class IntegrateWithEspJob implements ShouldQueue, ShouldBeEncrypted
     {
     }
 
+    /**
+     * @throws Throwable
+     */
     public function handle(IntegrateWithEspService $service): void
     {
         $service->handle($this->espConfig);

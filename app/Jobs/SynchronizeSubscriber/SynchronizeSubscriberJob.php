@@ -7,6 +7,7 @@ namespace App\Jobs\SynchronizeSubscriber;
 use App\Modules\Esp\Dto\EspSubscriberDto;
 use App\Modules\Newsletter\Vo\NewsletterEspConfig;
 use Exception;
+use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeEncrypted;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -20,6 +21,7 @@ class SynchronizeSubscriberJob implements ShouldQueue, ShouldBeEncrypted
     use InteractsWithQueue;
     use Queueable;
     use SerializesModels;
+    use Batchable;
 
     public function backoff(): array
     {
