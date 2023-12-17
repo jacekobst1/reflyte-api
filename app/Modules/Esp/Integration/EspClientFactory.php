@@ -12,9 +12,13 @@ class EspClientFactory
 {
     public function make(NewsletterEspConfig $espConfig): EspClientInterface
     {
-        // TODO App::make(MailerLiteEspClient::class, ['apiKey' => $apiKey]);
-        return match ($espConfig->espName) {
-            EspName::MailerLite => new MailerLiteEspClient($espConfig->espApiKey),
+        return $this->makeSimple($espConfig->espName, $espConfig->espApiKey);
+    }
+
+    public function makeSimple(EspName $espName, string $apiKey): EspClientInterface
+    {
+        return match ($espName) {
+            EspName::MailerLite => new MailerLiteEspClient($apiKey),
         };
     }
 }

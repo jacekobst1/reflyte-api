@@ -15,7 +15,7 @@ class EspApiKeyValidator
 
     public function apiKeyIsValid(EspName $espName, string $apiKey): bool
     {
-        $client = $this->clientFactory->make($espName, $apiKey);
+        $client = $this->clientFactory->makeSimple($espName, $apiKey);
 
         return $client->apiKeyIsValid();
     }
