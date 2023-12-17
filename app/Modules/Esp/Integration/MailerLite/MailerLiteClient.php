@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Config;
 use Ramsey\Uuid\UuidInterface;
 use Spatie\LaravelData\DataCollection;
 
-class MailerLiteEspClient implements EspClientInterface
+class MailerLiteClient implements EspClientInterface
 {
     use MakeRequestTrait;
 

@@ -6,7 +6,7 @@ namespace Feature\Esp;
 
 use App\Modules\Esp\Dto\EspSubscriberStatus;
 use App\Modules\Esp\Integration\EspClientFactory;
-use App\Modules\Esp\Integration\MailerLite\MailerLiteEspClient;
+use App\Modules\Esp\Integration\MailerLite\MailerLiteClient;
 use App\Modules\Newsletter\Newsletter;
 use App\Modules\Subscriber\SubscriberStatus;
 use Illuminate\Support\Str;
@@ -25,7 +25,7 @@ final class WebhookEventTest extends TestCase
         ];
 
         // mock
-        $mailerLiteEspClientMock = $this->mock(MailerLiteEspClient::class);
+        $mailerLiteEspClientMock = $this->mock(MailerLiteClient::class);
         $mailerLiteEspClientMock->shouldReceive('updateSubscriber')
             ->once()
             ->andReturn(true);

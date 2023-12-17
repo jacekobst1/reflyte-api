@@ -10,7 +10,7 @@ use App\Modules\Esp\Dto\EspSubscriberDto;
 use App\Modules\Esp\EspName;
 use App\Modules\Esp\Integration\EspClientFactory;
 use App\Modules\Esp\Integration\MailerLite\Dto\ResponseLinksDto;
-use App\Modules\Esp\Integration\MailerLite\MailerLiteEspClient;
+use App\Modules\Esp\Integration\MailerLite\MailerLiteClient;
 use App\Modules\Newsletter\Vo\NewsletterEspConfig;
 use Illuminate\Bus\PendingBatch;
 use Illuminate\Support\Facades\App;
@@ -49,7 +49,7 @@ final class IntegrateWithEspServiceTest extends TestCase
         $responseLinksDto = new ResponseLinksDto(null, null, null, null);
 
         // mock
-        $mailerLiteEspClientMock = $this->mock(MailerLiteEspClient::class);
+        $mailerLiteEspClientMock = $this->mock(MailerLiteClient::class);
         $mailerLiteEspClientMock->shouldReceive('getSubscribersBatch')
             ->once()
             ->andReturn([$espSubscribers, $responseLinksDto]);
