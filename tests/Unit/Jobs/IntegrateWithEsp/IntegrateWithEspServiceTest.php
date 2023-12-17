@@ -48,6 +48,9 @@ final class IntegrateWithEspServiceTest extends TestCase
         $mailerLiteEspClientMock->shouldReceive('getSubscribersBatch')
             ->once()
             ->andReturn([$espSubscribers, $responseLinksDto]);
+        $mailerLiteEspClientMock->shouldReceive('getSubscribersTotalNumber')
+            ->once()
+            ->andReturn(2);
         $espClientFactoryMock = $this->mock(EspClientFactory::class);
         $espClientFactoryMock->shouldReceive('make')
             ->once()
