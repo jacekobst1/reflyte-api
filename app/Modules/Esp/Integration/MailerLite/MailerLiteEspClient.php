@@ -10,6 +10,8 @@ use App\Modules\Esp\Dto\EspSubscriberStatus;
 use App\Modules\Esp\Integration\EspClientInterface;
 use App\Modules\Esp\Integration\MailerLite\Dto\ResponseDto;
 use App\Modules\Esp\Integration\MakeRequestTrait;
+use Illuminate\Support\Facades\Config;
+use Ramsey\Uuid\UuidInterface;
 use Spatie\LaravelData\DataCollection;
 
 class MailerLiteEspClient implements EspClientInterface
@@ -78,5 +80,22 @@ class MailerLiteEspClient implements EspClientInterface
         $response = $this->makeRequest()->put("subscribers/{$id}", $data);
 
         return $response->successful();
+    }
+
+    public function listenForSubscriberWebhooks(UuidInterface $newsletterId): bool
+    {
+        $newsletterIdString = $newsletterId->toString();
+
+        $response = $this->makeRequest()->post('webhooks', [
+            'events' => [
+                'subscriber.created',
+                'subscriber.updated',
+                'subscriber.unsubscribed',
+            ],
+            'url' => Config::get('env.api_url') . "/esp/webhook/$newsletterIdString",
+            'enabled' => true,
+        ]);
+
+        return $response->created();
     }
 }

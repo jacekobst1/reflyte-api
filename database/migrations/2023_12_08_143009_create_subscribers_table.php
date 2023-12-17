@@ -11,6 +11,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
+        // TODO add esp_id column
         Schema::create('subscribers', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('newsletter_id');

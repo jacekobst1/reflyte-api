@@ -7,6 +7,7 @@ namespace App\Modules\Esp\Integration;
 use App\Modules\Esp\Dto\EspFieldDto;
 use App\Modules\Esp\Dto\EspSubscriberDto;
 use App\Modules\Esp\Integration\MailerLite\Dto\ResponseLinksDto;
+use Ramsey\Uuid\UuidInterface;
 use Spatie\LaravelData\DataCollection;
 
 interface EspClientInterface
@@ -26,4 +27,6 @@ interface EspClientInterface
     public function createField(string $name, string $type): bool;
 
     public function updateSubscriber(string $id, array $data): bool;
+
+    public function listenForSubscriberWebhooks(UuidInterface $newsletterId): bool;
 }
