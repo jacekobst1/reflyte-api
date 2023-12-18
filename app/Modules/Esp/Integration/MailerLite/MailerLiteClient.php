@@ -47,11 +47,6 @@ class MailerLiteClient implements EspClientInterface
 
     public function getSubscribersBatch(?array $previousResponse = null): array
     {
-        if ($url) {
-            $url .= '&limit=1000';
-        } else {
-            $url = 'subscribers?limit=1000';
-        }
         $url = $previousResponse === null
             ? 'subscribers'
             : MLResponseDto::from($previousResponse)->links->next;
@@ -62,15 +57,17 @@ class MailerLiteClient implements EspClientInterface
             ->json();
         $responseDto = MLResponseDto::from($response);
 
-        $data = array_map(function ($subscriber) {
-            return [
-                'id' => $subscriber['id'],
-                'email' => $subscriber['email'],
-                'status' => $subscriber['status'] === 'active' ? EspSubscriberStatus::Active : EspSubscriberStatus::Inactive,
-            ];
-        }, $responseDto->data);
+        $subscribers = EspSubscriberDto::collection(
+            array_map(
+                fn($subscriber) => [
+                    'id' => $subscriber['id'],
+                    'email' => $subscriber['email'],
+                    'status' => $subscriber['status'] === 'active' ? EspSubscriberStatus::Active : EspSubscriberStatus::Inactive,
+                ],
+                $responseDto->data
+            )
+        );
 
-        $subscribers = EspSubscriberDto::collection($data);
         $nextBatchExists = $responseDto->links->next !== null;
 
         return [$subscribers, $nextBatchExists, $response];
