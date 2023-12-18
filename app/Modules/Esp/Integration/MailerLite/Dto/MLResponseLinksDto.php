@@ -6,7 +6,7 @@ namespace App\Modules\Esp\Integration\MailerLite\Dto;
 
 use Spatie\LaravelData\Data;
 
-final class ResponseLinksDto extends Data
+final class MLResponseLinksDto extends Data
 {
     public function __construct(
         public readonly ?string $next,

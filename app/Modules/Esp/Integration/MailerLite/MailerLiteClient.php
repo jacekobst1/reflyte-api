@@ -7,8 +7,9 @@ namespace App\Modules\Esp\Integration\MailerLite;
 use App\Modules\Esp\Dto\EspFieldDto;
 use App\Modules\Esp\Dto\EspSubscriberDto;
 use App\Modules\Esp\Dto\EspSubscriberStatus;
+use App\Modules\Esp\Integration\AuthType;
 use App\Modules\Esp\Integration\EspClientInterface;
-use App\Modules\Esp\Integration\MailerLite\Dto\ResponseDto;
+use App\Modules\Esp\Integration\MailerLite\Dto\MLResponseDto;
 use App\Modules\Esp\Integration\MakeRequestTrait;
 use Illuminate\Support\Facades\Config;
 use Ramsey\Uuid\UuidInterface;
@@ -53,13 +54,13 @@ class MailerLiteClient implements EspClientInterface
         }
         $url = $previousResponse === null
             ? 'subscribers'
-            : ResponseDto::from($previousResponse)->links->next;
+            : MLResponseDto::from($previousResponse)->links->next;
 
         $response = (array)$this->makeRequest()
             ->withQueryParameters(['limit' => $this->getLimitOfSubscribersBatch()])
             ->get($url)
             ->json();
-        $responseDto = ResponseDto::from($response);
+        $responseDto = MLResponseDto::from($response);
 
         $data = array_map(function ($subscriber) {
             return [
@@ -77,7 +78,7 @@ class MailerLiteClient implements EspClientInterface
 
     public function getAllFields(): DataCollection
     {
-        $response = ResponseDto::from(
+        $response = MLResponseDto::from(
             $this->makeRequest()->get('fields?limit=1000')->json()
         );
 
