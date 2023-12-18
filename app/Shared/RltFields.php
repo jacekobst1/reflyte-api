@@ -12,19 +12,19 @@ final class RltFields
     {
         return [
             [
-                'name' => 'rlt_ref_code',
+                'key' => 'rlt_ref_code',
                 'type' => 'text',
             ],
             [
-                'name' => 'rlt_ref_link',
+                'key' => 'rlt_ref_link',
                 'type' => 'text',
             ],
             [
-                'name' => 'rlt_is_ref',
+                'key' => 'rlt_is_ref',
                 'type' => 'text',
             ],
             [
-                'name' => 'rlt_ref_count',
+                'key' => 'rlt_ref_count',
                 'type' => 'number',
             ]
         ];

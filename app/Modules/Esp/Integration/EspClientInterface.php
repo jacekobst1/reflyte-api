@@ -25,7 +25,7 @@ interface EspClientInterface
      */
     public function getAllFields(): DataCollection;
 
-    public function createField(string $name, string $type): bool;
+    public function createField(string $key, string $type): bool;
 
     public function updateSubscriber(string $id, array $data): bool;
 

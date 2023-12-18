@@ -25,7 +25,7 @@ class EspFieldsCreator
         $espFields = $this->getAllFields();
 
         foreach (RltFields::getFieldsStructure() as $field) {
-            $espField = $espFields->where('name', $field['name'])->first();
+            $espField = $espFields->where('key', $field['key'])->first();
 
             if (!$espField) {
                 $this->createField($field);
@@ -47,11 +47,11 @@ class EspFieldsCreator
     }
 
     /**
-     * @param array{name: string, type: string} $field
+     * @param array{key: string, type: string} $field
      * @return void
      */
     private function createField(array $field): void
     {
-        $this->espClient->createField($field['name'], $field['type']);
+        $this->espClient->createField($field['key'], $field['type']);
     }
 }

@@ -82,10 +82,10 @@ class MailerLiteClient implements EspClientInterface
         return EspFieldDto::collection($response->data);
     }
 
-    public function createField(string $name, string $type): bool
+    public function createField(string $key, string $type): bool
     {
         $response = $this->makeRequest()->post('fields', [
-            'name' => $name,
+            'name' => $key,
             'type' => $type,
         ]);
 
