@@ -11,6 +11,8 @@ use Spatie\LaravelData\DataCollection;
 
 interface EspClientInterface
 {
+    public function getLimitOfSubscribersBatch(): int;
+
     public function apiKeyIsValid(): bool;
 
     public function getSubscribersTotalNumber(): int;

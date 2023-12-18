@@ -7,4 +7,5 @@ namespace App\Modules\Esp;
 enum EspName: string
 {
     case MailerLite = 'mailer_lite';
+    case ConvertKit = 'convert_kit';
 }

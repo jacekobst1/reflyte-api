@@ -11,8 +11,22 @@ trait MakeRequestTrait
 {
     private function makeRequest(): PendingRequest
     {
-        return Http::acceptJson()
-            ->withToken($this->apiKey)
-            ->baseUrl($this->baseUrl);
+        $request = Http::acceptJson()->baseUrl($this->baseUrl);
+
+        $this->addAuthToRequest($request);
+
+        return $request;
     }
+
+    private function addAuthToRequest(PendingRequest $request): void
+    {
+        match ($this->getAuthType()) {
+            AuthType::AuthorizationHeaderBearerToken => $request->withToken($this->apiKey),
+            AuthType::QueryParameterApiSecret => $request->withQueryParameters([
+                'api_secret' => $this->apiKey,
+            ]),
+        };
+    }
+
+    abstract public function getAuthType(): AuthType;
 }
