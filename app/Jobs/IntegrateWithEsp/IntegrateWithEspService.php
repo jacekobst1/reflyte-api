@@ -34,7 +34,9 @@ class IntegrateWithEspService
         $this->espConfig = $espConfig;
 
         $subscribersCount = $this->getEspSubscribersCount();
-        $this->globalDelay = $numberOfFetchCommands = (int)ceil($subscribersCount / 1000);
+        $this->globalDelay = $numberOfFetchCommands = (int)ceil(
+            $subscribersCount / $this->espClient->getLimitOfSubscribersBatch()
+        );
 
         $this->addJobsToArray();
 
@@ -51,10 +53,10 @@ class IntegrateWithEspService
         return $this->espClient->getSubscribersTotalNumber();
     }
 
-    private function addJobsToArray(string $url = null): void
+    private function addJobsToArray(?array $previousResponse = null): void
     {
         sleep(1);
-        [$espSubscribers, $links] = $this->espClient->getSubscribersBatch($url);
+        [$espSubscribers, $nextBatchExists, $response] = $this->espClient->getSubscribersBatch($previousResponse);
 
         foreach ($espSubscribers as $espSubscriber) {
             $this->synchronizeSubscriberJobs[] =
@@ -64,8 +66,8 @@ class IntegrateWithEspService
             $this->commandCounter++;
         }
 
-        if ($links->next) {
-            $this->addJobsToArray($links->next);
+        if ($nextBatchExists) {
+            $this->addJobsToArray($response);
         }
     }
 

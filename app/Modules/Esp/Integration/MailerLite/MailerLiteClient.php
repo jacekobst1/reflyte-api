@@ -32,6 +32,11 @@ class MailerLiteClient implements EspClientInterface
         return $response->successful();
     }
 
+    public function getLimitOfSubscribersBatch(): int
+    {
+        return 1000;
+    }
+
     public function getSubscribersTotalNumber(): int
     {
         $response = $this->makeRequest()->get('subscribers?limit=0');
@@ -39,17 +44,22 @@ class MailerLiteClient implements EspClientInterface
         return $response->json()['total'];
     }
 
-    public function getSubscribersBatch(?string $url = null): array
+    public function getSubscribersBatch(?array $previousResponse = null): array
     {
         if ($url) {
             $url .= '&limit=1000';
         } else {
             $url = 'subscribers?limit=1000';
         }
+        $url = $previousResponse === null
+            ? 'subscribers'
+            : ResponseDto::from($previousResponse)->links->next;
 
-        $response = ResponseDto::from(
-            $this->makeRequest()->get($url)->json()
-        );
+        $response = (array)$this->makeRequest()
+            ->withQueryParameters(['limit' => $this->getLimitOfSubscribersBatch()])
+            ->get($url)
+            ->json();
+        $responseDto = ResponseDto::from($response);
 
         $data = array_map(function ($subscriber) {
             return [
@@ -57,11 +67,12 @@ class MailerLiteClient implements EspClientInterface
                 'email' => $subscriber['email'],
                 'status' => $subscriber['status'] === 'active' ? EspSubscriberStatus::Active : EspSubscriberStatus::Inactive,
             ];
-        }, $response->data);
+        }, $responseDto->data);
 
         $subscribers = EspSubscriberDto::collection($data);
+        $nextBatchExists = $responseDto->links->next !== null;
 
-        return [$subscribers, $response->links];
+        return [$subscribers, $nextBatchExists, $response];
     }
 
     public function getAllFields(): DataCollection

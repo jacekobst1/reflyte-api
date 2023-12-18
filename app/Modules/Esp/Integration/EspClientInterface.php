@@ -6,7 +6,6 @@ namespace App\Modules\Esp\Integration;
 
 use App\Modules\Esp\Dto\EspFieldDto;
 use App\Modules\Esp\Dto\EspSubscriberDto;
-use App\Modules\Esp\Integration\MailerLite\Dto\ResponseLinksDto;
 use Ramsey\Uuid\UuidInterface;
 use Spatie\LaravelData\DataCollection;
 
@@ -17,9 +16,9 @@ interface EspClientInterface
     public function getSubscribersTotalNumber(): int;
 
     /**
-     * @return array{DataCollection<array-key, EspSubscriberDto>, ResponseLinksDto}
+     * @return array{DataCollection<array-key, EspSubscriberDto>, bool, array}
      */
-    public function getSubscribersBatch(?string $url = null): array;
+    public function getSubscribersBatch(?array $previousResponse = null): array;
 
     /**
      * @return DataCollection<array-key, EspFieldDto>

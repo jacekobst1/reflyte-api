@@ -9,7 +9,6 @@ use App\Jobs\SynchronizeSubscriber\SynchronizeSubscriberJob;
 use App\Modules\Esp\Dto\EspSubscriberDto;
 use App\Modules\Esp\EspName;
 use App\Modules\Esp\Integration\EspClientFactory;
-use App\Modules\Esp\Integration\MailerLite\Dto\ResponseLinksDto;
 use App\Modules\Esp\Integration\MailerLite\MailerLiteClient;
 use App\Modules\Newsletter\Vo\NewsletterEspConfig;
 use Illuminate\Bus\PendingBatch;
@@ -46,13 +45,15 @@ final class IntegrateWithEspServiceTest extends TestCase
                 'status' => 'inactive',
             ]
         ]);
-        $responseLinksDto = new ResponseLinksDto(null, null, null, null);
 
         // mock
         $mailerLiteEspClientMock = $this->mock(MailerLiteClient::class);
+        $mailerLiteEspClientMock->shouldReceive('getLimitOfSubscribersBatch')
+            ->once()
+            ->andReturn(1000);
         $mailerLiteEspClientMock->shouldReceive('getSubscribersBatch')
             ->once()
-            ->andReturn([$espSubscribers, $responseLinksDto]);
+            ->andReturn([$espSubscribers, false, []]);
         $mailerLiteEspClientMock->shouldReceive('getSubscribersTotalNumber')
             ->once()
             ->andReturn(2);
