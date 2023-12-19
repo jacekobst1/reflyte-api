@@ -99,7 +99,6 @@ final class ConvertKitClient implements EspClientInterface
         return $response->created();
     }
 
-    // TODO
     public function updateSubscriber(string $id, array $data): bool
     {
         $response = $this->makeRequest()->put("subscribers/{$id}", $data);
