@@ -40,7 +40,8 @@ final class ConvertKitClient implements EspClientInterface
     {
         $secondsInMinute = 60;
 
-        return ($secondsInMinute / $this->maxRequestsPerMinute) * 1.2;
+        // TODO try on production, cause safe multiplier is 1.1
+        return ($secondsInMinute / $this->maxRequestsPerMinute) * 0.1;
     }
 
     public function apiKeyIsValid(): bool
