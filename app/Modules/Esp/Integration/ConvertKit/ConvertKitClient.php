@@ -108,21 +108,28 @@ final class ConvertKitClient implements EspClientInterface
         return $response->successful();
     }
 
-    // TODO
     public function createWebhook(UuidInterface $newsletterId): bool
     {
         $newsletterIdString = $newsletterId->toString();
 
-        $response = $this->makeRequest()->post('webhooks', [
-            'events' => [
-                'subscriber.created',
-                'subscriber.updated',
-                'subscriber.unsubscribed',
-            ],
-            'url' => Config::get('env.api_url') . "/esp/webhook/$newsletterIdString",
-            'enabled' => true,
-        ]);
+        $events = [
+            'subscriber.subscriber_activate',
+            'subscriber.subscriber_unsubscribe',
+        ];
 
-        return $response->created();
+        foreach ($events as $event) {
+            $response = $this->makeRequest()->post('automations/hooks', [
+                'target_url' => Config::get('env.api_url') . "/esp/webhook/$newsletterIdString",
+                'event' => [
+                    'name' => $event,
+                ],
+            ]);
+            
+            if (!$response->successful()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

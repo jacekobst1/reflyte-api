@@ -112,13 +112,13 @@ class MailerLiteClient implements EspClientInterface
         $newsletterIdString = $newsletterId->toString();
 
         $response = $this->makeRequest()->post('webhooks', [
+            'url' => Config::get('env.api_url') . "/esp/webhook/$newsletterIdString",
+            'enabled' => true,
             'events' => [
                 'subscriber.created',
                 'subscriber.updated',
                 'subscriber.unsubscribed',
             ],
-            'url' => Config::get('env.api_url') . "/esp/webhook/$newsletterIdString",
-            'enabled' => true,
         ]);
 
         return $response->created();
