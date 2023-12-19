@@ -26,7 +26,7 @@ final class WebhookEventTest extends TestCase
 
         // mock
         $mailerLiteEspClientMock = $this->mock(MailerLiteClient::class);
-        $mailerLiteEspClientMock->shouldReceive('updateSubscriber')
+        $mailerLiteEspClientMock->shouldReceive('updateSubscriberFields')
             ->once()
             ->andReturn(true);
         $espClientFactoryMock = $this->mock(EspClientFactory::class);

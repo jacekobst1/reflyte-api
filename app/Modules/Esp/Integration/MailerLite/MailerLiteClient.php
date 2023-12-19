@@ -98,9 +98,11 @@ class MailerLiteClient implements EspClientInterface
     }
 
     // TODO implement batches
-    public function updateSubscriber(string $id, array $data): bool
+    public function updateSubscriberFields(string $id, array $fields): bool
     {
-        $response = $this->makeRequest()->put("subscribers/{$id}", $data);
+        $response = $this->makeRequest()->put("subscribers/{$id}", [
+            'fields' => $fields
+        ]);
 
         return $response->successful();
     }

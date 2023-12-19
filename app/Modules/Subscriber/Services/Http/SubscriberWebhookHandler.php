@@ -55,10 +55,8 @@ final class SubscriberWebhookHandler
     private function updateEspSubscriberFields(string $id, Subscriber $subscriber): void
     {
         $espConfig = $subscriber->newsletter->getEspConfig();
-        $client = $this->espClientFactory->make($espConfig);
+        $espClient = $this->espClientFactory->make($espConfig);
 
-        $client->updateSubscriber($id, [
-            'fields' => RltFields::getSubscriberFields($subscriber),
-        ]);
+        $espClient->updateSubscriberFields($id, RltFields::getSubscriberFields($subscriber));
     }
 }

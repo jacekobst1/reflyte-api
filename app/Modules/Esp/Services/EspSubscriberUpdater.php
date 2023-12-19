@@ -19,8 +19,6 @@ class EspSubscriberUpdater
     {
         $espClient = $this->espClientFactory->make($espConfig);
 
-        $espClient->updateSubscriber($id, [
-            'fields' => RltFields::getSubscriberFields($subscriber),
-        ]);
+        $espClient->updateSubscriberFields($id, RltFields::getSubscriberFields($subscriber));
     }
 }

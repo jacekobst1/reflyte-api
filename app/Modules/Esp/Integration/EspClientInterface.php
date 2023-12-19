@@ -29,7 +29,10 @@ interface EspClientInterface
 
     public function createField(string $key, string $type): bool;
 
-    public function updateSubscriber(string $id, array $data): bool;
+    /**
+     * @param array<non-empty-string, string|int> $fields
+     */
+    public function updateSubscriberFields(string $id, array $fields): bool;
 
     public function createWebhook(UuidInterface $newsletterId): bool;
 }
