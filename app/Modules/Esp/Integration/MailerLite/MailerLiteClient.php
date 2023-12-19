@@ -12,11 +12,11 @@ use App\Modules\Esp\Integration\EspClientInterface;
 use App\Modules\Esp\Integration\MailerLite\Dto\MLResponseDto;
 use App\Modules\Esp\Integration\MakeRequestTrait;
 use Exception;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Config;
 use Ramsey\Uuid\UuidInterface;
 use Spatie\LaravelData\DataCollection;
 
-// TODO throw exception in every method?
 class MailerLiteClient implements EspClientInterface
 {
     use MakeRequestTrait;
@@ -52,13 +52,19 @@ class MailerLiteClient implements EspClientInterface
         return $response->successful();
     }
 
+    /**
+     * @throws RequestException
+     */
     public function getSubscribersTotalNumber(): int
     {
-        $response = $this->makeRequest()->get('subscribers?limit=0');
+        $response = $this->makeRequest()->get('subscribers?limit=0')->throw();
 
         return $response->json()['total'];
     }
 
+    /**
+     * @throws RequestException
+     */
     public function getSubscribersBatch(?array $previousResponse = null): array
     {
         $url = $previousResponse === null
@@ -68,6 +74,7 @@ class MailerLiteClient implements EspClientInterface
         $response = (array)$this->makeRequest()
             ->withQueryParameters(['limit' => $this->getLimitOfSubscribersBatch()])
             ->get($url)
+            ->throw()
             ->json();
         $responseDto = MLResponseDto::from($response);
 
@@ -87,21 +94,27 @@ class MailerLiteClient implements EspClientInterface
         return [$subscribers, $nextBatchExists, $response];
     }
 
+    /**
+     * @throws RequestException
+     */
     public function getAllFields(): DataCollection
     {
         $response = MLResponseDto::from(
-            $this->makeRequest()->get('fields?limit=1000')->json()
+            $this->makeRequest()->get('fields?limit=1000')->throw()->json()
         );
 
         return EspFieldDto::collection($response->data);
     }
 
+    /**
+     * @throws RequestException
+     */
     public function createField(string $key, string $type): bool
     {
         $response = $this->makeRequest()->post('fields', [
             'name' => $key,
             'type' => $type,
-        ]);
+        ])->throw();
 
         return $response->created();
     }
@@ -115,15 +128,14 @@ class MailerLiteClient implements EspClientInterface
     {
         $response = $this->makeRequest()->put("subscribers/{$id}", [
             'fields' => $fields
-        ]);
-
-        if ($response->failed()) {
-            throw new Exception($response->body());
-        }
+        ])->throw();
 
         return $response->successful();
     }
 
+    /**
+     * @throws RequestException
+     */
     public function createWebhook(UuidInterface $newsletterId): bool
     {
         $newsletterIdString = $newsletterId->toString();
@@ -136,7 +148,7 @@ class MailerLiteClient implements EspClientInterface
                 'subscriber.updated',
                 'subscriber.unsubscribed',
             ],
-        ]);
+        ])->throw();
 
         return $response->created();
     }

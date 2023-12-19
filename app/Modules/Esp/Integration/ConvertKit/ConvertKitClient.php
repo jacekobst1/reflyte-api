@@ -12,6 +12,7 @@ use App\Modules\Esp\Integration\ConvertKit\Dto\CKSubscribersResponseDto;
 use App\Modules\Esp\Integration\EspClientInterface;
 use App\Modules\Esp\Integration\MakeRequestTrait;
 use Exception;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Config;
 use Ramsey\Uuid\UuidInterface;
 use Spatie\LaravelData\DataCollection;
@@ -52,15 +53,19 @@ final class ConvertKitClient implements EspClientInterface
         return $response->successful();
     }
 
+    /**
+     * @throws RequestException
+     */
     public function getSubscribersTotalNumber(): int
     {
-        $response = $this->makeRequest()->get('subscribers');
+        $response = $this->makeRequest()->get('subscribers')->throw();
 
         return $response->json()['total_subscribers'];
     }
 
     /**
      * Hard limit of 50 subscribers per page.
+     * @throws RequestException
      */
     public function getSubscribersBatch(?array $previousResponse = null): array
     {
@@ -73,7 +78,7 @@ final class ConvertKitClient implements EspClientInterface
             $queryParams['page'] = CKSubscribersResponseDto::from($previousResponse)->page + 1;
         }
 
-        $response = $this->makeRequest()->withQueryParameters($queryParams)->get('subscribers')->json();
+        $response = $this->makeRequest()->withQueryParameters($queryParams)->get('subscribers')->throw()->json();
         $responseDto = CKSubscribersResponseDto::from($response);
 
         $subscribers = EspSubscriberDto::collection(
@@ -92,18 +97,24 @@ final class ConvertKitClient implements EspClientInterface
         return [$subscribers, $nextBatchExists, $response];
     }
 
+    /**
+     * @throws RequestException
+     */
     public function getAllFields(): DataCollection
     {
-        $response = $this->makeRequest()->get('custom_fields')->json();
+        $response = $this->makeRequest()->get('custom_fields')->throw()->json();
 
         return EspFieldDto::collection($response['custom_fields']);
     }
 
+    /**
+     * @throws RequestException
+     */
     public function createField(string $key, string $type): bool
     {
         $response = $this->makeRequest()->post('custom_fields', [
             'label' => $key,
-        ]);
+        ])->throw();
 
         return $response->created();
     }
@@ -115,15 +126,14 @@ final class ConvertKitClient implements EspClientInterface
     {
         $response = $this->makeRequest()->put("subscribers/{$id}", [
             'fields' => $fields
-        ]);
-
-        if ($response->failed()) {
-            throw new Exception($response->body());
-        }
+        ])->throw();
 
         return $response->successful();
     }
 
+    /**
+     * @throws RequestException
+     */
     public function createWebhook(UuidInterface $newsletterId): bool
     {
         $newsletterIdString = $newsletterId->toString();
@@ -134,16 +144,12 @@ final class ConvertKitClient implements EspClientInterface
         ];
 
         foreach ($events as $event) {
-            $response = $this->makeRequest()->post('automations/hooks', [
+            $this->makeRequest()->post('automations/hooks', [
                 'target_url' => Config::get('env.api_url') . "/esp/webhook/$newsletterIdString",
                 'event' => [
                     'name' => $event,
                 ],
-            ]);
-
-            if (!$response->successful()) {
-                return false;
-            }
+            ])->throw();
         }
 
         return true;
