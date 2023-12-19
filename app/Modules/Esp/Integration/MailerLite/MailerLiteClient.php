@@ -36,6 +36,13 @@ class MailerLiteClient implements EspClientInterface
         return 1000;
     }
 
+    public function getSafeIntervalBetweenRequests(): float
+    {
+        $secondsInMinute = 60;
+
+        return ($secondsInMinute / $this->maxRequestsPerMinute) * 1.2;
+    }
+
     public function apiKeyIsValid(): bool
     {
         $response = $this->makeRequest()->get('groups?page=1000');

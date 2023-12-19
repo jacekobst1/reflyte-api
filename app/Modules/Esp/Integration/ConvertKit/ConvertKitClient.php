@@ -36,6 +36,13 @@ final class ConvertKitClient implements EspClientInterface
         return 50;
     }
 
+    public function getSafeIntervalBetweenRequests(): float
+    {
+        $secondsInMinute = 60;
+
+        return ($secondsInMinute / $this->maxRequestsPerMinute) * 1.2;
+    }
+
     public function apiKeyIsValid(): bool
     {
         $response = $this->makeRequest()->get('account');
@@ -124,7 +131,7 @@ final class ConvertKitClient implements EspClientInterface
                     'name' => $event,
                 ],
             ]);
-            
+
             if (!$response->successful()) {
                 return false;
             }

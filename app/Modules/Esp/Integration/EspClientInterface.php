@@ -11,7 +11,27 @@ use Spatie\LaravelData\DataCollection;
 
 interface EspClientInterface
 {
+    /*
+    |--------------------------------------------------------------------------
+    | Helper methods methods
+    |--------------------------------------------------------------------------
+    |
+    | Methods responsible for providing data for error-less integration with ESP.
+    |
+    */
+
     public function getLimitOfSubscribersBatch(): int;
+
+    public function getSafeIntervalBetweenRequests(): float;
+
+    /*
+    |--------------------------------------------------------------------------
+    | Client methods
+    |--------------------------------------------------------------------------
+    |
+    | Methods responsible for communication with ESP API.
+    |
+    */
 
     public function apiKeyIsValid(): bool;
 

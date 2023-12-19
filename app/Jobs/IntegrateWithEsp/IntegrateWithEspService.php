@@ -10,6 +10,7 @@ use App\Modules\Esp\Integration\EspClientFactory;
 use App\Modules\Esp\Integration\EspClientInterface;
 use App\Modules\Newsletter\Vo\NewsletterEspConfig;
 use Illuminate\Bus\Batch;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Bus;
 use Throwable;
 
@@ -55,14 +56,12 @@ class IntegrateWithEspService
 
     private function addJobsToArray(?array $previousResponse = null): void
     {
-        sleep(1);
+        $this->sleep();
         [$espSubscribers, $nextBatchExists, $response] = $this->espClient->getSubscribersBatch($previousResponse);
 
         foreach ($espSubscribers as $espSubscriber) {
-            $this->synchronizeSubscriberJobs[] =
-                (new SynchronizeSubscriberJob($this->espConfig, $espSubscriber))
-                    ->delay(now()->addSeconds($this->globalDelay + $this->commandCounter));
-
+            $job = new SynchronizeSubscriberJob($this->espConfig, $espSubscriber);
+            $this->synchronizeSubscriberJobs[] = $job->delay($this->getDelay());
             $this->commandCounter++;
         }
 
@@ -74,5 +73,35 @@ class IntegrateWithEspService
     private function extractEspConfig(NewsletterEspConfig $espConfig): array
     {
         return [$espConfig->newsletterId, $espConfig->espName, $espConfig->espApiKey];
+    }
+
+    /**
+     * Seconds * 1000 = milliseconds
+     * Seconds * 1000 * 1000 = microseconds
+     */
+    private function sleep(): void
+    {
+        $safeIntervalInMicroseconds = (int)($this->espClient->getSafeIntervalBetweenRequests() * 1000 * 1000);
+
+        usleep($safeIntervalInMicroseconds);
+    }
+
+    /**
+     * Delay is calculated based on the number of requests sent to ESP.
+     * Global delay = number of seconds that took fetching all subscribers from ESP.
+     * Command counter = number of update requests sent to ESP.
+     * Safe interval between requests = number of seconds that should pass between requests to ESP.
+     */
+    private function getDelay(): Carbon
+    {
+        $globalDelayInSeconds = $this->globalDelay;
+        $globalDelayInMilliseconds = $globalDelayInSeconds * 1000;
+
+        $delayBetweenRequestsInSeconds = $this->commandCounter * $this->espClient->getSafeIntervalBetweenRequests();
+        $delayBetweenRequestsInMilliseconds = $delayBetweenRequestsInSeconds * 1000;
+
+        $delay = $globalDelayInMilliseconds + $delayBetweenRequestsInMilliseconds;
+
+        return now()->addMilliseconds($delay);
     }
 }
