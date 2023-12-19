@@ -48,6 +48,9 @@ final class IntegrateWithEspServiceTest extends TestCase
 
         // mock
         $mailerLiteEspClientMock = $this->mock(MailerLiteClient::class);
+        $mailerLiteEspClientMock->shouldReceive('getSafeIntervalBetweenRequests')
+            ->times(3)
+            ->andReturn(0.6);
         $mailerLiteEspClientMock->shouldReceive('getLimitOfSubscribersBatch')
             ->once()
             ->andReturn(1000);
