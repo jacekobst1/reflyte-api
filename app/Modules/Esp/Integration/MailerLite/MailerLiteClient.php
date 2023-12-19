@@ -40,7 +40,7 @@ class MailerLiteClient implements EspClientInterface
     {
         $secondsInMinute = 60;
 
-        return ($secondsInMinute / $this->maxRequestsPerMinute) * 1.2;
+        return ($secondsInMinute / $this->maxRequestsPerMinute) * 1.1;
     }
 
     public function apiKeyIsValid(): bool
