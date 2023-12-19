@@ -143,7 +143,7 @@ namespace App\Modules\Reward{
  * @property \Ramsey\Uuid\UuidInterface|null $referral_program_id
  * @property string $name
  * @property string $description
- * @property int $points
+ * @property int $required_points
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Modules\ReferralProgram\ReferralProgram $referralProgram
@@ -154,8 +154,8 @@ namespace App\Modules\Reward{
  * @method static \Illuminate\Database\Eloquent\Builder|Reward whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Reward whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Reward whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Reward wherePoints($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Reward whereReferralProgramId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reward whereRequiredPoints($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Reward whereUpdatedAt($value)
  * @mixin \Eloquent
  */

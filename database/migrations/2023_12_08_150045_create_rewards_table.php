@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->uuid('referral_program_id');
             $table->text('name');
             $table->text('description');
-            $table->integer('points');
+            $table->integer('required_points');
             $table->timestamps();
 
             $table->foreign('referral_program_id')
