@@ -90,12 +90,10 @@ final class ConvertKitClient implements EspClientInterface
         return EspFieldDto::collection($response['custom_fields']);
     }
 
-    // TODO
     public function createField(string $key, string $type): bool
     {
-        $response = $this->makeRequest()->post('fields', [
-            'name' => $key,
-            'type' => $type,
+        $response = $this->makeRequest()->post('custom_fields', [
+            'label' => $key,
         ]);
 
         return $response->created();
