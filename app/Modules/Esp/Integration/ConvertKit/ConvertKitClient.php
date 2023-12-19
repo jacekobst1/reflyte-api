@@ -11,6 +11,7 @@ use App\Modules\Esp\Integration\AuthType;
 use App\Modules\Esp\Integration\ConvertKit\Dto\CKSubscribersResponseDto;
 use App\Modules\Esp\Integration\EspClientInterface;
 use App\Modules\Esp\Integration\MakeRequestTrait;
+use Exception;
 use Illuminate\Support\Facades\Config;
 use Ramsey\Uuid\UuidInterface;
 use Spatie\LaravelData\DataCollection;
@@ -107,11 +108,18 @@ final class ConvertKitClient implements EspClientInterface
         return $response->created();
     }
 
+    /**
+     * @throws Exception
+     */
     public function updateSubscriberFields(string $id, array $fields): bool
     {
         $response = $this->makeRequest()->put("subscribers/{$id}", [
             'fields' => $fields
         ]);
+
+        if ($response->failed()) {
+            throw new Exception($response->body());
+        }
 
         return $response->successful();
     }

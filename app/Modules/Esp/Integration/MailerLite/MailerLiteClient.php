@@ -11,10 +11,12 @@ use App\Modules\Esp\Integration\AuthType;
 use App\Modules\Esp\Integration\EspClientInterface;
 use App\Modules\Esp\Integration\MailerLite\Dto\MLResponseDto;
 use App\Modules\Esp\Integration\MakeRequestTrait;
+use Exception;
 use Illuminate\Support\Facades\Config;
 use Ramsey\Uuid\UuidInterface;
 use Spatie\LaravelData\DataCollection;
 
+// TODO throw exception in every method?
 class MailerLiteClient implements EspClientInterface
 {
     use MakeRequestTrait;
@@ -105,11 +107,19 @@ class MailerLiteClient implements EspClientInterface
     }
 
     // TODO implement batches
+
+    /**
+     * @throws Exception
+     */
     public function updateSubscriberFields(string $id, array $fields): bool
     {
         $response = $this->makeRequest()->put("subscribers/{$id}", [
             'fields' => $fields
         ]);
+
+        if ($response->failed()) {
+            throw new Exception($response->body());
+        }
 
         return $response->successful();
     }
