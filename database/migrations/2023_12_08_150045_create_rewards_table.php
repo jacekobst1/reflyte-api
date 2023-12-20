@@ -1,6 +1,7 @@
 <?php
 
-use Database\OnDelete;
+declare(strict_types=1);
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,16 +14,12 @@ return new class extends Migration {
     {
         Schema::create('rewards', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('referral_program_id');
+            $table->uuid('rewardable_id')->index();
+            $table->string('rewardable_type');
             $table->text('name');
             $table->text('description');
             $table->integer('required_points');
             $table->timestamps();
-
-            $table->foreign('referral_program_id')
-                ->references('id')
-                ->on('referral_programs')
-                ->onDelete(OnDelete::CASCADE);
         });
     }
 

@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
  * @mixin IdeHelperReferralProgram
@@ -31,8 +31,8 @@ class ReferralProgram extends Model
         return $this->belongsTo(Newsletter::class);
     }
 
-    public function rewards(): HasMany
+    public function rewards(): MorphMany
     {
-        return $this->hasMany(Reward::class);
+        return $this->morphMany(Reward::class, 'rewardable');
     }
 }

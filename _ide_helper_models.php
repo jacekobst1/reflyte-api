@@ -141,13 +141,15 @@ namespace App\Modules\Reward{
  * App\Modules\Reward\Reward
  *
  * @property \Ramsey\Uuid\UuidInterface|null $id
- * @property \Ramsey\Uuid\UuidInterface|null $referral_program_id
+ * @property string $rewardable_id
+ * @property string $rewardable_type
  * @property string $name
  * @property string $description
  * @property int $required_points
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Modules\ReferralProgram\ReferralProgram $referralProgram
+ * @property \Ramsey\Uuid\UuidInterface|null $referral_program_id
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $rewardable
  * @method static \Illuminate\Database\Eloquent\Builder|Reward newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Reward newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Reward query()
@@ -155,8 +157,9 @@ namespace App\Modules\Reward{
  * @method static \Illuminate\Database\Eloquent\Builder|Reward whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Reward whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Reward whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Reward whereReferralProgramId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Reward whereRequiredPoints($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reward whereRewardableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reward whereRewardableType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Reward whereUpdatedAt($value)
  * @mixin \Eloquent
  */
@@ -179,7 +182,7 @@ namespace App\Modules\Subscriber{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Modules\Newsletter\Newsletter $newsletter
- * @property-read \App\Modules\ReferralProgram\ReferralProgram $referralProgram
+ * @property-read \App\Modules\ReferralProgram\ReferralProgram|null $referralProgram
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Subscriber> $referrals
  * @property-read int|null $referrals_count
  * @method static \Database\Factories\Modules\Subscriber\SubscriberFactory factory($count = null, $state = [])
