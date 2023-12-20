@@ -10,6 +10,14 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 
 final class JsonResp
 {
+    public static function custom(int $status, string $message): JsonResponse
+    {
+        return response()->json([
+            'status' => $status,
+            'message' => $message,
+        ], $status);
+    }
+
     /**
      * @param array<non-empty-string, mixed>|ResourceCollection|JsonResource|null $data
      * @return JsonResponse
