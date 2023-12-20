@@ -14,7 +14,7 @@ return new class extends Migration {
         // TODO add esp_id column
         Schema::create('subscribers', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('newsletter_id');
+            $table->uuid('newsletter_id')->index();
             $table->uuid('referer_subscriber_id')->nullable()->index();
             $table->text('email');
             $table->text('ref_code')->unique();
