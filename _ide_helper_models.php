@@ -150,6 +150,7 @@ namespace App\Modules\Reward{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Ramsey\Uuid\UuidInterface|null $referral_program_id
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $rewardable
+ * @method static \Database\Factories\Modules\Reward\RewardFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Reward newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Reward newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Reward query()
