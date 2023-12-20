@@ -17,8 +17,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Illuminate\View\View;
-use Ramsey\Uuid\Uuid;
-use Throwable;
+use Ramsey\Uuid\UuidInterface;
 
 class SubscriberController extends Controller
 {
@@ -46,21 +45,12 @@ class SubscriberController extends Controller
         return JsonResp::created(['id' => $subscriber->id]);
     }
 
-    /**
-     * @throws BadRequestException
-     */
     public function postWebhookEvent(
-        string $newsletterId,
+        UuidInterface $newsletterId,
         MailerLiteWebhookEventRequest $data,
         SubscriberWebhookHandler $updater,
     ): JsonResponse {
-        try {
-            $newsletterUuid = Uuid::fromString($newsletterId);
-        } catch (Throwable) {
-            throw new BadRequestException('Invalid newsletter id');
-        }
-
-        $updater->updateOrCreate($newsletterUuid, $data);
+        $updater->updateOrCreate($newsletterId, $data);
 
         return JsonResp::success();
     }

@@ -14,7 +14,7 @@ use Tests\TestCase;
 
 final class WebhookEventTest extends TestCase
 {
-    public function testWebhookEvent(): void
+    public function testSuccess(): void
     {
         // given
         $newsletter = Newsletter::factory()->create();
@@ -44,5 +44,22 @@ final class WebhookEventTest extends TestCase
             'email' => $data['email'],
             'status' => SubscriberStatus::Active,
         ]);
+    }
+
+    public function testWrongUuid(): void
+    {
+        // given
+        $data = [
+            'id' => '123',
+            'email' => Str::random() . '@test.com',
+            'status' => EspSubscriberStatus::Active->value,
+        ];
+
+        // when
+        $response = $this->post('/api/esp/webhook/abc', $data);
+
+        // then
+        $response->assertBadRequest();
+        $this->assertEquals('Invalid uuid', $response->json('message'));
     }
 }

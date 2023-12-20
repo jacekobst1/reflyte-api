@@ -10,6 +10,7 @@ use App\Http\Middleware\ForceJsonResponse;
 use App\Http\Middleware\HandleCorsFree;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
 use App\Http\Middleware\RedirectIfAuthenticated;
+use App\Http\Middleware\SubstituteUuids;
 use App\Http\Middleware\TrimStrings;
 use App\Http\Middleware\TrustProxies;
 use App\Http\Middleware\ValidateSignature;
@@ -67,6 +68,7 @@ class Kernel extends HttpKernel
             ShareErrorsFromSession::class,
             VerifyCsrfToken::class,
             SubstituteBindings::class,
+            SubstituteUuids::class,
         ],
 
         'api' => [
@@ -75,6 +77,7 @@ class Kernel extends HttpKernel
             EnsureFrontendRequestsAreStateful::class,
             ThrottleRequests::class . ':api',
             SubstituteBindings::class,
+            SubstituteUuids::class,
         ],
 
         'api-cors-free' => [
@@ -82,6 +85,7 @@ class Kernel extends HttpKernel
             ForceJsonResponse::class,
             ThrottleRequests::class . ':api',
             SubstituteBindings::class,
+            SubstituteUuids::class,
         ],
     ];
 
