@@ -18,7 +18,7 @@ class TeamController extends Controller
      * @throws BadRequestException
      * @throws Throwable
      */
-    public function store(CreateTeamRequest $data, TeamCreator $creator): JsonResponse
+    public function postTeam(CreateTeamRequest $data, TeamCreator $creator): JsonResponse
     {
         $team = $creator->createTeam($data);
 

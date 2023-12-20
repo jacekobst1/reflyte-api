@@ -22,20 +22,20 @@ Route::middleware('auth:sanctum')->group(function () use ($admin, $user) {
     // Admin routes
     Route::group(['middleware' => ["role:$admin"]], function () {
         Route::prefix('/users')->group(function () {
-            Route::get('/', [UserController::class, 'index']);
-            Route::post('/', [UserController::class, 'store']);
+            Route::get('/', [UserController::class, 'getUsers']);
+            Route::post('/', [UserController::class, 'postUser']);
         });
     });
 
     // User routes
     Route::group(['middleware' => ["role:$user"]], function () {
         Route::prefix('/teams')->group(function () {
-            Route::post('/', [TeamController::class, 'store']);
+            Route::post('/', [TeamController::class, 'postTeam']);
         });
 
         Route::prefix('/newsletters')->group(function () {
-            Route::get('/', [NewsletterController::class, 'index']);
-            Route::post('/', [NewsletterController::class, 'store']);
+            Route::get('/', [NewsletterController::class, 'getUserNewsletter']);
+            Route::post('/', [NewsletterController::class, 'postNewsletter']);
         });
 
         Route::prefix('/referral-programs')->group(function () {
@@ -46,6 +46,6 @@ Route::middleware('auth:sanctum')->group(function () use ($admin, $user) {
 
 Route::prefix('/esp')->group(function () {
     Route::prefix('/webhook')->group(function () {
-        Route::post('/{newsletterId}', [SubscriberController::class, 'webhookEvent']);
+        Route::post('/{newsletterId}', [SubscriberController::class, 'postWebhookEvent']);
     });
 });

@@ -24,7 +24,7 @@ class UserController extends Controller
         );
     }
 
-    public function index(UserGetter $getter): JsonResponse
+    public function getUsers(UserGetter $getter): JsonResponse
     {
         $users = $getter->getAll();
 
@@ -33,7 +33,7 @@ class UserController extends Controller
         );
     }
 
-    public function store(CreateUserRequest $data, UserCreator $creator): JsonResponse
+    public function postUser(CreateUserRequest $data, UserCreator $creator): JsonResponse
     {
         $userId = $creator->createUser($data);
 

@@ -37,7 +37,7 @@ class SubscriberController extends Controller
     /**
      * @throws BadRequestException
      */
-    public function storeNewSubscriberFromLanding(
+    public function postSubscriberFromLanding(
         CreateSubscriberRequest $data,
         SubscriberFromLandingCreator $creator,
     ): JsonResponse {
@@ -49,7 +49,7 @@ class SubscriberController extends Controller
     /**
      * @throws BadRequestException
      */
-    public function webhookEvent(
+    public function postWebhookEvent(
         string $newsletterId,
         MailerLiteWebhookEventRequest $data,
         SubscriberWebhookHandler $updater,

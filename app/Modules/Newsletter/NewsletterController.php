@@ -16,7 +16,7 @@ use Throwable;
 
 class NewsletterController extends Controller
 {
-    public function index(): JsonResponse
+    public function getUserNewsletter(): JsonResponse
     {
         $newsletterOfUser = Auth::user()->getNewsletter();
 
@@ -29,7 +29,7 @@ class NewsletterController extends Controller
      * @throws ConflictException
      * @throws Throwable
      */
-    public function store(CreateNewsletterRequest $data, NewsletterCreator $creator): JsonResponse
+    public function postNewsletter(CreateNewsletterRequest $data, NewsletterCreator $creator): JsonResponse
     {
         $newsletter = $creator->createNewsletter($data);
 
