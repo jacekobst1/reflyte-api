@@ -100,7 +100,7 @@ class IntegrateWithEspService
         $delayBetweenRequestsInSeconds = $this->commandCounter * $this->espClient->getSafeIntervalBetweenRequests();
         $delayBetweenRequestsInMilliseconds = $delayBetweenRequestsInSeconds * 1000;
 
-        $delay = $globalDelayInMilliseconds + $delayBetweenRequestsInMilliseconds;
+        $delay = (int)($globalDelayInMilliseconds + $delayBetweenRequestsInMilliseconds);
 
         return now()->addMilliseconds($delay);
     }
