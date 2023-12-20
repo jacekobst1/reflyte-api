@@ -43,4 +43,20 @@ final class JsonResp
             'message' => $message,
         ], JsonResponse::HTTP_BAD_REQUEST);
     }
+
+    public static function resourceNotFound(): JsonResponse
+    {
+        return response()->json([
+            'status' => JsonResponse::HTTP_NOT_FOUND,
+            'message' => 'Resource not found',
+        ], JsonResponse::HTTP_NOT_FOUND);
+    }
+
+    public static function routeNotFound(): JsonResponse
+    {
+        return response()->json([
+            'status' => JsonResponse::HTTP_NOT_FOUND,
+            'message' => 'Route not found',
+        ], JsonResponse::HTTP_NOT_FOUND);
+    }
 }
