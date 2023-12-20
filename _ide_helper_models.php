@@ -116,19 +116,20 @@ namespace App\Modules\ReferralProgram{
  *
  * @property \Ramsey\Uuid\UuidInterface|null $id
  * @property \Ramsey\Uuid\UuidInterface|null $newsletter_id
- * @property string $status
+ * @property bool $active
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Modules\Newsletter\Newsletter $newsletter
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Modules\Reward\Reward> $rewards
  * @property-read int|null $rewards_count
+ * @method static \Database\Factories\Modules\ReferralProgram\ReferralProgramFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|ReferralProgram newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ReferralProgram newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ReferralProgram query()
+ * @method static \Illuminate\Database\Eloquent\Builder|ReferralProgram whereActive($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ReferralProgram whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ReferralProgram whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ReferralProgram whereNewsletterId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ReferralProgram whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ReferralProgram whereUpdatedAt($value)
  * @mixin \Eloquent
  */
