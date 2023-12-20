@@ -33,7 +33,8 @@ final class CreateRewardRequest extends Data
             'required_points' => [
                 'required',
                 'integer',
-                Rule::unique('rewards', 'required_points')->where('rewardable_id', $program->id),
+                Rule::unique('rewards', 'required_points')
+                    ->where('rewardable_id', $program->id->toString()),
             ],
         ];
     }
