@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Modules\Reward\Requests;
 
-use Spatie\LaravelData\Attributes\Validation\IntegerType;
+use App\Modules\ReferralProgram\ReferralProgram;
+use Illuminate\Validation\Rule;
 use Spatie\LaravelData\Attributes\Validation\Required;
 use Spatie\LaravelData\Attributes\Validation\StringType;
 use Spatie\LaravelData\Data;
@@ -18,8 +19,22 @@ final class CreateRewardRequest extends Data
         #[Required, StringType]
         public readonly string $description,
 
-        #[Required, IntegerType]
+        // Validated in rules()
         public readonly int $required_points,
     ) {
+    }
+
+    public static function rules(): array
+    {
+        /** @var ReferralProgram $program */
+        $program = request()->route()->parameter('program');
+
+        return [
+            'required_points' => [
+                'required',
+                'integer',
+                Rule::unique('rewards', 'required_points')->where('rewardable_id', $program->id),
+            ],
+        ];
     }
 }
