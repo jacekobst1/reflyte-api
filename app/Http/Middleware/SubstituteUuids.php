@@ -30,17 +30,17 @@ final class SubstituteUuids
         });
 
         foreach ($parameters as $parameter) {
-            // Getting parameter value by parameter name (uuid string)
-            $uuid = $route->parameter($parameter->getName());
+            // Getting parameter value by parameter name
+            $parameterValue = $route->parameter($parameter->getName());
 
             try {
-                $uuidInterface = Uuid::fromString($uuid);
+                $parameterUuidValue = Uuid::fromString($parameterValue);
             } catch (InvalidUuidStringException) {
                 throw new BadRequestException('Invalid uuid');
             }
 
             // Replace uuid string with Uuid object
-            $route->setParameter($parameter->getName(), $uuidInterface);
+            $route->setParameter($parameter->getName(), $parameterUuidValue);
         }
 
         return $next($request);
