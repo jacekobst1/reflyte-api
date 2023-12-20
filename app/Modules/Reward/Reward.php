@@ -24,6 +24,12 @@ class Reward extends Model
         'referral_program_id' => UuidModelCast::class,
     ];
 
+    protected $fillable = [
+        'name',
+        'description',
+        'required_points',
+    ];
+
     public function referralProgram(): BelongsTo
     {
         return $this->belongsTo(ReferralProgram::class);

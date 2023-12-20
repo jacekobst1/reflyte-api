@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Modules\Auth\Enums\RoleEnum;
 use App\Modules\Newsletter\NewsletterController;
+use App\Modules\Reward\RewardController;
 use App\Modules\Subscriber\SubscriberController;
 use App\Modules\Team\TeamController;
 use App\Modules\User\UserController;
@@ -35,6 +36,10 @@ Route::middleware('auth:sanctum')->group(function () use ($admin, $user) {
         Route::prefix('/newsletters')->group(function () {
             Route::get('/', [NewsletterController::class, 'index']);
             Route::post('/', [NewsletterController::class, 'store']);
+        });
+
+        Route::prefix('/referral-programs')->group(function () {
+            Route::post('/{program}/rewards', [RewardController::class, 'storeProgramReward']);
         });
     });
 });
