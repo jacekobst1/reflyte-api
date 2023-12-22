@@ -8,7 +8,7 @@ use App\Modules\ReferralProgram\ReferralProgram;
 use Tests\Helpers\SanctumTrait;
 use Tests\TestCase;
 
-final class StoreProgramRewardTest extends TestCase
+final class StoreReferralProgramRewardTest extends TestCase
 {
     use SanctumTrait;
 
