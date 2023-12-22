@@ -6,6 +6,7 @@ namespace App\Modules\Team;
 
 use App\Casts\Model\UuidModelCast;
 use App\Modules\Newsletter\Newsletter;
+use App\Modules\ReferralProgram\ReferralProgram;
 use App\Modules\User\User;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -32,6 +33,10 @@ class Team extends Model
         'owner_user_id' => UuidModelCast::class,
     ];
 
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * Relations
+     */
     public function users(): HasMany
     {
         return $this->hasMany(User::class);
@@ -45,5 +50,14 @@ class Team extends Model
     public function newsletter(): HasOne
     {
         return $this->hasOne(Newsletter::class);
+    }
+
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * Custom methods
+     */
+    public function getReferralProgram(): ReferralProgram
+    {
+        return $this->newsletter->referralProgram;
     }
 }

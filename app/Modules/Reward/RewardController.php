@@ -8,15 +8,32 @@ use App\Http\Controllers\Controller;
 use App\Modules\ReferralProgram\ReferralProgram;
 use App\Modules\Reward\Requests\CreateRewardRequest;
 use App\Modules\Reward\Requests\UpdateRewardRequest;
+use App\Modules\Reward\Resources\RewardResource;
 use App\Modules\Reward\Services\Http\RewardCreator;
+use App\Modules\Reward\Services\Http\RewardGetter;
 use App\Modules\Reward\Services\Http\RewardUpdater;
 use App\Shared\Response\JsonResp;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Gate;
 
 class RewardController extends Controller
 {
+    /**
+     * @throws AuthorizationException
+     */
+    public function getProgramRewards(
+        ReferralProgram $program,
+        RewardGetter $rewardGetter
+    ): AnonymousResourceCollection {
+        Gate::authorize(RewardPolicy::VIEW_ANY, [Reward::class, $program]);
+        
+        $rewards = $rewardGetter->getByReferralProgram($program);
+
+        return RewardResource::collection($rewards);
+    }
+
     /**
      * @throws AuthorizationException
      */

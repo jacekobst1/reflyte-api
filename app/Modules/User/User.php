@@ -7,6 +7,7 @@ namespace App\Modules\User;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Casts\Model\UuidModelCast;
 use App\Modules\Newsletter\Newsletter;
+use App\Modules\ReferralProgram\ReferralProgram;
 use App\Modules\Team\Team;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -82,5 +83,10 @@ class User extends Authenticatable
     public function getNewsletter(): ?Newsletter
     {
         return $this->team->newsletter;
+    }
+
+    public function getReferralProgram(): ReferralProgram
+    {
+        return $this->team->getReferralProgram();
     }
 }

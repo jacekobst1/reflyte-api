@@ -9,10 +9,18 @@ use App\Modules\User\User;
 
 final class RewardPolicy
 {
+    public const string VIEW_ANY = 'viewAny';
     public const string VIEW = 'view';
     public const string CREATE = 'create';
     public const string UPDATE = 'update';
     public const string DELETE = 'delete';
+
+    public function viewAny(User $user, ReferralProgram $referralProgram): bool
+    {
+        return $user->team_id->equals(
+            $referralProgram->getTeamId()
+        );
+    }
 
     public function view(User $user, Reward $reward): bool
     {
