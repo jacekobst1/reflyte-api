@@ -28,10 +28,20 @@ class RewardController extends Controller
         RewardGetter $rewardGetter
     ): AnonymousResourceCollection {
         Gate::authorize(RewardPolicy::VIEW_ANY, [Reward::class, $program]);
-        
+
         $rewards = $rewardGetter->getByReferralProgram($program);
 
         return RewardResource::collection($rewards);
+    }
+
+    /**
+     * @throws AuthorizationException
+     */
+    public function getReward(Reward $reward): RewardResource
+    {
+        Gate::authorize(RewardPolicy::VIEW, $reward);
+
+        return new RewardResource($reward);
     }
 
     /**

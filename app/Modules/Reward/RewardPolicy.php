@@ -24,7 +24,9 @@ final class RewardPolicy
 
     public function view(User $user, Reward $reward): bool
     {
-        return true;
+        return $user->team_id->equals(
+            $reward->getTeamId()
+        );
     }
 
     public function create(User $user, ReferralProgram $referralProgram): bool
