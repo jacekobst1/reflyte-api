@@ -6,12 +6,12 @@ namespace Database\Seeders;
 
 use App\Modules\Auth\Enums\RoleEnum;
 use App\Modules\Newsletter\Newsletter;
+use App\Modules\ReferralProgram\ReferralProgram;
 use App\Modules\Team\Team;
 use App\Modules\User\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
-use Ramsey\Uuid\UuidInterface;
 
 final class TestUsersSeeder extends Seeder
 {
@@ -40,7 +40,8 @@ final class TestUsersSeeder extends Seeder
         ]);
         $completeUser->assignRole(RoleEnum::User);
         $team = $this->createTeam($completeUser);
-        $this->createNewsletter($team->id);
+        $newsletter = $this->createNewsletter($team);
+        $this->createReferralProgram($newsletter);
     }
 
     private function createTeam(User $user): Team
@@ -55,10 +56,13 @@ final class TestUsersSeeder extends Seeder
         return $team;
     }
 
-    private function createNewsletter(UuidInterface $teamId): Newsletter
+    private function createNewsletter(Team $team): Newsletter
     {
-        return Newsletter::factory()->create([
-            'team_id' => $teamId,
-        ]);
+        return Newsletter::factory()->for($team)->create();
+    }
+
+    private function createReferralProgram(Newsletter $newsletter): ReferralProgram
+    {
+        return ReferralProgram::factory()->for($newsletter)->create();
     }
 }
