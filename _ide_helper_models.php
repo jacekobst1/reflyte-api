@@ -175,6 +175,7 @@ namespace App\Modules\Subscriber{
  * App\Modules\Subscriber\Subscriber
  *
  * @property string $id
+ * @property string $team_id
  * @property \Ramsey\Uuid\UuidInterface|null $newsletter_id
  * @property \Ramsey\Uuid\UuidInterface|null|null $referer_subscriber_id
  * @property string $email
@@ -203,6 +204,7 @@ namespace App\Modules\Subscriber{
  * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereRefLink($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereRefererSubscriberId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereTeamId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereUpdatedAt($value)
  * @mixin \Eloquent
  */

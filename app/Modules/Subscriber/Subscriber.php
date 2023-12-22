@@ -34,6 +34,7 @@ class Subscriber extends Model
     ];
 
     protected $casts = [
+        'team_id' => UuidModelCast::class,
         'newsletter_id' => UuidModelCast::class,
         'referer_subscriber_id' => UuidModelCast::class,
         'status' => SubscriberStatus::class,

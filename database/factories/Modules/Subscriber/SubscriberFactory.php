@@ -7,6 +7,7 @@ namespace Database\Factories\Modules\Subscriber;
 use App\Modules\Newsletter\Newsletter;
 use App\Modules\Subscriber\Subscriber;
 use App\Modules\Subscriber\SubscriberStatus;
+use App\Modules\Team\Team;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -25,6 +26,7 @@ class SubscriberFactory extends Factory
     public function definition(): array
     {
         return [
+            'team_id' => Team::factory(),
             'newsletter_id' => Newsletter::factory(),
             'referer_subscriber_id' => null,
             'email' => fake()->email(),

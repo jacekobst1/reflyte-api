@@ -22,11 +22,14 @@ final class SubscriberFromLandingCreator
             throw new BadRequestException('Invalid ref code');
         }
 
-        return Subscriber::create([
-            'referer_subscriber_id' => $referer->id,
-            'newsletter_id' => $referer->newsletter_id,
-            'email' => $data->email,
-            'status' => SubscriberStatus::Received,
-        ]);
+        $subscriber = new Subscriber();
+        $subscriber->team_id = $referer->team_id;
+        $subscriber->newsletter_id = $referer->newsletter_id;
+        $subscriber->referer_subscriber_id = $referer->id;
+        $subscriber->email = $data->email;
+        $subscriber->status = SubscriberStatus::Received;
+        $subscriber->save();
+
+        return $subscriber;
     }
 }
