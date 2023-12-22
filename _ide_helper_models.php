@@ -141,14 +141,13 @@ namespace App\Modules\Reward{
  * App\Modules\Reward\Reward
  *
  * @property \Ramsey\Uuid\UuidInterface|null $id
- * @property string $rewardable_id
+ * @property \Ramsey\Uuid\UuidInterface|null $rewardable_id
  * @property string $rewardable_type
  * @property string $name
  * @property string $description
  * @property int $required_points
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Ramsey\Uuid\UuidInterface|null $referral_program_id
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $rewardable
  * @method static \Database\Factories\Modules\Reward\RewardFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Reward newModelQuery()

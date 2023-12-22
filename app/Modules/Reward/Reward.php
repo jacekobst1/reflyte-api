@@ -20,7 +20,7 @@ class Reward extends Model
 
     protected $casts = [
         'id' => UuidModelCast::class,
-        'referral_program_id' => UuidModelCast::class,
+        'rewardable_id' => UuidModelCast::class,
     ];
 
     protected $fillable = [
