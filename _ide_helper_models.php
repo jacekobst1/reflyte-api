@@ -140,6 +140,7 @@ namespace App\Modules\Reward{
 /**
  * App\Modules\Reward\Reward
  *
+ * @property-read ReferralProgram $rewardable
  * @property \Ramsey\Uuid\UuidInterface|null $id
  * @property \Ramsey\Uuid\UuidInterface|null $rewardable_id
  * @property string $rewardable_type
@@ -148,7 +149,6 @@ namespace App\Modules\Reward{
  * @property int $required_points
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $rewardable
  * @method static \Database\Factories\Modules\Reward\RewardFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Reward newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Reward newQuery()
@@ -182,7 +182,6 @@ namespace App\Modules\Subscriber{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Modules\Newsletter\Newsletter $newsletter
- * @property-read \App\Modules\ReferralProgram\ReferralProgram|null $referralProgram
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Subscriber> $referrals
  * @property-read int|null $referrals_count
  * @method static \Database\Factories\Modules\Subscriber\SubscriberFactory factory($count = null, $state = [])

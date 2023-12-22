@@ -13,8 +13,8 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Ramsey\Uuid\UuidInterface;
 
 /**
- * @mixin IdeHelperReward
  * @property-read ReferralProgram $rewardable
+ * @mixin IdeHelperReward
  */
 class Reward extends Model
 {
