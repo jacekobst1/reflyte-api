@@ -16,13 +16,14 @@ final class StoreProgramRewardTest extends TestCase
     {
         parent::setUp();
 
-        $this->actAsUser();
+        $this->actAsCompleteUser();
     }
 
     public function testStore(): void
     {
         // given
-        $referralProgram = ReferralProgram::factory()->create();
+        $referralProgram = $this->loggedUser->team->newsletter->referralProgram;
+        $referralProgram->rewards()->delete();
         $data = [
             'name' => 'Reward name',
             'description' => 'Reward description',

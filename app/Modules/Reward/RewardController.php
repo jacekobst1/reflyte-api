@@ -17,11 +17,16 @@ use Illuminate\Support\Facades\Gate;
 
 class RewardController extends Controller
 {
+    /**
+     * @throws AuthorizationException
+     */
     public function storeProgramReward(
         ReferralProgram $program,
         CreateRewardRequest $data,
         RewardCreator $rewardCreator,
     ): JsonResponse {
+        Gate::authorize(RewardPolicy::CREATE, [Reward::class, $program]);
+
         $reward = $rewardCreator->createProgramReward($program, $data);
 
         return JsonResp::created(['id' => $reward->id]);
