@@ -51,6 +51,10 @@ class Subscriber extends Model
         });
     }
 
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * Relations
+     */
     public function newsletter(): BelongsTo
     {
         return $this->belongsTo(Newsletter::class);
@@ -61,6 +65,10 @@ class Subscriber extends Model
         return $this->hasMany(Subscriber::class, 'referer_subscriber_id');
     }
 
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * Custom methods
+     */
     public function getTeamId(): UuidInterface
     {
         return $this->newsletter->team_id;

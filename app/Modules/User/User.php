@@ -61,6 +61,10 @@ class User extends Authenticatable
         'team_id' => UuidModelCast::class,
     ];
 
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * Relations
+     */
     public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);
@@ -71,6 +75,10 @@ class User extends Authenticatable
         return $this->hasOne(Team::class, 'owner_user_id');
     }
 
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * Custom methods
+     */
     public function getNewsletter(): ?Newsletter
     {
         return $this->team->newsletter;

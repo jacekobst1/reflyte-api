@@ -27,6 +27,11 @@ class ReferralProgram extends Model
         'newsletter_id' => UuidModelCast::class,
     ];
 
+
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * Relations
+     */
     public function newsletter(): BelongsTo
     {
         return $this->belongsTo(Newsletter::class);
@@ -37,6 +42,10 @@ class ReferralProgram extends Model
         return $this->morphMany(Reward::class, 'rewardable');
     }
 
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * Custom methods
+     */
     public function getTeamId(): UuidInterface
     {
         return $this->newsletter->team_id;

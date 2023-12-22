@@ -43,6 +43,7 @@ class Newsletter extends Model
     ];
 
     /**
+     * -----------------------------------------------------------------------------------------------------------------
      * Relations
      */
     public function team(): BelongsTo
@@ -61,6 +62,7 @@ class Newsletter extends Model
     }
 
     /**
+     * -----------------------------------------------------------------------------------------------------------------
      * Custom methods
      */
     public function getEspConfig(): NewsletterEspConfig

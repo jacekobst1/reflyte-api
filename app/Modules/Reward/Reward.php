@@ -32,11 +32,19 @@ class Reward extends Model
         'required_points',
     ];
 
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * Relations
+     */
     public function rewardable(): MorphTo
     {
         return $this->morphTo();
     }
 
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * Custom methods
+     */
     public function getTeamId(): UuidInterface
     {
         return $this->rewardable->getTeamId();
