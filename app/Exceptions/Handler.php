@@ -7,6 +7,7 @@ namespace App\Exceptions;
 use App\Shared\Response\JsonResp;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
@@ -39,6 +40,10 @@ class Handler extends ExceptionHandler
             }
 
             return false;
+        });
+
+        $this->renderable(function (AccessDeniedHttpException $e, Request $request) {
+            return JsonResp::unauthorized();
         });
     }
 }
