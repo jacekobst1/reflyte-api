@@ -73,4 +73,16 @@ class RewardController extends Controller
 
         return JsonResp::success(['id' => $reward->id]);
     }
+
+    /**
+     * @throws AuthorizationException
+     */
+    public function deleteReward(Reward $reward): JsonResponse
+    {
+        Gate::authorize(RewardPolicy::DELETE, $reward);
+
+        $reward->delete();
+
+        return JsonResp::success();
+    }
 }

@@ -46,6 +46,7 @@ Route::middleware('auth:sanctum')->group(function () use ($admin, $user) {
         Route::prefix('/rewards')->group(function () {
             Route::get('/{reward}', [RewardController::class, 'getReward']);
             Route::put('/{reward}', [RewardController::class, 'updateReward']);
+            Route::delete('/{reward}', [RewardController::class, 'deleteReward']);
         });
     });
 });

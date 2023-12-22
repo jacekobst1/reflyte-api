@@ -45,6 +45,8 @@ final class RewardPolicy
 
     public function delete(User $user, Reward $reward): bool
     {
-        return true;
+        return $user->team_id->equals(
+            $reward->getTeamId()
+        );
     }
 }
