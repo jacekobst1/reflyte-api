@@ -22,14 +22,14 @@ final class RewardPolicy
     public function create(User $user, ReferralProgram $referralProgram): bool
     {
         return $user->team_id->equals(
-            $referralProgram->newsletter->team_id
+            $referralProgram->getTeamId()
         );
     }
 
     public function update(User $user, Reward $reward): bool
     {
         return $user->team_id->equals(
-            $reward->rewardable->newsletter->team_id
+            $reward->getTeamId()
         );
     }
 

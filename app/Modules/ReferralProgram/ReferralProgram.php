@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @mixin IdeHelperReferralProgram
@@ -34,5 +35,10 @@ class ReferralProgram extends Model
     public function rewards(): MorphMany
     {
         return $this->morphMany(Reward::class, 'rewardable');
+    }
+
+    public function getTeamId(): UuidInterface
+    {
+        return $this->newsletter->team_id;
     }
 }

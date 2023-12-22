@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @mixin IdeHelperReward
@@ -34,5 +35,10 @@ class Reward extends Model
     public function rewardable(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    public function getTeamId(): UuidInterface
+    {
+        return $this->rewardable->getTeamId();
     }
 }
