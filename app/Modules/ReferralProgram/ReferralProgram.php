@@ -23,6 +23,7 @@ class ReferralProgram extends Model
 
     protected $casts = [
         'id' => UuidModelCast::class,
+        'team_id' => UuidModelCast::class,
         'newsletter_id' => UuidModelCast::class,
     ];
 
