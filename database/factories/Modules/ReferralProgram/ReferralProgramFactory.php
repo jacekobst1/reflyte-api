@@ -6,6 +6,7 @@ namespace Database\Factories\Modules\ReferralProgram;
 
 use App\Modules\Newsletter\Newsletter;
 use App\Modules\ReferralProgram\ReferralProgram;
+use App\Modules\Team\Team;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -23,6 +24,7 @@ class ReferralProgramFactory extends Factory
     public function definition(): array
     {
         return [
+            'team_id' => Team::factory(),
             'newsletter_id' => Newsletter::factory(),
             'active' => true,
         ];

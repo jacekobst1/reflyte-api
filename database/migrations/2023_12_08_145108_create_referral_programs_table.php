@@ -15,6 +15,7 @@ return new class extends Migration {
     {
         Schema::create('referral_programs', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->uuid('team_id');
             $table->uuid('newsletter_id');
             $table->boolean('active')->default(false);
             $table->timestamps();

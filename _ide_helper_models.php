@@ -115,6 +115,7 @@ namespace App\Modules\ReferralProgram{
  * App\Modules\ReferralProgram\ReferralProgram
  *
  * @property \Ramsey\Uuid\UuidInterface|null $id
+ * @property string $team_id
  * @property \Ramsey\Uuid\UuidInterface|null $newsletter_id
  * @property bool $active
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -130,6 +131,7 @@ namespace App\Modules\ReferralProgram{
  * @method static \Illuminate\Database\Eloquent\Builder|ReferralProgram whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ReferralProgram whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ReferralProgram whereNewsletterId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ReferralProgram whereTeamId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ReferralProgram whereUpdatedAt($value)
  * @mixin \Eloquent
  */
