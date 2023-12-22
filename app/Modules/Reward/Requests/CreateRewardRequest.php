@@ -26,15 +26,15 @@ final class CreateRewardRequest extends Data
 
     public static function rules(): array
     {
-        /** @var ReferralProgram $program */
-        $program = request()->route()->parameter('program');
+        /** @var ReferralProgram $referralProgram */
+        $referralProgram = request()->route()->parameter('program');
 
         return [
             'required_points' => [
                 'required',
                 'integer',
                 Rule::unique('rewards', 'required_points')
-                    ->where('rewardable_id', $program->id->toString()),
+                    ->where('rewardable_id', $referralProgram->id->toString()),
             ],
         ];
     }

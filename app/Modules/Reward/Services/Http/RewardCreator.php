@@ -11,10 +11,10 @@ use App\Modules\Reward\Reward;
 final class RewardCreator
 {
     public function createProgramReward(
-        ReferralProgram $program,
+        ReferralProgram $referralProgram,
         CreateRewardRequest $data
     ): Reward {
         /** @var Reward */
-        return $program->rewards()->create($data->toArray());
+        return $referralProgram->rewards()->create($data->toArray());
     }
 }
