@@ -67,4 +67,12 @@ final class JsonResp
             'message' => 'Route not found',
         ], JsonResponse::HTTP_NOT_FOUND);
     }
+
+    public static function unauthorized(): JsonResponse
+    {
+        return response()->json([
+            'status' => JsonResponse::HTTP_FORBIDDEN,
+            'message' => 'Unauthorized',
+        ], JsonResponse::HTTP_FORBIDDEN);
+    }
 }
