@@ -14,6 +14,7 @@ return new class extends Migration {
     {
         Schema::create('rewards', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->uuid('team_id');
             $table->uuid('rewardable_id')->index();
             $table->string('rewardable_type');
             $table->text('name');

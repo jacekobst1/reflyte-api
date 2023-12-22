@@ -20,6 +20,7 @@ class Reward extends Model
 
     protected $casts = [
         'id' => UuidModelCast::class,
+        'team_id' => UuidModelCast::class,
         'rewardable_id' => UuidModelCast::class,
     ];
 

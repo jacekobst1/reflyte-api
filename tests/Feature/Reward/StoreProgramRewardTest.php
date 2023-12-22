@@ -16,7 +16,7 @@ final class StoreProgramRewardTest extends TestCase
     {
         parent::setUp();
 
-        $this->actAsUser();
+        $this->actAsCompleteUser();
     }
 
     public function testStore(): void

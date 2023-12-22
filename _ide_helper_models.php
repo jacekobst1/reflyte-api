@@ -143,6 +143,7 @@ namespace App\Modules\Reward{
  * App\Modules\Reward\Reward
  *
  * @property \Ramsey\Uuid\UuidInterface|null $id
+ * @property \Ramsey\Uuid\UuidInterface|null $team_id
  * @property \Ramsey\Uuid\UuidInterface|null $rewardable_id
  * @property string $rewardable_type
  * @property string $name
@@ -162,6 +163,7 @@ namespace App\Modules\Reward{
  * @method static \Illuminate\Database\Eloquent\Builder|Reward whereRequiredPoints($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Reward whereRewardableId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Reward whereRewardableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reward whereTeamId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Reward whereUpdatedAt($value)
  * @mixin \Eloquent
  */
