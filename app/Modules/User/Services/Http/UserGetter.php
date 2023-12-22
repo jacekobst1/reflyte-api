@@ -15,6 +15,9 @@ final class UserGetter
         return $request->user();
     }
 
+    /**
+     * @return Collection<array-key, User>
+     */
     public function getAll(): Collection
     {
         return User::all();
