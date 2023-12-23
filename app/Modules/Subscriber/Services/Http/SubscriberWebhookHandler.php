@@ -8,6 +8,7 @@ use App\Modules\Esp\Dto\EspSubscriberStatus;
 use App\Modules\Esp\Integration\EspClientFactory;
 use App\Modules\Subscriber\Requests\MailerLiteWebhookEventRequest;
 use App\Modules\Subscriber\Subscriber;
+use App\Modules\Subscriber\SubscriberIsRef;
 use App\Modules\Subscriber\SubscriberStatus;
 use App\Shared\RltFields;
 use Ramsey\Uuid\UuidInterface;
@@ -43,13 +44,19 @@ final class SubscriberWebhookHandler
         string $email,
         SubscriberStatus $status
     ): Subscriber {
-        return Subscriber::updateOrCreate(
-            [
+        $subscriber = Subscriber::whereNewsletterId($newsletterId)->whereEmail($email)->first();
+
+        if ($subscriber) {
+            $subscriber->update(['status' => $status]);
+            return $subscriber;
+        } else {
+            return Subscriber::create([
                 'newsletter_id' => $newsletterId,
-                'email' => $email
-            ],
-            ['status' => $status]
-        );
+                'email' => $email,
+                'status' => $status,
+                'is_ref' => SubscriberIsRef::No,
+            ]);
+        }
     }
 
     private function updateEspSubscriberFields(string $id, Subscriber $subscriber): void

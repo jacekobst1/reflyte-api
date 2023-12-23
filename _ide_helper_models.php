@@ -176,7 +176,7 @@ namespace App\Modules\Subscriber{
  * @property string $email
  * @property string $ref_code
  * @property string $ref_link
- * @property string $is_ref
+ * @property \App\Modules\Subscriber\SubscriberIsRef $is_ref
  * @property int $ref_count
  * @property \App\Modules\Subscriber\SubscriberStatus $status
  * @property \Illuminate\Support\Carbon|null $created_at

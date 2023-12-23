@@ -37,6 +37,7 @@ class Subscriber extends Model
         'newsletter_id' => UuidModelCast::class,
         'referer_subscriber_id' => UuidModelCast::class,
         'status' => SubscriberStatus::class,
+        'is_ref' => SubscriberIsRef::class,
     ];
 
     protected static function booted(): void
@@ -46,7 +47,6 @@ class Subscriber extends Model
         static::creating(function (Subscriber $subscriber) {
             $subscriber->ref_code = strtolower(Str::random(10));
             $subscriber->ref_link = 'https://reflyte.com/join/' . $subscriber->ref_code;
-            $subscriber->is_ref = 'no';
             $subscriber->ref_count = 0;
         });
     }
