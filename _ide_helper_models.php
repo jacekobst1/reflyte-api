@@ -176,7 +176,7 @@ namespace App\Modules\Subscriber{
  * @property string $email
  * @property string $ref_code
  * @property string $ref_link
- * @property \App\Modules\Subscriber\SubscriberIsRef $is_ref
+ * @property \App\Modules\Subscriber\SubscriberIsReferral $is_referral
  * @property int $ref_count
  * @property \App\Modules\Subscriber\SubscriberStatus $status
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -191,7 +191,7 @@ namespace App\Modules\Subscriber{
  * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereIsRef($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereIsReferral($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereNewsletterId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereRefCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereRefCount($value)

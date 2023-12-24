@@ -6,7 +6,7 @@ namespace Database\Factories\Modules\Subscriber;
 
 use App\Modules\Newsletter\Newsletter;
 use App\Modules\Subscriber\Subscriber;
-use App\Modules\Subscriber\SubscriberIsRef;
+use App\Modules\Subscriber\SubscriberIsReferral;
 use App\Modules\Subscriber\SubscriberStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -31,7 +31,7 @@ class SubscriberFactory extends Factory
             'email' => fake()->email(),
             'ref_code' => strtolower(Str::random(10)),
             'ref_link' => 'https://reflyte.com/join/' . Str::random(10),
-            'is_ref' => SubscriberIsRef::No,
+            'is_referral' => SubscriberIsReferral::No,
             'ref_count' => 0,
             'status' => SubscriberStatus::Active,
         ];

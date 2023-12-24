@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->text('email');
             $table->text('ref_code')->unique();
             $table->text('ref_link')->unique();
-            $table->text('is_ref');
+            $table->text('is_referral');
             $table->integer('ref_count');
             $table->text('status');
             $table->timestamps();

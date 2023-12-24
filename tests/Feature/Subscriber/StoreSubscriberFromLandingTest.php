@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Feature\Subscriber;
 
 use App\Modules\Subscriber\Subscriber;
-use App\Modules\Subscriber\SubscriberIsRef;
+use App\Modules\Subscriber\SubscriberIsReferral;
 use App\Modules\Subscriber\SubscriberStatus;
 use Tests\TestCase;
 
@@ -30,7 +30,7 @@ final class StoreSubscriberFromLandingTest extends TestCase
             'newsletter_id' => $existingSubscriber->newsletter_id,
             'referer_subscriber_id' => $existingSubscriber->id,
             'status' => SubscriberStatus::Received,
-            'is_ref' => SubscriberIsRef::Yes,
+            'is_referral' => SubscriberIsReferral::Yes,
             'ref_count' => 0,
         ]);
         $this->assertCount(1, $existingSubscriber->referrals);

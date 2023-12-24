@@ -9,7 +9,7 @@ use App\Modules\Esp\Integration\WebhookEvent\WebhookEventRequestFactory;
 use App\Modules\Esp\Integration\WebhookEvent\WebhookEventRequestInterface;
 use App\Modules\Newsletter\Newsletter;
 use App\Modules\Subscriber\Subscriber;
-use App\Modules\Subscriber\SubscriberIsRef;
+use App\Modules\Subscriber\SubscriberIsReferral;
 use App\Modules\Subscriber\SubscriberStatus;
 use App\Shared\RltFields;
 use Ramsey\Uuid\UuidInterface;
@@ -60,7 +60,7 @@ final readonly class SubscriberWebhookHandler
                 'newsletter_id' => $newsletterId,
                 'email' => $email,
                 'status' => $status,
-                'is_ref' => SubscriberIsRef::No,
+                'is_referral' => SubscriberIsReferral::No,
             ]);
         }
     }

@@ -9,7 +9,7 @@ use App\Modules\Esp\Integration\EspClientFactory;
 use App\Modules\Esp\Integration\MailerLite\MailerLiteClient;
 use App\Modules\Newsletter\Newsletter;
 use App\Modules\Subscriber\Subscriber;
-use App\Modules\Subscriber\SubscriberIsRef;
+use App\Modules\Subscriber\SubscriberIsReferral;
 use App\Modules\Subscriber\SubscriberStatus;
 use Illuminate\Support\Str;
 use Tests\TestCase;
@@ -45,7 +45,7 @@ final class WebhookEventTest extends TestCase
             'newsletter_id' => $newsletter->id,
             'email' => $data['email'],
             'status' => SubscriberStatus::Active,
-            'is_ref' => SubscriberIsRef::No,
+            'is_referral' => SubscriberIsReferral::No,
         ]);
     }
 
@@ -56,7 +56,7 @@ final class WebhookEventTest extends TestCase
         $subscriber = Subscriber::factory()->for($newsletter)->create([
             'email' => $email,
             'status' => SubscriberStatus::Received,
-            'is_ref' => SubscriberIsRef::Yes,
+            'is_referral' => SubscriberIsReferral::Yes,
         ]);
         $data = [
             'id' => '123',
@@ -111,7 +111,7 @@ final class WebhookEventTest extends TestCase
             'newsletter_id' => $newsletter->id,
             'email' => $data['email'],
             'status' => SubscriberStatus::Active,
-            'is_ref' => SubscriberIsRef::No,
+            'is_referral' => SubscriberIsReferral::No,
         ]);
     }
 

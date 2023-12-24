@@ -28,7 +28,7 @@ class Subscriber extends Model
         'email',
         'ref_code',
         'ref_link',
-        'is_ref',
+        'is_referral',
         'ref_count',
         'status',
     ];
@@ -37,7 +37,7 @@ class Subscriber extends Model
         'newsletter_id' => UuidModelCast::class,
         'referer_subscriber_id' => UuidModelCast::class,
         'status' => SubscriberStatus::class,
-        'is_ref' => SubscriberIsRef::class,
+        'is_referral' => SubscriberIsReferral::class,
     ];
 
     protected static function booted(): void
