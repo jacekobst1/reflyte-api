@@ -42,7 +42,7 @@ final class IntegrateWithEspServiceTest extends TestCase
             [
                 'id' => 'test2',
                 'email' => 'test2@test.com',
-                'status' => 'inactive',
+                'status' => 'unsubscribed',
             ]
         ]);
 

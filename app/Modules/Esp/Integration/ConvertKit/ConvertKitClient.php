@@ -6,7 +6,6 @@ namespace App\Modules\Esp\Integration\ConvertKit;
 
 use App\Modules\Esp\Dto\EspFieldDto;
 use App\Modules\Esp\Dto\EspSubscriberDto;
-use App\Modules\Esp\Dto\EspSubscriberStatus;
 use App\Modules\Esp\Integration\AuthType;
 use App\Modules\Esp\Integration\ConvertKit\Dto\CKSubscribersResponseDto;
 use App\Modules\Esp\Integration\EspClientInterface;
@@ -86,7 +85,7 @@ final class ConvertKitClient implements EspClientInterface
                 fn($subscriber) => [
                     'id' => $subscriber['id'],
                     'email' => $subscriber['email_address'],
-                    'status' => $subscriber['state'] === 'active' ? EspSubscriberStatus::Active : EspSubscriberStatus::Inactive,
+                    'status' => ConvertKitSubscriberStatusTranslator::translate($subscriber['state'])
                 ],
                 $responseDto->subscribers
             )

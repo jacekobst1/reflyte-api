@@ -8,5 +8,6 @@ enum SubscriberStatus: string
 {
     case Received = 'received';
     case Active = 'active';
-    case Inactive = 'inactive';
+    case Unsubscribed = 'unsubscribed';
+    case Other = 'other';
 }

@@ -7,5 +7,6 @@ namespace App\Modules\Esp\Dto;
 enum EspSubscriberStatus: string
 {
     case Active = 'active';
-    case Inactive = 'inactive';
+    case Unsubscribed = 'unsubscribed';
+    case Other = 'other';
 }

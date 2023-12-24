@@ -6,7 +6,6 @@ namespace App\Modules\Esp\Integration\MailerLite;
 
 use App\Modules\Esp\Dto\EspFieldDto;
 use App\Modules\Esp\Dto\EspSubscriberDto;
-use App\Modules\Esp\Dto\EspSubscriberStatus;
 use App\Modules\Esp\Integration\AuthType;
 use App\Modules\Esp\Integration\EspClientInterface;
 use App\Modules\Esp\Integration\MailerLite\Dto\MLResponseDto;
@@ -83,7 +82,7 @@ class MailerLiteClient implements EspClientInterface
                 fn($subscriber) => [
                     'id' => $subscriber['id'],
                     'email' => $subscriber['email'],
-                    'status' => $subscriber['status'] === 'active' ? EspSubscriberStatus::Active : EspSubscriberStatus::Inactive,
+                    'status' => MailerLiteSubscriberStatusTranslator::translate($subscriber['status']),
                 ],
                 $responseDto->data
             )
