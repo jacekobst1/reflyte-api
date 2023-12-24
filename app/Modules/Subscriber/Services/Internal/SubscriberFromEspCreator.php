@@ -17,6 +17,7 @@ class SubscriberFromEspCreator
             [
                 'newsletter_id' => $newsletterId,
                 'email' => $subscriberDto->email,
+                'esp_id' => $subscriberDto->id,
             ],
             [
                 'status' => $subscriberDto->status,

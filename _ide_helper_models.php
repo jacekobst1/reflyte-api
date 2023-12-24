@@ -173,6 +173,7 @@ namespace App\Modules\Subscriber{
  * @property string $id
  * @property \Ramsey\Uuid\UuidInterface|null $newsletter_id
  * @property \Ramsey\Uuid\UuidInterface|null|null $referer_subscriber_id
+ * @property string|null $esp_id
  * @property string $email
  * @property string $ref_code
  * @property string $ref_link
@@ -190,6 +191,7 @@ namespace App\Modules\Subscriber{
  * @method static \Illuminate\Database\Eloquent\Builder|Subscriber query()
  * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereEspId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereIsReferral($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Subscriber whereNewsletterId($value)

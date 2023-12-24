@@ -21,7 +21,7 @@ final class WebhookEventTest extends TestCase
         // given
         $newsletter = Newsletter::factory()->create();
         $data = [
-            'id' => '123',
+            'id' => Str::random(),
             'email' => Str::random() . '@test.com',
             'status' => SubscriberStatus::Active->value,
         ];
@@ -43,6 +43,7 @@ final class WebhookEventTest extends TestCase
         $response->assertOk();
         $this->assertDatabaseHas('subscribers', [
             'newsletter_id' => $newsletter->id,
+            'esp_id' => $data['id'],
             'email' => $data['email'],
             'status' => SubscriberStatus::Active,
             'is_referral' => SubscriberIsReferral::No,
@@ -59,7 +60,7 @@ final class WebhookEventTest extends TestCase
             'is_referral' => SubscriberIsReferral::Yes,
         ]);
         $data = [
-            'id' => '123',
+            'id' => Str::random(),
             'email' => $email,
             'status' => SubscriberStatus::Active->value,
         ];
@@ -87,7 +88,7 @@ final class WebhookEventTest extends TestCase
         // given
         $newsletter = Newsletter::factory()->convertKit()->create();
         $data = [
-            'id' => '123',
+            'id' => Str::random(),
             'email' => Str::random() . '@test.com',
             'state' => SubscriberStatus::Active->value,
         ];
@@ -109,6 +110,7 @@ final class WebhookEventTest extends TestCase
         $response->assertOk();
         $this->assertDatabaseHas('subscribers', [
             'newsletter_id' => $newsletter->id,
+            'esp_id' => $data['id'],
             'email' => $data['email'],
             'status' => SubscriberStatus::Active,
             'is_referral' => SubscriberIsReferral::No,
@@ -119,7 +121,7 @@ final class WebhookEventTest extends TestCase
     {
         // given
         $data = [
-            'id' => '123',
+            'id' => Str::random(),
             'email' => Str::random() . '@test.com',
             'status' => SubscriberStatus::Active->value,
         ];

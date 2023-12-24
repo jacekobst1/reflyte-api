@@ -25,6 +25,7 @@ class Subscriber extends Model
     protected $fillable = [
         'newsletter_id',
         'referer_subscriber_id',
+        'esp_id',
         'email',
         'ref_code',
         'ref_link',

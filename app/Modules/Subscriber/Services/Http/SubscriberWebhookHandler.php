@@ -10,7 +10,6 @@ use App\Modules\Esp\Integration\WebhookEvent\WebhookEventRequestInterface;
 use App\Modules\Newsletter\Newsletter;
 use App\Modules\Subscriber\Subscriber;
 use App\Modules\Subscriber\SubscriberIsReferral;
-use App\Modules\Subscriber\SubscriberStatus;
 use App\Shared\RltFields;
 use Ramsey\Uuid\UuidInterface;
 
@@ -28,7 +27,7 @@ final readonly class SubscriberWebhookHandler
     ): bool {
         $data = $this->validateAndMakeDataObject($newsletterId, $rawData);
 
-        $subscriber = $this->updateOrCreateModel($newsletterId, $data->getEmail(), $data->getStatus());
+        $subscriber = $this->updateOrCreateModel($newsletterId, $data);
         $this->updateEspSubscriberFields($data->getId(), $subscriber);
 
         // TODO reward logic
@@ -47,19 +46,22 @@ final readonly class SubscriberWebhookHandler
 
     private function updateOrCreateModel(
         UuidInterface $newsletterId,
-        string $email,
-        SubscriberStatus $status
+        WebhookEventRequestInterface $data,
     ): Subscriber {
-        $subscriber = Subscriber::whereNewsletterId($newsletterId)->whereEmail($email)->first();
+        $subscriber = Subscriber::whereNewsletterId($newsletterId)->whereEmail($data->getEmail())->first();
 
         if ($subscriber) {
-            $subscriber->update(['status' => $status]);
+            $subscriber->update([
+                'esp_id' => $data->getId(),
+                'status' => $data->getStatus()
+            ]);
             return $subscriber;
         } else {
             return Subscriber::create([
                 'newsletter_id' => $newsletterId,
-                'email' => $email,
-                'status' => $status,
+                'esp_id' => $data->getId(),
+                'email' => $data->getEmail(),
+                'status' => $data->getStatus(),
                 'is_referral' => SubscriberIsReferral::No,
             ]);
         }
