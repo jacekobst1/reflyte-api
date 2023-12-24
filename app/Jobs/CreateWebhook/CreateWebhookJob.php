@@ -14,7 +14,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Ramsey\Uuid\UuidInterface;
 
-class CreateWebhookJob implements ShouldQueue, ShouldBeEncrypted
+final class CreateWebhookJob implements ShouldQueue, ShouldBeEncrypted
 {
     use Dispatchable;
     use InteractsWithQueue;

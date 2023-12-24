@@ -9,11 +9,11 @@ use App\Modules\Esp\Services\EspSubscriberUpdater;
 use App\Modules\Newsletter\Vo\NewsletterEspConfig;
 use App\Modules\Subscriber\Services\Internal\SubscriberFromEspCreator;
 
-class SynchronizeSubscriberService
+final readonly class SynchronizeSubscriberService
 {
     public function __construct(
-        private readonly SubscriberFromEspCreator $subscriberCreator,
-        private readonly EspSubscriberUpdater $espSubscriberUpdater,
+        private SubscriberFromEspCreator $subscriberCreator,
+        private EspSubscriberUpdater $espSubscriberUpdater,
     ) {
     }
 

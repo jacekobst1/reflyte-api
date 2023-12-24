@@ -14,7 +14,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Bus;
 use Throwable;
 
-class IntegrateWithEspService
+final class IntegrateWithEspService
 {
     private int $commandCounter = 0;
     private int $globalDelay = 0;

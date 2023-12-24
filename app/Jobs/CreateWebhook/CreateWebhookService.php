@@ -8,9 +8,9 @@ use App\Modules\Esp\EspName;
 use App\Modules\Esp\Integration\EspClientFactory;
 use Ramsey\Uuid\UuidInterface;
 
-class CreateWebhookService
+final readonly class CreateWebhookService
 {
-    public function __construct(private readonly EspClientFactory $espClientFactory)
+    public function __construct(private EspClientFactory $espClientFactory)
     {
     }
 
