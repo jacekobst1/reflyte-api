@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 
 class HorizonFlush extends Command
@@ -30,5 +31,6 @@ class HorizonFlush extends Command
     {
         $this->call('queue:flush');
         Redis::command('flushdb');
+        DB::table('job_batches')->truncate();
     }
 }
