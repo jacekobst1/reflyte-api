@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Config;
 use Ramsey\Uuid\UuidInterface;
 use Spatie\LaravelData\DataCollection;
 
-final class ConvertKitClient implements EspClientInterface
+class ConvertKitClient implements EspClientInterface
 {
     use MakeRequestTrait;
 

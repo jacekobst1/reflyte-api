@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Esp;
 
 use App\Modules\Esp\Dto\EspSubscriberStatus;
+use App\Modules\Esp\Integration\ConvertKit\ConvertKitClient;
 use App\Modules\Esp\Integration\EspClientFactory;
 use App\Modules\Esp\Integration\MailerLite\MailerLiteClient;
 use App\Modules\Newsletter\Newsletter;
@@ -16,7 +17,7 @@ use Tests\TestCase;
 
 final class WebhookEventTest extends TestCase
 {
-    public function testWhenSubscriberNotExists(): void
+    public function testWhenSubscriberNotExistsFromMailerLite(): void
     {
         // given
         $newsletter = Newsletter::factory()->create();
@@ -37,7 +38,7 @@ final class WebhookEventTest extends TestCase
             ->andReturn($mailerLiteEspClientMock);
 
         // when
-        $response = $this->post("/api/esp/webhook/$newsletter->id", $data);
+        $response = $this->postJson("/api/esp/webhook/$newsletter->id", $data);
 
         // then
         $response->assertOk();
@@ -49,7 +50,7 @@ final class WebhookEventTest extends TestCase
         ]);
     }
 
-    public function testWhenSubscriberAlreadyExists()
+    public function testWhenSubscriberAlreadyExistsFromMailerLite()
     {
         $email = Str::random() . '@test.com';
         $newsletter = Newsletter::factory()->create();
@@ -75,11 +76,44 @@ final class WebhookEventTest extends TestCase
             ->andReturn($mailerLiteEspClientMock);
 
         // when
-        $response = $this->post("/api/esp/webhook/$newsletter->id", $data);
+        $response = $this->postJson("/api/esp/webhook/$newsletter->id", $data);
 
         // then
         $response->assertOk();
         $this->assertEquals(SubscriberStatus::Active, $subscriber->refresh()->status);
+    }
+
+    public function testWhenSubscriberNotExistsFromConvertKit(): void
+    {
+        // given
+        $newsletter = Newsletter::factory()->convertKit()->create();
+        $data = [
+            'id' => '123',
+            'email' => Str::random() . '@test.com',
+            'state' => EspSubscriberStatus::Active->value,
+        ];
+
+        // mock
+        $convertKitEspClientMock = $this->mock(ConvertKitClient::class);
+        $convertKitEspClientMock->shouldReceive('updateSubscriberFields')
+            ->once()
+            ->andReturn(true);
+        $espClientFactoryMock = $this->mock(EspClientFactory::class);
+        $espClientFactoryMock->shouldReceive('make')
+            ->once()
+            ->andReturn($convertKitEspClientMock);
+
+        // when
+        $response = $this->postJson("/api/esp/webhook/$newsletter->id", $data);
+
+        // then
+        $response->assertOk();
+        $this->assertDatabaseHas('subscribers', [
+            'newsletter_id' => $newsletter->id,
+            'email' => $data['email'],
+            'status' => SubscriberStatus::Active,
+            'is_ref' => SubscriberIsRef::No,
+        ]);
     }
 
     public function testWrongUuid(): void
@@ -92,7 +126,7 @@ final class WebhookEventTest extends TestCase
         ];
 
         // when
-        $response = $this->post('/api/esp/webhook/abc', $data);
+        $response = $this->postJson('/api/esp/webhook/abc', $data);
 
         // then
         $response->assertBadRequest();

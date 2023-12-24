@@ -32,4 +32,18 @@ class NewsletterFactory extends Factory
             'esp_api_key' => fake()->sha256(),
         ];
     }
+
+    public function mailerLite(): self
+    {
+        return $this->state([
+            'esp_name' => EspName::MailerLite->value,
+        ]);
+    }
+
+    public function convertKit(): self
+    {
+        return $this->state([
+            'esp_name' => EspName::ConvertKit->value,
+        ]);
+    }
 }

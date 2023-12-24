@@ -6,7 +6,9 @@ namespace App\Modules\Subscriber\Services\Http;
 
 use App\Modules\Esp\Dto\EspSubscriberStatus;
 use App\Modules\Esp\Integration\EspClientFactory;
-use App\Modules\Subscriber\Requests\MailerLiteWebhookEventRequest;
+use App\Modules\Esp\Integration\WebhookEvent\WebhookEventRequestFactory;
+use App\Modules\Esp\Integration\WebhookEvent\WebhookEventRequestInterface;
+use App\Modules\Newsletter\Newsletter;
 use App\Modules\Subscriber\Subscriber;
 use App\Modules\Subscriber\SubscriberIsRef;
 use App\Modules\Subscriber\SubscriberStatus;
@@ -15,28 +17,41 @@ use Ramsey\Uuid\UuidInterface;
 
 final class SubscriberWebhookHandler
 {
-    public function __construct(private readonly EspClientFactory $espClientFactory)
-    {
+    public function __construct(
+        private readonly WebhookEventRequestFactory $webhookEventRequestFactory,
+        private readonly EspClientFactory $espClientFactory
+    ) {
     }
 
     public function updateOrCreate(
         UuidInterface $newsletterId,
-        MailerLiteWebhookEventRequest $data
+        array $rawData
     ): bool {
-        $status = $this->getStatusEnum($data->status);
-        $subscriber = $this->updateOrCreateModel($newsletterId, $data->email, $status);
-        $this->updateEspSubscriberFields($data->id, $subscriber);
+        $data = $this->validateAndGetData($newsletterId, $rawData);
+
+        $status = $this->getStatusEnum($data->getStatus());
+        $subscriber = $this->updateOrCreateModel($newsletterId, $data->getEmail(), $status);
+        $this->updateEspSubscriberFields($data->getId(), $subscriber);
 
         // TODO reward logic
 
         return true;
     }
 
-    private function getStatusEnum(string $status): SubscriberStatus
+    private function validateAndGetData(UuidInterface $newsletterId, array $rawData): WebhookEventRequestInterface
     {
-        return $status === EspSubscriberStatus::Active->value
-            ? SubscriberStatus::Active
-            : SubscriberStatus::Inactive;
+        $newsletter = Newsletter::findOrFail($newsletterId);
+
+        return $this->webhookEventRequestFactory->validateAndMake($newsletter->getEspConfig(), $rawData);
+    }
+
+    private function getStatusEnum(EspSubscriberStatus $status): SubscriberStatus
+    {
+        return match ($status) {
+            EspSubscriberStatus::Active => SubscriberStatus::Active,
+            EspSubscriberStatus::Unsubscribed => SubscriberStatus::Unsubscribed,
+            EspSubscriberStatus::Other => SubscriberStatus::Other,
+        };
     }
 
     private function updateOrCreateModel(
