@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Esp\Integration\MailerLite;
+namespace App\Modules\Esp\Integration\Clients\ConvertKit;
 
 use App\Modules\Subscriber\SubscriberStatus;
 
-final class MailerLiteSubscriberStatusTranslator
+final class ConvertKitSubscriberStatusTranslator
 {
     public static function translate(string $status): SubscriberStatus
     {
         return match ($status) {
             'active' => SubscriberStatus::Active,
-            'unsubscribed' => SubscriberStatus::Unsubscribed,
+            'cancelled' => SubscriberStatus::Unsubscribed,
             default => SubscriberStatus::Other,
         };
     }

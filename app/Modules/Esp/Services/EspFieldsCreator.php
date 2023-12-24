@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Modules\Esp\Services;
 
 use App\Modules\Esp\Dto\EspFieldDto;
-use App\Modules\Esp\Integration\EspClientFactory;
-use App\Modules\Esp\Integration\EspClientInterface;
+use App\Modules\Esp\Integration\Clients\EspClientFactory;
+use App\Modules\Esp\Integration\Clients\EspClientInterface;
 use App\Modules\Newsletter\Vo\NewsletterEspConfig;
 use App\Shared\RltFields;
 use Spatie\LaravelData\DataCollection;

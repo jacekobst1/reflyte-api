@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Esp\Integration;
+namespace App\Modules\Esp\Integration\Clients;
 
 enum AuthType
 {

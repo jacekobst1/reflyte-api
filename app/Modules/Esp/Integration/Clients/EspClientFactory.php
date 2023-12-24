@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Esp\Integration;
+namespace App\Modules\Esp\Integration\Clients;
 
 use App\Modules\Esp\EspName;
-use App\Modules\Esp\Integration\ConvertKit\ConvertKitClient;
-use App\Modules\Esp\Integration\MailerLite\MailerLiteClient;
+use App\Modules\Esp\Integration\Clients\ConvertKit\ConvertKitClient;
+use App\Modules\Esp\Integration\Clients\MailerLite\MailerLiteClient;
 use App\Modules\Newsletter\Vo\NewsletterEspConfig;
 
 class EspClientFactory

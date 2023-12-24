@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Esp\Integration\ConvertKit\Dto;
+namespace App\Modules\Esp\Integration\Clients\ConvertKit\Dto;
 
 use Spatie\LaravelData\Data;
 

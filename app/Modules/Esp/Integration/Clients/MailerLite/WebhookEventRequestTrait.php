@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Esp\Integration\MailerLite;
+namespace App\Modules\Esp\Integration\Clients\MailerLite;
 
 use App\Modules\Subscriber\SubscriberStatus;
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Esp\Services;
 
-use App\Modules\Esp\Integration\EspClientFactory;
+use App\Modules\Esp\Integration\Clients\EspClientFactory;
 use App\Modules\Newsletter\Vo\NewsletterEspConfig;
 use App\Modules\Subscriber\Subscriber;
 use App\Shared\RltFields;

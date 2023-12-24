@@ -6,8 +6,8 @@ namespace App\Jobs\IntegrateWithEsp;
 
 use App\Jobs\CreateWebhook\CreateWebhookJob;
 use App\Jobs\SynchronizeSubscriber\SynchronizeSubscriberJob;
-use App\Modules\Esp\Integration\EspClientFactory;
-use App\Modules\Esp\Integration\EspClientInterface;
+use App\Modules\Esp\Integration\Clients\EspClientFactory;
+use App\Modules\Esp\Integration\Clients\EspClientInterface;
 use App\Modules\Newsletter\Vo\NewsletterEspConfig;
 use Illuminate\Bus\Batch;
 use Illuminate\Support\Carbon;

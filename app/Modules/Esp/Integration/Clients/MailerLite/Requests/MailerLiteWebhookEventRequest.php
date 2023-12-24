@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Esp\Integration\ConvertKit\Requests;
+namespace App\Modules\Esp\Integration\Clients\MailerLite\Requests;
 
-use App\Modules\Esp\Integration\ConvertKit\ConvertKitSubscriberStatusTranslator;
-use App\Modules\Esp\Integration\MailerLite\WebhookEventRequestTrait;
+use App\Modules\Esp\Integration\Clients\MailerLite\MailerLiteSubscriberStatusTranslator;
+use App\Modules\Esp\Integration\Clients\MailerLite\WebhookEventRequestTrait;
 use App\Modules\Esp\Integration\WebhookEvent\WebhookEventRequestInterface;
 use App\Modules\Subscriber\SubscriberStatus;
 use Spatie\LaravelData\Attributes\Validation\Email;
@@ -13,7 +13,7 @@ use Spatie\LaravelData\Attributes\Validation\Required;
 use Spatie\LaravelData\Attributes\Validation\StringType;
 use Spatie\LaravelData\Data;
 
-final class CovertKitWebhookEventRequest extends Data implements WebhookEventRequestInterface
+final class MailerLiteWebhookEventRequest extends Data implements WebhookEventRequestInterface
 {
     use WebhookEventRequestTrait;
 
@@ -27,8 +27,8 @@ final class CovertKitWebhookEventRequest extends Data implements WebhookEventReq
         public readonly string $email,
 
         #[Required, StringType]
-        string $state,
+        string $status,
     ) {
-        $this->statusEnum = ConvertKitSubscriberStatusTranslator::translate($state);
+        $this->statusEnum = MailerLiteSubscriberStatusTranslator::translate($status);
     }
 }

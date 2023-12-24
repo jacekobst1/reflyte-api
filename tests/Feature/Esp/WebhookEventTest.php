@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Esp;
 
-use App\Modules\Esp\Integration\ConvertKit\ConvertKitClient;
-use App\Modules\Esp\Integration\EspClientFactory;
-use App\Modules\Esp\Integration\MailerLite\MailerLiteClient;
+use App\Modules\Esp\Integration\Clients\ConvertKit\ConvertKitClient;
+use App\Modules\Esp\Integration\Clients\EspClientFactory;
+use App\Modules\Esp\Integration\Clients\MailerLite\MailerLiteClient;
 use App\Modules\Newsletter\Newsletter;
 use App\Modules\Subscriber\Subscriber;
 use App\Modules\Subscriber\SubscriberIsReferral;

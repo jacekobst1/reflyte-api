@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Jobs\CreateWebhook;
 
 use App\Modules\Esp\EspName;
-use App\Modules\Esp\Integration\EspClientFactory;
+use App\Modules\Esp\Integration\Clients\EspClientFactory;
 use Ramsey\Uuid\UuidInterface;
 
 final readonly class CreateWebhookService

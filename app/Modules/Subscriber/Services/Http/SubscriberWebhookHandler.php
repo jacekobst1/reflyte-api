@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Subscriber\Services\Http;
 
-use App\Modules\Esp\Integration\EspClientFactory;
+use App\Modules\Esp\Integration\Clients\EspClientFactory;
 use App\Modules\Esp\Integration\WebhookEvent\WebhookEventRequestFactory;
 use App\Modules\Esp\Integration\WebhookEvent\WebhookEventRequestInterface;
 use App\Modules\Newsletter\Newsletter;

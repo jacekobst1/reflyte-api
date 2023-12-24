@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Esp\Integration;
+namespace App\Modules\Esp\Integration\Clients;
 
 use App\Modules\Esp\Dto\EspFieldDto;
 use App\Modules\Esp\Dto\EspSubscriberDto;
