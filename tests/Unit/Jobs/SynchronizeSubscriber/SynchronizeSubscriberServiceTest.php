@@ -6,12 +6,12 @@ namespace Tests\Unit\Jobs\SynchronizeSubscriber;
 
 use App\Jobs\SynchronizeSubscriber\SynchronizeSubscriberService;
 use App\Modules\Esp\Dto\EspSubscriberDto;
-use App\Modules\Esp\Dto\EspSubscriberStatus;
 use App\Modules\Esp\EspName;
 use App\Modules\Esp\Services\EspSubscriberUpdater;
 use App\Modules\Newsletter\Vo\NewsletterEspConfig;
 use App\Modules\Subscriber\Services\Internal\SubscriberFromEspCreator;
 use App\Modules\Subscriber\Subscriber;
+use App\Modules\Subscriber\SubscriberStatus;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
 use Tests\TestCase;
@@ -26,7 +26,7 @@ final class SynchronizeSubscriberServiceTest extends TestCase
             espName: EspName::MailerLite,
             espApiKey: 'test',
         );
-        $subscriberDto = new EspSubscriberDto('identifier', 'email@test.com', EspSubscriberStatus::Active);
+        $subscriberDto = new EspSubscriberDto('identifier', 'email@test.com', SubscriberStatus::Active);
         $subscriber = Subscriber::factory()->create();
 
         // mock

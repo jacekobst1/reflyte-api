@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Esp\Integration\MailerLite;
 
-use App\Modules\Esp\Dto\EspSubscriberStatus;
+use App\Modules\Subscriber\SubscriberStatus;
 
 trait WebhookEventRequestTrait
 {
@@ -18,7 +18,7 @@ trait WebhookEventRequestTrait
         return $this->email;
     }
 
-    public function getStatus(): EspSubscriberStatus
+    public function getStatus(): SubscriberStatus
     {
         return $this->statusEnum;
     }

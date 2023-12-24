@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Esp\Integration\WebhookEvent;
 
-use App\Modules\Esp\Dto\EspSubscriberStatus;
+use App\Modules\Subscriber\SubscriberStatus;
 
 interface WebhookEventRequestInterface
 {
@@ -12,5 +12,5 @@ interface WebhookEventRequestInterface
 
     public function getEmail(): string;
 
-    public function getStatus(): EspSubscriberStatus;
+    public function getStatus(): SubscriberStatus;
 }

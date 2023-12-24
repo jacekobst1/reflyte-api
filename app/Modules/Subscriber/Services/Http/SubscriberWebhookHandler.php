@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Modules\Subscriber\Services\Http;
 
-use App\Modules\Esp\Dto\EspSubscriberStatus;
 use App\Modules\Esp\Integration\EspClientFactory;
 use App\Modules\Esp\Integration\WebhookEvent\WebhookEventRequestFactory;
 use App\Modules\Esp\Integration\WebhookEvent\WebhookEventRequestInterface;
@@ -27,10 +26,9 @@ final class SubscriberWebhookHandler
         UuidInterface $newsletterId,
         array $rawData
     ): bool {
-        $data = $this->validateAndGetData($newsletterId, $rawData);
-
-        $status = $this->getStatusEnum($data->getStatus());
-        $subscriber = $this->updateOrCreateModel($newsletterId, $data->getEmail(), $status);
+        $data = $this->validateAndMakeDataObject($newsletterId, $rawData);
+        
+        $subscriber = $this->updateOrCreateModel($newsletterId, $data->getEmail(), $data->getStatus());
         $this->updateEspSubscriberFields($data->getId(), $subscriber);
 
         // TODO reward logic
@@ -38,20 +36,13 @@ final class SubscriberWebhookHandler
         return true;
     }
 
-    private function validateAndGetData(UuidInterface $newsletterId, array $rawData): WebhookEventRequestInterface
-    {
+    private function validateAndMakeDataObject(
+        UuidInterface $newsletterId,
+        array $rawData
+    ): WebhookEventRequestInterface {
         $newsletter = Newsletter::findOrFail($newsletterId);
 
         return $this->webhookEventRequestFactory->validateAndMake($newsletter->getEspConfig(), $rawData);
-    }
-
-    private function getStatusEnum(EspSubscriberStatus $status): SubscriberStatus
-    {
-        return match ($status) {
-            EspSubscriberStatus::Active => SubscriberStatus::Active,
-            EspSubscriberStatus::Unsubscribed => SubscriberStatus::Unsubscribed,
-            EspSubscriberStatus::Other => SubscriberStatus::Other,
-        };
     }
 
     private function updateOrCreateModel(

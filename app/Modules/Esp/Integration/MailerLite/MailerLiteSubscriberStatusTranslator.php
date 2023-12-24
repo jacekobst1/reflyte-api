@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Modules\Esp\Integration\MailerLite;
 
-use App\Modules\Esp\Dto\EspSubscriberStatus;
+use App\Modules\Subscriber\SubscriberStatus;
 
 final class MailerLiteSubscriberStatusTranslator
 {
-    public static function translate(string $status): EspSubscriberStatus
+    public static function translate(string $status): SubscriberStatus
     {
         return match ($status) {
-            'active' => EspSubscriberStatus::Active,
-            'unsubscribed' => EspSubscriberStatus::Unsubscribed,
-            default => EspSubscriberStatus::Other,
+            'active' => SubscriberStatus::Active,
+            'unsubscribed' => SubscriberStatus::Unsubscribed,
+            default => SubscriberStatus::Other,
         };
     }
 }

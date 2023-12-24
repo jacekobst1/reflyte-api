@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Esp;
 
-use App\Modules\Esp\Dto\EspSubscriberStatus;
 use App\Modules\Esp\Integration\ConvertKit\ConvertKitClient;
 use App\Modules\Esp\Integration\EspClientFactory;
 use App\Modules\Esp\Integration\MailerLite\MailerLiteClient;
@@ -24,7 +23,7 @@ final class WebhookEventTest extends TestCase
         $data = [
             'id' => '123',
             'email' => Str::random() . '@test.com',
-            'status' => EspSubscriberStatus::Active->value,
+            'status' => SubscriberStatus::Active->value,
         ];
 
         // mock
@@ -62,7 +61,7 @@ final class WebhookEventTest extends TestCase
         $data = [
             'id' => '123',
             'email' => $email,
-            'status' => EspSubscriberStatus::Active->value,
+            'status' => SubscriberStatus::Active->value,
         ];
 
         // mock
@@ -90,7 +89,7 @@ final class WebhookEventTest extends TestCase
         $data = [
             'id' => '123',
             'email' => Str::random() . '@test.com',
-            'state' => EspSubscriberStatus::Active->value,
+            'state' => SubscriberStatus::Active->value,
         ];
 
         // mock
@@ -122,7 +121,7 @@ final class WebhookEventTest extends TestCase
         $data = [
             'id' => '123',
             'email' => Str::random() . '@test.com',
-            'status' => EspSubscriberStatus::Active->value,
+            'status' => SubscriberStatus::Active->value,
         ];
 
         // when
