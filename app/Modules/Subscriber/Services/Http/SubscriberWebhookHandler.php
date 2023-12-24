@@ -50,21 +50,22 @@ final readonly class SubscriberWebhookHandler
     ): Subscriber {
         $subscriber = Subscriber::whereNewsletterId($newsletterId)->whereEmail($data->getEmail())->first();
 
-        if ($subscriber) {
-            $subscriber->update([
-                'esp_id' => $data->getId(),
-                'status' => $data->getStatus()
-            ]);
-            return $subscriber;
-        } else {
-            return Subscriber::create([
+        if (!$subscriber) {
+            $subscriber = new Subscriber([
                 'newsletter_id' => $newsletterId,
-                'esp_id' => $data->getId(),
                 'email' => $data->getEmail(),
-                'status' => $data->getStatus(),
                 'is_referral' => SubscriberIsReferral::No,
             ]);
         }
+
+        $subscriber->fill([
+            'esp_id' => $data->getId(),
+            'status' => $data->getStatus()
+        ]);
+
+        $subscriber->save();
+
+        return $subscriber;
     }
 
     private function updateEspSubscriberFields(string $id, Subscriber $subscriber): void
