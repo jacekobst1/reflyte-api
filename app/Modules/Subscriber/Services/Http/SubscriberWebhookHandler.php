@@ -14,11 +14,11 @@ use App\Modules\Subscriber\SubscriberStatus;
 use App\Shared\RltFields;
 use Ramsey\Uuid\UuidInterface;
 
-final class SubscriberWebhookHandler
+final readonly class SubscriberWebhookHandler
 {
     public function __construct(
-        private readonly WebhookEventRequestFactory $webhookEventRequestFactory,
-        private readonly EspClientFactory $espClientFactory
+        private WebhookEventRequestFactory $webhookEventRequestFactory,
+        private EspClientFactory $espClientFactory
     ) {
     }
 
@@ -27,7 +27,7 @@ final class SubscriberWebhookHandler
         array $rawData
     ): bool {
         $data = $this->validateAndMakeDataObject($newsletterId, $rawData);
-        
+
         $subscriber = $this->updateOrCreateModel($newsletterId, $data->getEmail(), $data->getStatus());
         $this->updateEspSubscriberFields($data->getId(), $subscriber);
 
