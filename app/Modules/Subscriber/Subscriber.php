@@ -66,6 +66,11 @@ class Subscriber extends Model
         return $this->hasMany(Subscriber::class, 'referer_subscriber_id');
     }
 
+    public function referer(): BelongsTo
+    {
+        return $this->belongsTo(Subscriber::class, 'referer_subscriber_id');
+    }
+
     /**
      * -----------------------------------------------------------------------------------------------------------------
      * Custom methods

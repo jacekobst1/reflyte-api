@@ -183,6 +183,7 @@ namespace App\Modules\Subscriber{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Modules\Newsletter\Newsletter $newsletter
+ * @property-read Subscriber|null $referer
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Subscriber> $referrals
  * @property-read int|null $referrals_count
  * @method static \Database\Factories\Modules\Subscriber\SubscriberFactory factory($count = null, $state = [])
