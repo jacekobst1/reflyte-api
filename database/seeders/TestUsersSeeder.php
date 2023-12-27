@@ -7,6 +7,7 @@ namespace Database\Seeders;
 use App\Modules\Auth\Enums\RoleEnum;
 use App\Modules\Newsletter\Newsletter;
 use App\Modules\ReferralProgram\ReferralProgram;
+use App\Modules\Reward\Reward;
 use App\Modules\Team\Team;
 use App\Modules\User\User;
 use Illuminate\Database\Seeder;
@@ -41,7 +42,8 @@ final class TestUsersSeeder extends Seeder
         $completeUser->assignRole(RoleEnum::User);
         $team = $this->createTeam($completeUser);
         $newsletter = $this->createNewsletter($team);
-        $this->createReferralProgram($newsletter);
+        $referralProgram = $this->createReferralProgram($newsletter);
+        $this->createReward($referralProgram);
     }
 
     private function createTeam(User $user): Team
@@ -64,5 +66,10 @@ final class TestUsersSeeder extends Seeder
     private function createReferralProgram(Newsletter $newsletter): ReferralProgram
     {
         return ReferralProgram::factory()->for($newsletter)->create();
+    }
+
+    private function createReward(ReferralProgram $referralProgram): Reward
+    {
+        return Reward::factory()->for($referralProgram, 'rewardable')->create();
     }
 }
