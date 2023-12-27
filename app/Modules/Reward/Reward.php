@@ -6,9 +6,11 @@ namespace App\Modules\Reward;
 
 use App\Casts\Model\UuidModelCast;
 use App\Modules\ReferralProgram\ReferralProgram;
+use App\Modules\Subscriber\Subscriber;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Ramsey\Uuid\UuidInterface;
 
@@ -39,6 +41,11 @@ class Reward extends Model
     public function rewardable(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    public function subscribers(): BelongsToMany
+    {
+        return $this->belongsToMany(Subscriber::class)->withPivot('is_sent');
     }
 
     /**

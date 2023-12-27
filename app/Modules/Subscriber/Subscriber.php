@@ -6,10 +6,13 @@ namespace App\Modules\Subscriber;
 
 use App\Casts\Model\UuidModelCast;
 use App\Modules\Newsletter\Newsletter;
+use App\Modules\ReferralProgram\ReferralProgram;
+use App\Modules\Reward\Reward;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 use Ramsey\Uuid\UuidInterface;
@@ -71,6 +74,11 @@ class Subscriber extends Model
         return $this->belongsTo(Subscriber::class, 'referer_subscriber_id');
     }
 
+    public function rewards(): BelongsToMany
+    {
+        return $this->belongsToMany(Reward::class)->withPivot('is_sent');
+    }
+
     /**
      * -----------------------------------------------------------------------------------------------------------------
      * Custom methods
@@ -78,5 +86,10 @@ class Subscriber extends Model
     public function getTeamId(): UuidInterface
     {
         return $this->newsletter->team_id;
+    }
+
+    public function getReferralprogram(): ReferralProgram
+    {
+        return $this->newsletter->referralProgram;
     }
 }
