@@ -174,7 +174,7 @@ namespace App\Modules\Subscriber{
 /**
  * App\Modules\Subscriber\Subscriber
  *
- * @property string $id
+ * @property \Ramsey\Uuid\UuidInterface|null $id
  * @property \Ramsey\Uuid\UuidInterface|null $newsletter_id
  * @property \Ramsey\Uuid\UuidInterface|null|null $referer_subscriber_id
  * @property string|null $esp_id
