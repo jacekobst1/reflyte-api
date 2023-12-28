@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->text('name');
             $table->text('description');
             $table->integer('required_points');
+            $table->text('mail_text');
             $table->timestamps();
 
             $table->unique(['rewardable_id', 'required_points']);

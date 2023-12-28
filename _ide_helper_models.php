@@ -147,8 +147,11 @@ namespace App\Modules\Reward{
  * @property string $name
  * @property string $description
  * @property int $required_points
+ * @property string $mail_text
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Modules\Subscriber\Subscriber> $subscribers
+ * @property-read int|null $subscribers_count
  * @method static \Database\Factories\Modules\Reward\RewardFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Reward newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Reward newQuery()
@@ -156,6 +159,7 @@ namespace App\Modules\Reward{
  * @method static \Illuminate\Database\Eloquent\Builder|Reward whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Reward whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Reward whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Reward whereMailText($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Reward whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Reward whereRequiredPoints($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Reward whereRewardableId($value)
@@ -186,6 +190,8 @@ namespace App\Modules\Subscriber{
  * @property-read Subscriber|null $referer
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Subscriber> $referrals
  * @property-read int|null $referrals_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Modules\Reward\Reward> $rewards
+ * @property-read int|null $rewards_count
  * @method static \Database\Factories\Modules\Subscriber\SubscriberFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Subscriber newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Subscriber newQuery()

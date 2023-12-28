@@ -32,6 +32,7 @@ class Reward extends Model
         'name',
         'description',
         'required_points',
+        'mail_text',
     ];
 
     /**

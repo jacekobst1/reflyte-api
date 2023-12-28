@@ -31,6 +31,7 @@ final class UpdateRewardTest extends TestCase
             'name' => 'New name' . Str::random(5),
             'description' => $reward->description,
             'required_points' => $reward->required_points,
+            'mail_text' => 'Here is the link that allows you to download the reward: https://abc.com/download-reward'
         ];
 
         // when
@@ -52,6 +53,7 @@ final class UpdateRewardTest extends TestCase
             'name' => 'New name' . Str::random(5),
             'description' => $reward->description,
             'required_points' => $reward->required_points,
+            'mail_text' => 'Here is the link that allows you to download the reward: https://abc.com/download-reward'
         ];
 
         // when

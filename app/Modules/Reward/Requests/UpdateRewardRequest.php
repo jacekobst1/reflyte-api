@@ -21,6 +21,9 @@ final class UpdateRewardRequest extends Data
 
         // Validated in rules()
         public readonly int $required_points,
+
+        #[Required, StringType]
+        public readonly string $mail_text,
     ) {
     }
 

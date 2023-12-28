@@ -25,6 +25,7 @@ class RewardFactory extends Factory
             'name' => fake()->name(),
             'description' => fake()->text(),
             'required_points' => rand(1, 10000),
+            'mail_text' => fake()->sentence(),
         ];
     }
 }

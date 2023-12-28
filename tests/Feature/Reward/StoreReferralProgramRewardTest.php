@@ -28,6 +28,7 @@ final class StoreReferralProgramRewardTest extends TestCase
             'name' => 'Reward name',
             'description' => 'Reward description',
             'required_points' => 15,
+            'mail_text' => 'Here is the link that allows you to download the reward',
         ];
 
         // when
@@ -50,6 +51,7 @@ final class StoreReferralProgramRewardTest extends TestCase
             'name' => 'Reward name',
             'description' => 'Reward description',
             'required_points' => 8,
+            'mail_text' => 'Here is the link that allows you to download the reward',
         ];
 
         // when
