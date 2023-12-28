@@ -14,7 +14,7 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
 // TODO add to priority queue
-class RewardGranted extends Mailable
+class RewardGrantedMail extends Mailable
 {
     use Queueable;
     use SerializesModels;
@@ -41,7 +41,7 @@ class RewardGranted extends Mailable
                 'newsletterName' => $this->subscriber->newsletter->name,
                 'rewardPoints' => $this->reward->required_points,
                 'rewardName' => $this->reward->name,
-//                'customText' => $this->reward->custom_text,
+                'mailText' => $this->reward->mail_text,
             ]
         );
     }

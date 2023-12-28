@@ -27,7 +27,7 @@
     <p>Dzięki Twoim staraniom, do newslettera {{ $newsletterName }} dołączyło już <b>{{ $rewardPoints }}</b> nowych osób
         🙌</p>
     <p>Otrzymujesz nagrodę: <b>{{ $rewardName }}</b></p>
-    <p>X</p>
+    <p>{{ $mailText }}</p>
 </div>
 </body>
 </html>

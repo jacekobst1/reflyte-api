@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Mail\RewardGranted;
+use App\Mail\RewardGrantedMail;
 use App\Modules\Auth\Enums\RoleEnum;
 use App\Modules\Newsletter\NewsletterController;
 use App\Modules\Reward\Reward;
@@ -65,7 +65,7 @@ Route::get('/test-mail', function () {
     $subscriber = Subscriber::first();
     $reward = Reward::first();
 
-    Mail::to('jacekobst1@gmail.com')->send(new RewardGranted($subscriber, $reward));
+    Mail::to('jacekobst1@gmail.com')->send(new RewardGrantedMail($subscriber, $reward));
 
     return response()->json();
 });
