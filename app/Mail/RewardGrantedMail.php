@@ -13,7 +13,6 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-// TODO add to priority queue
 class RewardGrantedMail extends Mailable
 {
     use Queueable;
