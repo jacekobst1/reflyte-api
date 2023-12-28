@@ -2,12 +2,16 @@
 
 declare(strict_types=1);
 
+use App\Mail\RewardGranted;
 use App\Modules\Auth\Enums\RoleEnum;
 use App\Modules\Newsletter\NewsletterController;
+use App\Modules\Reward\Reward;
 use App\Modules\Reward\RewardController;
+use App\Modules\Subscriber\Subscriber;
 use App\Modules\Subscriber\SubscriberController;
 use App\Modules\Team\TeamController;
 use App\Modules\User\UserController;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 $admin = RoleEnum::Admin->value;
@@ -55,4 +59,13 @@ Route::prefix('/esp')->group(function () {
     Route::prefix('/webhook')->group(function () {
         Route::post('/{newsletterId}', [SubscriberController::class, 'postWebhookEvent']);
     });
+});
+
+Route::get('/test-mail', function () {
+    $subscriber = Subscriber::first();
+    $reward = Reward::first();
+
+    Mail::to('jacekobst1@gmail.com')->send(new RewardGranted($subscriber, $reward));
+
+    return response()->json();
 });
