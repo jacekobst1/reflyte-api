@@ -46,7 +46,7 @@ class Reward extends Model
 
     public function subscribers(): BelongsToMany
     {
-        return $this->belongsToMany(Subscriber::class)->withPivot('is_sent');
+        return $this->belongsToMany(Subscriber::class);
     }
 
     /**

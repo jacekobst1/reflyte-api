@@ -15,7 +15,6 @@ return new class extends Migration {
         Schema::create('reward_subscriber', function (Blueprint $table) {
             $table->uuid('reward_id')->index();
             $table->uuid('subscriber_id')->index();
-            $table->boolean('is_sent');
         });
     }
 
