@@ -7,7 +7,6 @@ namespace App\Http;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\ForceJsonResponse;
-use App\Http\Middleware\HandleCorsFree;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\SubstituteUuids;
@@ -48,6 +47,7 @@ class Kernel extends HttpKernel
     protected $middleware = [
         // \App\Http\Middleware\TrustHosts::class,
         TrustProxies::class,
+        HandleCors::class,
         PreventRequestsDuringMaintenance::class,
         ValidatePostSize::class,
         TrimStrings::class,
@@ -61,7 +61,6 @@ class Kernel extends HttpKernel
      */
     protected $middlewareGroups = [
         'web' => [
-            HandleCors::class,
             EncryptCookies::class,
             AddQueuedCookiesToResponse::class,
             StartSession::class,
@@ -72,17 +71,8 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            HandleCors::class,
             ForceJsonResponse::class,
             EnsureFrontendRequestsAreStateful::class,
-            ThrottleRequests::class . ':api',
-            SubstituteBindings::class,
-            SubstituteUuids::class,
-        ],
-
-        'api-cors-free' => [
-            HandleCorsFree::class,
-            ForceJsonResponse::class,
             ThrottleRequests::class . ':api',
             SubstituteBindings::class,
             SubstituteUuids::class,

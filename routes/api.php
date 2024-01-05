@@ -55,6 +55,14 @@ Route::middleware('auth:sanctum')->group(function () use ($admin, $user) {
     });
 });
 
+/**
+ * Test if this 2 routes works.
+ * cors.php allowed_origins probably will block any request coming to this route.
+ * Plus maybe we should add exception to VerifyCsrfToken.php
+ */
+Route::prefix('/subscribers')->group(function () {
+    Route::post('/from-landing', [SubscriberController::class, 'postSubscriberFromLanding']);
+});
 Route::prefix('/esp')->group(function () {
     Route::prefix('/webhook')->group(function () {
         Route::post('/{newsletterId}', [SubscriberController::class, 'postWebhookEvent']);
