@@ -28,7 +28,7 @@ final class RewardGranter
         $referralProgram = $subscriber->getReferralprogram();
         $points = $subscriber->referrals()->count();
 
-        /** @var Reward */
+        /** @var Reward|null */
         return $referralProgram->rewards()->where('required_points', $points)->first();
     }
 
