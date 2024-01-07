@@ -7,13 +7,24 @@ namespace App\Modules\Team;
 use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
 use App\Modules\Team\Requests\CreateTeamRequest;
+use App\Modules\Team\Resources\TeamResource;
 use App\Modules\Team\Services\Http\TeamCreator;
 use App\Shared\Response\JsonResp;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Throwable;
 
 class TeamController extends Controller
 {
+    public function getUserTeam(): JsonResponse
+    {
+        $team = Auth::user()->team;
+
+        return JsonResp::success(
+            $team ? new TeamResource($team) : null
+        );
+    }
+
     /**
      * @throws BadRequestException
      * @throws Throwable
