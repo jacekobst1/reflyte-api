@@ -6,6 +6,7 @@ namespace App\Modules\User;
 
 use App\Http\Controllers\Controller;
 use App\Modules\User\Requests\CreateUserRequest;
+use App\Modules\User\Resources\LoggedUserResource;
 use App\Modules\User\Resources\UserResource;
 use App\Modules\User\Services\Http\UserCreator;
 use App\Modules\User\Services\Http\UserGetter;
@@ -20,7 +21,7 @@ class UserController extends Controller
         $loggedUser = $getter->getLoggedUser($request);
 
         return JsonResp::success(
-            new UserResource($loggedUser)
+            new LoggedUserResource($loggedUser)
         );
     }
 

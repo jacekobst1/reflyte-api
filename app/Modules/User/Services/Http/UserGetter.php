@@ -12,7 +12,11 @@ final class UserGetter
 {
     public function getLoggedUser(Request $request): User
     {
-        return $request->user();
+        /** @var User $user */
+        $user = $request->user();
+        $user->load('team.newsletter');
+
+        return $user;
     }
 
     /**

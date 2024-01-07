@@ -14,12 +14,12 @@ class GetLoggedUserTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->actAsUser();
     }
 
     public function testGetLoggedUser(): void
     {
+        $this->actAsUser();
+
         // when
         $response = $this->getJson('/api/logged-user');
 
@@ -30,12 +30,40 @@ class GetLoggedUserTest extends TestCase
             'status',
             'message',
             'data' => [
-                'id',
                 'name',
                 'email',
-                'created_at',
-                'updated_at',
+                'hasTeam',
+                'hasNewsletter',
             ],
         ]);
+    }
+
+    public function testGetLoggedUserWithoutTeamAndNewsletter(): void
+    {
+        $this->actAsUser();
+
+        // when
+        $response = $this->getJson('/api/logged-user');
+
+        // then
+        $data = $response->json('data');
+
+        $this->assertFalse($data['hasTeam']);
+        $this->assertFalse($data['hasNewsletter']);
+    }
+
+
+    public function testGetLoggedUserWithTeamAndNewsletter(): void
+    {
+        $this->actAsCompleteUser();
+
+        // when
+        $response = $this->getJson('/api/logged-user');
+
+        // then
+        $data = $response->json('data');
+
+        $this->assertTrue($data['hasTeam']);
+        $this->assertTrue($data['hasNewsletter']);
     }
 }

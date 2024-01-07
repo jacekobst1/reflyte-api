@@ -58,6 +58,6 @@ class Team extends Model
      */
     public function getReferralProgram(): ReferralProgram
     {
-        return $this->newsletter->referralProgram;
+        return $this->newsletter?->referralProgram;
     }
 }

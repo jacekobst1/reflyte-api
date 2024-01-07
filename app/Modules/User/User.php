@@ -82,11 +82,21 @@ class User extends Authenticatable
      */
     public function getNewsletter(): ?Newsletter
     {
-        return $this->team->newsletter;
+        return $this->team?->newsletter;
     }
 
-    public function getReferralProgram(): ReferralProgram
+    public function getReferralProgram(): ?ReferralProgram
     {
-        return $this->team->getReferralProgram();
+        return $this->team?->getReferralProgram();
+    }
+
+    public function hasTeam(): bool
+    {
+        return (bool)$this->team;
+    }
+
+    public function hasNewsletter(): bool
+    {
+        return (bool)$this->team?->newsletter;
     }
 }
