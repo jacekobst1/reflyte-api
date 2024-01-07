@@ -19,10 +19,9 @@ class NewsletterController extends Controller
     public function getUserTeamNewsletter(): JsonResponse
     {
         $newsletterOfUser = Auth::user()->getNewsletter();
+        $data = $newsletterOfUser ? new NewsletterResource($newsletterOfUser) : null;
 
-        return JsonResp::success(
-            NewsletterResource::collection([$newsletterOfUser])
-        );
+        return JsonResp::success($data);
     }
 
     /**

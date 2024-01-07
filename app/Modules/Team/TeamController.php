@@ -19,10 +19,9 @@ class TeamController extends Controller
     public function getUserTeam(): JsonResponse
     {
         $team = Auth::user()->team;
+        $data = $team ? new TeamResource($team) : null;
 
-        return JsonResp::success(
-            $team ? new TeamResource($team) : null
-        );
+        return JsonResp::success($data);
     }
 
     /**

@@ -36,10 +36,8 @@ Route::middleware('auth:sanctum')->group(function () use ($admin, $user) {
         Route::get('/team', [TeamController::class, 'getUserTeam']);
         Route::post('/teams', [TeamController::class, 'postTeam']);
 
-        Route::prefix('/newsletters')->group(function () {
-            Route::get('/', [NewsletterController::class, 'getUserTeamNewsletter']);
-            Route::post('/', [NewsletterController::class, 'postNewsletter']);
-        });
+        Route::get('/newsletter', [NewsletterController::class, 'getUserTeamNewsletter']);
+        Route::post('/newsletters', [NewsletterController::class, 'postNewsletter']);
 
         Route::prefix('/referral-programs')->group(function () {
             Route::get('/{program}/rewards', [RewardController::class, 'getProgramRewards']);

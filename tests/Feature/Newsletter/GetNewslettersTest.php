@@ -21,7 +21,7 @@ class GetNewslettersTest extends TestCase
     public function testGetNewsletters(): void
     {
         // when
-        $response = $this->getJson('/api/newsletters');
+        $response = $this->getJson('/api/newsletter');
 
         // then
         $response->assertSuccessful();
@@ -30,13 +30,11 @@ class GetNewslettersTest extends TestCase
             'status',
             'message',
             'data' => [
-                [
-                    'id',
-                    'name',
-                    'description',
-                    'created_at',
-                    'updated_at',
-                ],
+                'id',
+                'name',
+                'description',
+                'created_at',
+                'updated_at',
             ],
         ]);
     }
