@@ -39,6 +39,7 @@ final class RewardGranter
 
     private function sendMail(Subscriber $subscriber, Reward $reward): void
     {
+        // TODO skonfiguruj kolejkę "emails" na produkcji
         $mail = (new RewardGrantedMail($subscriber, $reward))->onQueue('emails');
         Mail::to($subscriber->email)->queue($mail);
     }
