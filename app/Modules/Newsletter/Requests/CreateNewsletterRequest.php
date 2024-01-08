@@ -21,7 +21,7 @@ class CreateNewsletterRequest extends Data
         public readonly string $description,
 
         #[Required, StringType, Url, ActiveUrl]
-        public readonly ?string $landing_url,
+        public readonly string $landing_url,
 
         #[Required]
         public readonly EspName $esp_name,
