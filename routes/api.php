@@ -40,6 +40,7 @@ Route::middleware('auth:sanctum')->group(function () use ($admin, $user) {
         Route::get('/newsletter', [NewsletterController::class, 'getUserNewsletter']);
         Route::post('/newsletters', [NewsletterController::class, 'postNewsletter']);
 
+        Route::get('/referral-program', [ReferralProgramController::class, 'getUserReferralProgram']);
         Route::prefix('/referral-programs')->group(function () {
             Route::post('/', [ReferralProgramController::class, 'postReferralProgram']);
             Route::post('/{id}', [ReferralProgramController::class, 'postReferralProgram']);
