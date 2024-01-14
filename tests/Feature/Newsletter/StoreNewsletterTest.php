@@ -41,6 +41,9 @@ class StoreNewsletterTest extends TestCase
         // then
         $response->assertSuccessful();
         $newsletterId = $response->json('data.id');
+        $newsletter = Newsletter::find($newsletterId);
+        $apiKey = $newsletter->esp_api_key;
+
         $this->assertDatabaseHas('newsletters', [
             'id' => $newsletterId,
             'name' => $requestData['name'],
@@ -48,8 +51,8 @@ class StoreNewsletterTest extends TestCase
             'description' => $requestData['description'],
             'esp_name' => $requestData['esp_name'],
         ]);
-        $apiKey = Newsletter::find($newsletterId)->esp_api_key;
         $this->assertEquals($requestData['esp_api_key'], $apiKey);
+        $this->assertModelExists($newsletter->referralProgram);
         Queue::assertPushed(IntegrateWithEspJob::class);
     }
 

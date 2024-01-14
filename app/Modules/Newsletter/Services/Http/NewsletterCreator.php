@@ -12,6 +12,7 @@ use App\Modules\Esp\Services\EspFieldsCreator;
 use App\Modules\Newsletter\Newsletter;
 use App\Modules\Newsletter\Requests\CreateNewsletterRequest;
 use App\Modules\Newsletter\Vo\NewsletterEspConfig;
+use App\Modules\ReferralProgram\Services\Http\ReferralProgramCreator;
 use App\Modules\Team\Team;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +23,7 @@ final class NewsletterCreator
     public function __construct(
         private readonly EspApiKeyValidator $apiKeyValidator,
         private readonly EspFieldsCreator $espFieldsCreator,
+        private readonly ReferralProgramCreator $referralProgramCreator,
     ) {
     }
 
@@ -38,6 +40,7 @@ final class NewsletterCreator
 
         $newsletter = $this->storeNewsletter($data, $team);
 
+        $this->storeReferralProgram($newsletter);
         $this->createEspFields($newsletter->getEspConfig());
         $this->syncSubscribers($newsletter->getEspConfig());
 
@@ -77,6 +80,11 @@ final class NewsletterCreator
         $newsletter->saveOrFail();
 
         return $newsletter;
+    }
+
+    private function storeReferralProgram(Newsletter $newsletter): void
+    {
+        $newsletter->referralProgram()->create();
     }
 
     private function createEspFields(NewsletterEspConfig $espConfig): void
