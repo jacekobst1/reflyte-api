@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Mail\RewardGrantedMail;
 use App\Modules\Auth\Enums\RoleEnum;
 use App\Modules\Newsletter\NewsletterController;
+use App\Modules\ReferralProgram\ReferralProgramController;
 use App\Modules\Reward\Reward;
 use App\Modules\Reward\RewardController;
 use App\Modules\Subscriber\Subscriber;
@@ -40,6 +41,7 @@ Route::middleware('auth:sanctum')->group(function () use ($admin, $user) {
         Route::post('/newsletters', [NewsletterController::class, 'postNewsletter']);
 
         Route::prefix('/referral-programs')->group(function () {
+            Route::post('/', [ReferralProgramController::class, 'postReferralProgram']);
             Route::get('/{program}/rewards', [RewardController::class, 'getReferralProgramRewards']);
             Route::post('/{program}/rewards', [RewardController::class, 'postReferralProgramReward']);
         });

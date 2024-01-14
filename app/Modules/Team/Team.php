@@ -56,7 +56,7 @@ class Team extends Model
      * -----------------------------------------------------------------------------------------------------------------
      * Custom methods
      */
-    public function getReferralProgram(): ReferralProgram
+    public function getReferralProgram(): ?ReferralProgram
     {
         return $this->newsletter?->referralProgram;
     }
