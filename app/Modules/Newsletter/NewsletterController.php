@@ -16,7 +16,7 @@ use Throwable;
 
 class NewsletterController extends Controller
 {
-    public function getUserTeamNewsletter(): JsonResponse
+    public function getUserNewsletter(): JsonResponse
     {
         $newsletterOfUser = Auth::user()->getNewsletter();
         $data = $newsletterOfUser ? new NewsletterResource($newsletterOfUser) : null;
