@@ -12,18 +12,18 @@ use App\Modules\Esp\Services\EspFieldsCreator;
 use App\Modules\Newsletter\Newsletter;
 use App\Modules\Newsletter\Requests\CreateNewsletterRequest;
 use App\Modules\Newsletter\Vo\NewsletterEspConfig;
-use App\Modules\ReferralProgram\Services\Http\ReferralProgramCreator;
+use App\Modules\ReferralProgram\Services\Internal\ReferralProgramCreator;
 use App\Modules\Team\Team;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Throwable;
 
-final class NewsletterCreator
+final readonly class NewsletterCreator
 {
     public function __construct(
-        private readonly EspApiKeyValidator $apiKeyValidator,
-        private readonly EspFieldsCreator $espFieldsCreator,
-        private readonly ReferralProgramCreator $referralProgramCreator,
+        private EspApiKeyValidator $apiKeyValidator,
+        private EspFieldsCreator $espFieldsCreator,
+        private ReferralProgramCreator $referralProgramCreator,
     ) {
     }
 
@@ -82,9 +82,12 @@ final class NewsletterCreator
         return $newsletter;
     }
 
+    /**
+     * @throws ConflictException
+     */
     private function storeReferralProgram(Newsletter $newsletter): void
     {
-        $newsletter->referralProgram()->create();
+        $this->referralProgramCreator->createReferralProgram($newsletter);
     }
 
     private function createEspFields(NewsletterEspConfig $espConfig): void

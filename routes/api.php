@@ -42,8 +42,7 @@ Route::middleware('auth:sanctum')->group(function () use ($admin, $user) {
 
         Route::get('/referral-program', [ReferralProgramController::class, 'getUserReferralProgram']);
         Route::prefix('/referral-programs')->group(function () {
-            Route::post('/', [ReferralProgramController::class, 'postReferralProgram']);
-            Route::post('/{id}', [ReferralProgramController::class, 'postReferralProgram']);
+            Route::post('/{program}/activate', [ReferralProgramController::class, 'activateReferralProgram']);
             Route::get('/{program}/rewards', [RewardController::class, 'getReferralProgramRewards']);
             Route::post('/{program}/rewards', [RewardController::class, 'postReferralProgramReward']);
         });

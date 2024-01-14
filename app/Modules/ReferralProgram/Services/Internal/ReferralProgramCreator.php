@@ -2,26 +2,26 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\ReferralProgram\Services\Http;
+namespace App\Modules\ReferralProgram\Services\Internal;
 
 use App\Exceptions\ConflictException;
+use App\Modules\Newsletter\Newsletter;
 use App\Modules\ReferralProgram\ReferralProgram;
 use App\Modules\Team\Team;
-use Illuminate\Support\Facades\Auth;
 
 class ReferralProgramCreator
 {
     /**
      * @throws ConflictException
      */
-    public function createReferralProgram(): ReferralProgram
+    public function createReferralProgram(Newsletter $newsletter): ReferralProgram
     {
-        $team = Auth::user()->team;
-        
+        $team = $newsletter->team;
+
         $this->checkIfTeamHasNoReferralProgram($team);
 
         /** @var ReferralProgram */
-        return $team->newsletter->referralProgram()->create();
+        return $newsletter->referralProgram()->create();
     }
 
     /**
