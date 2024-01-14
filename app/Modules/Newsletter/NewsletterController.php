@@ -18,8 +18,8 @@ class NewsletterController extends Controller
 {
     public function getUserNewsletter(): JsonResponse
     {
-        $newsletterOfUser = Auth::user()->getNewsletter();
-        $data = $newsletterOfUser ? new NewsletterResource($newsletterOfUser) : null;
+        $newsletter = Auth::user()->getNewsletter();
+        $data = $newsletter ? new NewsletterResource($newsletter) : null;
 
         return JsonResp::success($data);
     }

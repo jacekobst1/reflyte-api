@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Feature\Newsletter;
+namespace Tests\Feature\Newsletter;
 
 use Tests\Helpers\SanctumTrait;
 use Tests\TestCase;
 
-class GetNewslettersTest extends TestCase
+class GetNewsletterTest extends TestCase
 {
     use SanctumTrait;
 
@@ -18,7 +18,7 @@ class GetNewslettersTest extends TestCase
         $this->actAsCompleteUser();
     }
 
-    public function testGetNewsletters(): void
+    public function testGetNewsletter(): void
     {
         // when
         $response = $this->getJson('/api/newsletter');
