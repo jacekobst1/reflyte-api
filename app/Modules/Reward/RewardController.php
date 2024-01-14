@@ -23,7 +23,7 @@ class RewardController extends Controller
     /**
      * @throws AuthorizationException
      */
-    public function getProgramRewards(
+    public function getReferralProgramRewards(
         ReferralProgram $program,
         RewardGetter $rewardGetter
     ): AnonymousResourceCollection {
@@ -47,7 +47,7 @@ class RewardController extends Controller
     /**
      * @throws AuthorizationException
      */
-    public function storeProgramReward(
+    public function postReferralProgramReward(
         ReferralProgram $program,
         CreateRewardRequest $data,
         RewardCreator $rewardCreator,
@@ -62,7 +62,7 @@ class RewardController extends Controller
     /**
      * @throws AuthorizationException
      */
-    public function updateReward(
+    public function putReward(
         Reward $reward,
         UpdateRewardRequest $data,
         RewardUpdater $rewardUpdater,

@@ -40,13 +40,13 @@ Route::middleware('auth:sanctum')->group(function () use ($admin, $user) {
         Route::post('/newsletters', [NewsletterController::class, 'postNewsletter']);
 
         Route::prefix('/referral-programs')->group(function () {
-            Route::get('/{program}/rewards', [RewardController::class, 'getProgramRewards']);
-            Route::post('/{program}/rewards', [RewardController::class, 'storeProgramReward']);
+            Route::get('/{program}/rewards', [RewardController::class, 'getReferralProgramRewards']);
+            Route::post('/{program}/rewards', [RewardController::class, 'postReferralProgramReward']);
         });
 
         Route::prefix('/rewards')->group(function () {
             Route::get('/{reward}', [RewardController::class, 'getReward']);
-            Route::put('/{reward}', [RewardController::class, 'updateReward']);
+            Route::put('/{reward}', [RewardController::class, 'putReward']);
             Route::delete('/{reward}', [RewardController::class, 'deleteReward']);
         });
     });
