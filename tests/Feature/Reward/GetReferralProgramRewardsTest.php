@@ -35,6 +35,8 @@ final class GetReferralProgramRewardsTest extends TestCase
                     'id',
                     'name',
                     'description',
+                    'required_points',
+                    'mail_text',
                     'created_at',
                     'updated_at',
                 ],
