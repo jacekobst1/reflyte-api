@@ -36,6 +36,7 @@ final class CreateRewardRequest extends Data
             'required_points' => [
                 'required',
                 'integer',
+                'min:1',
                 Rule::unique('rewards', 'required_points')
                     ->where('rewardable_id', $referralProgram->id->toString()),
             ],
