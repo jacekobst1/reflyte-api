@@ -8,6 +8,8 @@ use App\Modules\Esp\Integration\Clients\ConvertKit\ConvertKitClient;
 use App\Modules\Esp\Integration\Clients\EspClientFactory;
 use App\Modules\Esp\Integration\Clients\MailerLite\MailerLiteClient;
 use App\Modules\Newsletter\Newsletter;
+use App\Modules\ReferralProgram\ReferralProgram;
+use App\Modules\Reward\Services\Internal\RewardGranter;
 use App\Modules\Subscriber\Subscriber;
 use App\Modules\Subscriber\SubscriberIsReferral;
 use App\Modules\Subscriber\SubscriberStatus;
@@ -50,7 +52,7 @@ final class WebhookEventTest extends TestCase
         ]);
     }
 
-    public function testWhenSubscriberAlreadyExistsFromMailerLite()
+    public function testWhenSubscriberAlreadyExistsFromMailerLite(): void
     {
         $email = Str::random() . '@test.com';
         $newsletter = Newsletter::factory()->create();
@@ -132,5 +134,119 @@ final class WebhookEventTest extends TestCase
         // then
         $response->assertBadRequest();
         $this->assertEquals('Invalid uuid', $response->json('message'));
+    }
+
+    public function testRefererRewardGranterInvokedIfReferer(): void
+    {
+        $email = Str::random() . '@test.com';
+        $newsletter = Newsletter::factory()->create();
+        ReferralProgram::factory()->for($newsletter)->create();
+        $referer = Subscriber::factory()->for($newsletter)->create();
+        $subscriber = Subscriber::factory()->for($newsletter)->create([
+            'email' => $email,
+            'status' => SubscriberStatus::Received,
+            'is_referral' => SubscriberIsReferral::Yes,
+            'referer_subscriber_id' => $referer->id,
+        ]);
+        $data = [
+            'id' => Str::random(),
+            'email' => $email,
+            'status' => SubscriberStatus::Active->value,
+        ];
+
+        // mock
+        $mailerLiteEspClientMock = $this->mock(MailerLiteClient::class);
+        $mailerLiteEspClientMock->shouldReceive('updateSubscriberFields')
+            ->once()
+            ->andReturn(true);
+        $espClientFactoryMock = $this->mock(EspClientFactory::class);
+        $espClientFactoryMock->shouldReceive('make')
+            ->once()
+            ->andReturn($mailerLiteEspClientMock);
+        $rewardGranterMock = $this->mock(RewardGranter::class);
+        $rewardGranterMock->expects('grantRewardIfPointsAchieved')->once();
+
+        // when
+        $response = $this->postJson("/api/esp/webhook/$newsletter->id", $data);
+
+        // then
+        $response->assertOk();
+        $this->assertEquals(SubscriberStatus::Active, $subscriber->refresh()->status);
+    }
+
+    public function testRefererRewardGranterNotInvokedIfNoReferer(): void
+    {
+        $email = Str::random() . '@test.com';
+        $newsletter = Newsletter::factory()->create();
+        $subscriber = Subscriber::factory()->for($newsletter)->create([
+            'email' => $email,
+            'status' => SubscriberStatus::Received,
+            'is_referral' => SubscriberIsReferral::Yes,
+            'referer_subscriber_id' => null,
+        ]);
+        $data = [
+            'id' => Str::random(),
+            'email' => $email,
+            'status' => SubscriberStatus::Active->value,
+        ];
+
+        // mock
+        $mailerLiteEspClientMock = $this->mock(MailerLiteClient::class);
+        $mailerLiteEspClientMock->shouldReceive('updateSubscriberFields')
+            ->once()
+            ->andReturn(true);
+        $espClientFactoryMock = $this->mock(EspClientFactory::class);
+        $espClientFactoryMock->shouldReceive('make')
+            ->once()
+            ->andReturn($mailerLiteEspClientMock);
+        $rewardGranterMock = $this->mock(RewardGranter::class);
+        $rewardGranterMock->expects('grantRewardIfPointsAchieved')->times(0);
+
+        // when
+        $response = $this->postJson("/api/esp/webhook/$newsletter->id", $data);
+
+        // then
+        $response->assertOk();
+        $this->assertEquals(SubscriberStatus::Active, $subscriber->refresh()->status);
+    }
+
+    public function testRefererRewardGranterNotInvokedIfReferralProgramInactive(): void
+    {
+        $email = Str::random() . '@test.com';
+        $newsletter = Newsletter::factory()->create();
+        $referralProgram = ReferralProgram::factory()->for($newsletter)->create([
+            'active' => false,
+        ]);
+        $referer = Subscriber::factory()->for($newsletter)->create();
+        $subscriber = Subscriber::factory()->for($newsletter)->create([
+            'email' => $email,
+            'status' => SubscriberStatus::Received,
+            'is_referral' => SubscriberIsReferral::Yes,
+            'referer_subscriber_id' => $referer->id,
+        ]);
+        $data = [
+            'id' => Str::random(),
+            'email' => $email,
+            'status' => SubscriberStatus::Active->value,
+        ];
+
+        // mock
+        $mailerLiteEspClientMock = $this->mock(MailerLiteClient::class);
+        $mailerLiteEspClientMock->shouldReceive('updateSubscriberFields')
+            ->once()
+            ->andReturn(true);
+        $espClientFactoryMock = $this->mock(EspClientFactory::class);
+        $espClientFactoryMock->shouldReceive('make')
+            ->once()
+            ->andReturn($mailerLiteEspClientMock);
+        $rewardGranterMock = $this->mock(RewardGranter::class);
+        $rewardGranterMock->expects('grantRewardIfPointsAchieved')->times(0);
+
+        // when
+        $response = $this->postJson("/api/esp/webhook/$newsletter->id", $data);
+
+        // then
+        $response->assertOk();
+        $this->assertEquals(SubscriberStatus::Active, $subscriber->refresh()->status);
     }
 }

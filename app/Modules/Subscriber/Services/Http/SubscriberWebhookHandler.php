@@ -31,7 +31,7 @@ final readonly class SubscriberWebhookHandler
 
         $subscriber = $this->updateOrCreateModel($newsletterId, $data);
         $this->updateEspSubscriberFields($data->getId(), $subscriber);
-        $this->grantReward($subscriber);
+        $this->grantRewardToReferer($subscriber->referer);
 
         return true;
     }
@@ -77,10 +77,12 @@ final readonly class SubscriberWebhookHandler
         $espClient->updateSubscriberFields($id, RltFields::getSubscriberFields($subscriber));
     }
 
-    private function grantReward(Subscriber $subscriber): void
+    private function grantRewardToReferer(?Subscriber $referer): void
     {
-        if ($subscriber->referer) {
-            $this->rewardGranter->grantRewardIfPointsAchieved($subscriber->referer);
+        $referralProgramIsActive = $referer?->getReferralprogram()?->active;
+
+        if ($referer && $referralProgramIsActive) {
+            $this->rewardGranter->grantRewardIfPointsAchieved($referer);
         }
     }
 }

@@ -9,7 +9,7 @@ use App\Modules\Reward\Reward;
 use App\Modules\Subscriber\Subscriber;
 use Illuminate\Support\Facades\Mail;
 
-final class RewardGranter
+class RewardGranter
 {
     public function grantRewardIfPointsAchieved(Subscriber $subscriber): void
     {
