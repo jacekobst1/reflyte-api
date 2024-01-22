@@ -7,7 +7,7 @@ namespace Tests\Feature\ReferralProgram;
 use Tests\Helpers\SanctumTrait;
 use Tests\TestCase;
 
-class ActivateReferralProgramTest extends TestCase
+class DeactivateReferralProgramTest extends TestCase
 {
     use SanctumTrait;
 
@@ -15,16 +15,16 @@ class ActivateReferralProgramTest extends TestCase
     {
         $this->actAsCompleteUser();
         $referralProgram = $this->loggedUser->getReferralProgram();
-        $referralProgram->active = false;
+        $referralProgram->active = true;
         $referralProgram->save();
 
         // when
-        $response = $this->postJson("/api/referral-programs/$referralProgram->id/activate");
+        $response = $this->postJson("/api/referral-programs/$referralProgram->id/deactivate");
 
         // then
         $referralProgram->refresh();
 
         $response->assertSuccessful();
-        $this->assertTrue($referralProgram->active);
+        $this->assertFalse($referralProgram->active);
     }
 }

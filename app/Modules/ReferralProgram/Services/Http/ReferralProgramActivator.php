@@ -13,4 +13,10 @@ final class ReferralProgramActivator
         $referralProgram->active = true;
         $referralProgram->save();
     }
+
+    public function deactivateReferralProgram(ReferralProgram $referralProgram): void
+    {
+        $referralProgram->active = false;
+        $referralProgram->save();
+    }
 }
