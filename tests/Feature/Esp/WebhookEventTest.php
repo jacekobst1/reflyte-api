@@ -22,21 +22,11 @@ final class WebhookEventTest extends TestCase
     {
         // given
         $newsletter = Newsletter::factory()->create();
-        $data = [
-            'id' => Str::random(),
-            'email' => Str::random() . '@test.com',
-            'status' => SubscriberStatus::Active->value,
-        ];
+        $data = $this->prepareData();
 
         // mock
-        $mailerLiteEspClientMock = $this->mock(MailerLiteClient::class);
-        $mailerLiteEspClientMock->shouldReceive('updateSubscriberFields')
-            ->once()
-            ->andReturn(true);
-        $espClientFactoryMock = $this->mock(EspClientFactory::class);
-        $espClientFactoryMock->shouldReceive('make')
-            ->once()
-            ->andReturn($mailerLiteEspClientMock);
+        $this->mockEspClient(MailerLiteClient::class);
+
 
         // when
         $response = $this->postJson("/api/esp/webhook/$newsletter->id", $data);
@@ -54,28 +44,17 @@ final class WebhookEventTest extends TestCase
 
     public function testWhenSubscriberAlreadyExistsFromMailerLite(): void
     {
-        $email = Str::random() . '@test.com';
+        $data = $this->prepareData();
         $newsletter = Newsletter::factory()->create();
         $subscriber = Subscriber::factory()->for($newsletter)->create([
-            'email' => $email,
+            'email' => $data['email'],
             'status' => SubscriberStatus::Received,
             'is_referral' => SubscriberIsReferral::Yes,
         ]);
-        $data = [
-            'id' => Str::random(),
-            'email' => $email,
-            'status' => SubscriberStatus::Active->value,
-        ];
 
         // mock
-        $mailerLiteEspClientMock = $this->mock(MailerLiteClient::class);
-        $mailerLiteEspClientMock->shouldReceive('updateSubscriberFields')
-            ->once()
-            ->andReturn(true);
-        $espClientFactoryMock = $this->mock(EspClientFactory::class);
-        $espClientFactoryMock->shouldReceive('make')
-            ->once()
-            ->andReturn($mailerLiteEspClientMock);
+        $this->mockEspClient(MailerLiteClient::class);
+
 
         // when
         $response = $this->postJson("/api/esp/webhook/$newsletter->id", $data);
@@ -96,14 +75,7 @@ final class WebhookEventTest extends TestCase
         ];
 
         // mock
-        $convertKitEspClientMock = $this->mock(ConvertKitClient::class);
-        $convertKitEspClientMock->shouldReceive('updateSubscriberFields')
-            ->once()
-            ->andReturn(true);
-        $espClientFactoryMock = $this->mock(EspClientFactory::class);
-        $espClientFactoryMock->shouldReceive('make')
-            ->once()
-            ->andReturn($convertKitEspClientMock);
+        $this->mockEspClient(ConvertKitClient::class);
 
         // when
         $response = $this->postJson("/api/esp/webhook/$newsletter->id", $data);
@@ -122,11 +94,7 @@ final class WebhookEventTest extends TestCase
     public function testWrongUuid(): void
     {
         // given
-        $data = [
-            'id' => Str::random(),
-            'email' => Str::random() . '@test.com',
-            'status' => SubscriberStatus::Active->value,
-        ];
+        $data = $this->prepareData();
 
         // when
         $response = $this->postJson('/api/esp/webhook/abc', $data);
@@ -138,31 +106,21 @@ final class WebhookEventTest extends TestCase
 
     public function testRefererRewardGranterInvokedIfReferer(): void
     {
-        $email = Str::random() . '@test.com';
+        $data = $this->prepareData();
+
         $newsletter = Newsletter::factory()->create();
         ReferralProgram::factory()->for($newsletter)->create();
         $referer = Subscriber::factory()->for($newsletter)->create();
         $subscriber = Subscriber::factory()->for($newsletter)->create([
-            'email' => $email,
+            'email' => $data['email'],
             'status' => SubscriberStatus::Received,
             'is_referral' => SubscriberIsReferral::Yes,
             'referer_subscriber_id' => $referer->id,
         ]);
-        $data = [
-            'id' => Str::random(),
-            'email' => $email,
-            'status' => SubscriberStatus::Active->value,
-        ];
 
         // mock
-        $mailerLiteEspClientMock = $this->mock(MailerLiteClient::class);
-        $mailerLiteEspClientMock->shouldReceive('updateSubscriberFields')
-            ->once()
-            ->andReturn(true);
-        $espClientFactoryMock = $this->mock(EspClientFactory::class);
-        $espClientFactoryMock->shouldReceive('make')
-            ->once()
-            ->andReturn($mailerLiteEspClientMock);
+        $this->mockEspClient(MailerLiteClient::class);
+
         $rewardGranterMock = $this->mock(RewardGranter::class);
         $rewardGranterMock->expects('grantRewardIfPointsAchieved')->once();
 
@@ -176,29 +134,19 @@ final class WebhookEventTest extends TestCase
 
     public function testRefererRewardGranterNotInvokedIfNoReferer(): void
     {
-        $email = Str::random() . '@test.com';
+        $data = $this->prepareData();
+
         $newsletter = Newsletter::factory()->create();
         $subscriber = Subscriber::factory()->for($newsletter)->create([
-            'email' => $email,
+            'email' => $data['email'],
             'status' => SubscriberStatus::Received,
             'is_referral' => SubscriberIsReferral::Yes,
             'referer_subscriber_id' => null,
         ]);
-        $data = [
-            'id' => Str::random(),
-            'email' => $email,
-            'status' => SubscriberStatus::Active->value,
-        ];
 
         // mock
-        $mailerLiteEspClientMock = $this->mock(MailerLiteClient::class);
-        $mailerLiteEspClientMock->shouldReceive('updateSubscriberFields')
-            ->once()
-            ->andReturn(true);
-        $espClientFactoryMock = $this->mock(EspClientFactory::class);
-        $espClientFactoryMock->shouldReceive('make')
-            ->once()
-            ->andReturn($mailerLiteEspClientMock);
+        $this->mockEspClient(MailerLiteClient::class);
+
         $rewardGranterMock = $this->mock(RewardGranter::class);
         $rewardGranterMock->expects('grantRewardIfPointsAchieved')->times(0);
 
@@ -212,33 +160,23 @@ final class WebhookEventTest extends TestCase
 
     public function testRefererRewardGranterNotInvokedIfReferralProgramInactive(): void
     {
-        $email = Str::random() . '@test.com';
+        $data = $this->prepareData();
+
         $newsletter = Newsletter::factory()->create();
-        $referralProgram = ReferralProgram::factory()->for($newsletter)->create([
+        ReferralProgram::factory()->for($newsletter)->create([
             'active' => false,
         ]);
         $referer = Subscriber::factory()->for($newsletter)->create();
         $subscriber = Subscriber::factory()->for($newsletter)->create([
-            'email' => $email,
+            'email' => $data['email'],
             'status' => SubscriberStatus::Received,
             'is_referral' => SubscriberIsReferral::Yes,
             'referer_subscriber_id' => $referer->id,
         ]);
-        $data = [
-            'id' => Str::random(),
-            'email' => $email,
-            'status' => SubscriberStatus::Active->value,
-        ];
 
         // mock
-        $mailerLiteEspClientMock = $this->mock(MailerLiteClient::class);
-        $mailerLiteEspClientMock->shouldReceive('updateSubscriberFields')
-            ->once()
-            ->andReturn(true);
-        $espClientFactoryMock = $this->mock(EspClientFactory::class);
-        $espClientFactoryMock->shouldReceive('make')
-            ->once()
-            ->andReturn($mailerLiteEspClientMock);
+        $this->mockEspClient(MailerLiteClient::class);
+
         $rewardGranterMock = $this->mock(RewardGranter::class);
         $rewardGranterMock->expects('grantRewardIfPointsAchieved')->times(0);
 
@@ -248,5 +186,27 @@ final class WebhookEventTest extends TestCase
         // then
         $response->assertOk();
         $this->assertEquals(SubscriberStatus::Active, $subscriber->refresh()->status);
+    }
+
+    private function mockEspClient(string $espClientClassName): void
+    {
+        $convertKitEspClientMock = $this->mock($espClientClassName);
+        $convertKitEspClientMock->shouldReceive('updateSubscriberFields')
+            ->once()
+            ->andReturn(true);
+
+        $espClientFactoryMock = $this->mock(EspClientFactory::class);
+        $espClientFactoryMock->shouldReceive('make')
+            ->once()
+            ->andReturn($convertKitEspClientMock);
+    }
+
+    private function prepareData(): array
+    {
+        return [
+            'id' => Str::random(),
+            'email' => Str::random() . '@test.com',
+            'status' => SubscriberStatus::Active->value,
+        ];
     }
 }
