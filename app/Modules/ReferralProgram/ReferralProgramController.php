@@ -22,10 +22,10 @@ final class ReferralProgramController extends Controller
     }
 
     public function activateReferralProgram(
-        ReferralProgram $referralProgram,
+        ReferralProgram $program,
         ReferralProgramActivator $referralProgramActivator
     ): JsonResponse {
-        $referralProgramActivator->activateReferralProgram($referralProgram);
+        $referralProgramActivator->activateReferralProgram($program);
 
         return JsonResp::success();
     }

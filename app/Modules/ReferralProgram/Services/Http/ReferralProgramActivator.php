@@ -10,6 +10,7 @@ final class ReferralProgramActivator
 {
     public function activateReferralProgram(ReferralProgram $referralProgram): void
     {
-        $referralProgram->update(['active' => true]);
+        $referralProgram->active = true;
+        $referralProgram->save();
     }
 }
