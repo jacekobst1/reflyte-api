@@ -7,7 +7,9 @@ namespace App\Modules\Subscriber;
 use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
 use App\Modules\Subscriber\Requests\CreateSubscriberRequest;
+use App\Modules\Subscriber\Resources\SubscriberResource;
 use App\Modules\Subscriber\Services\Http\SubscriberFromLandingCreator;
+use App\Modules\Subscriber\Services\Http\SubscriberGetter;
 use App\Modules\Subscriber\Services\Http\SubscriberWebhookHandler;
 use App\Shared\Response\JsonResp;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
@@ -15,12 +17,20 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Routing\Redirector;
 use Illuminate\View\View;
 use Ramsey\Uuid\UuidInterface;
 
 class SubscriberController extends Controller
 {
+    public function getUserSubsribers(SubscriberGetter $subscriberGetter): AnonymousResourceCollection
+    {
+        $subscribers = $subscriberGetter->paginateByLoggedUser();
+
+        return SubscriberResource::collection($subscribers);
+    }
+
     public function redirectByRefCode(
         string $refCode
     ): ApplicationContract|Application|RedirectResponse|Redirector|View {
