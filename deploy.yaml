@@ -1,0 +1,18 @@
+import:
+  - recipe/laravel.php
+
+config:
+  application: 'reflyte-api'
+  repository: 'git@github.com:jacekobst1/reflyte-api.git'
+
+hosts:
+  prod:
+    remote_user: deployer
+    deploy_path: '~/{{application}}'
+
+tasks:
+  build:
+    - run: uptime
+
+after:
+  deploy:failed: deploy:unlock
