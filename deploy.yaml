@@ -1,18 +1,29 @@
 import:
   - recipe/laravel.php
+  - contrib/php-fpm.php
+  - contrib/npm.php
 
 config:
   application: 'reflyte-api'
   repository: 'git@github.com:jacekobst1/reflyte-api.git'
+  php_fpm_version: '8.3'
 
 hosts:
   prod:
-    remote_user: deployer
-    deploy_path: '~/{{application}}'
+    remote_user: ploi
+    hostname: 'api.reflyte.com'
+    deploy_path: '~/{{hostname}}'
 
 tasks:
-  build:
-    - run: uptime
+  deploy:
+    - deploy:prepare
+    - deploy:vendors
+    - artisan:storage:link
+    - artisan:view:cache
+    - artisan:config:cache
+    - artisan:migrate
+    - deploy:publish
+    - php-fpm:reload
 
 after:
   deploy:failed: deploy:unlock
