@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Telescope\IncomingEntry;
 use Laravel\Telescope\Telescope;
@@ -58,10 +59,12 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      */
     protected function gate(): void
     {
-        Gate::define('viewTelescope', function ($user) {
-            return in_array($user->email, [
-                'jacek@reflyte.com'
-            ]);
+        $adminIps = Config::get('env.admin_ips');
+
+        Gate::define('viewTelescope', function ($user) use ($adminIps) {
+            return
+                in_array(request()->ip(), $adminIps, true)
+                || $user->hasRole('admin');
         });
     }
 }

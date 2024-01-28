@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Horizon\HorizonApplicationServiceProvider;
 
@@ -28,10 +29,12 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
      */
     protected function gate(): void
     {
-        Gate::define('viewHorizon', function ($user) {
-            return in_array($user->email, [
-                'jacek@reflyte.com',
-            ]);
+        $adminIps = Config::get('env.admin_ips');
+
+        Gate::define('viewHorizon', function ($user) use ($adminIps) {
+            return
+                in_array(request()->ip(), $adminIps, true)
+                || $user->hasRole('admin');
         });
     }
 }
