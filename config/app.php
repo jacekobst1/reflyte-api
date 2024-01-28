@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Providers\FortifyServiceProvider;
+use App\Providers\TelescopeServiceProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
@@ -172,6 +173,7 @@ return [
         /*
          * Package Service Providers...
         */
+        TelescopeServiceProvider::class,
         FortifyServiceProvider::class,
 
         /*
