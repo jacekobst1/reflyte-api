@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Ramsey\Uuid\UuidInterface;
 
@@ -51,7 +52,7 @@ class Subscriber extends Model
         // zadbaj o sytuację, gdy leci exception
         static::creating(function (Subscriber $subscriber) {
             $subscriber->ref_code = strtolower(Str::random(10));
-            $subscriber->ref_link = 'https://reflyte.com/join/' . $subscriber->ref_code;
+            $subscriber->ref_link = Config::get('env.app_url') . '/join/' . $subscriber->ref_code;
             $subscriber->ref_count = 0;
         });
     }
