@@ -31,7 +31,11 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
     {
         $adminIps = Config::get('env.admin_ips');
 
-        Gate::define('viewHorizon', function ($user) use ($adminIps) {
+        Gate::define('viewHorizon', function ($user = null) use ($adminIps) {
+            if (request()->bearerToken() && request()->bearerToken() === config('services.horizon.token')) {
+                return true;
+            }
+
             return
                 in_array(request()->ip(), $adminIps, true)
                 || $user->hasRole('admin');
