@@ -23,6 +23,7 @@ tasks:
     - artisan:config:cache
     - artisan:migrate
     - deploy:publish
+    - php-fpm:reload
 
 after:
   deploy:failed: deploy:unlock
