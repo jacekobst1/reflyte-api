@@ -14,8 +14,9 @@ class RewardGranter
     public function grantRewardIfPointsAchieved(Subscriber $subscriber): void
     {
         $reward = $this->getMatchingReward($subscriber);
+        $rewardAlreadyGranted = $subscriber->rewards()->where('reward_id', $reward?->id)->exists();
 
-        if (!$reward) {
+        if (!$reward || $rewardAlreadyGranted) {
             return;
         }
 
