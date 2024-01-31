@@ -31,6 +31,7 @@ final readonly class SubscriberWebhookHandler
 
         $subscriber = $this->updateOrCreateModel($newsletterId, $data);
         $this->updateEspSubscriberFields($data->getId(), $subscriber);
+        $this->updateRefererRefCount($subscriber->referer);
         $this->grantRewardToReferer($subscriber->referer);
 
         return true;
@@ -75,6 +76,17 @@ final readonly class SubscriberWebhookHandler
         $espClient = $this->espClientFactory->make($espConfig);
 
         $espClient->updateSubscriberFields($id, RltFields::getSubscriberFields($subscriber));
+    }
+
+
+    private function updateRefererRefCount(?Subscriber $referer): void
+    {
+        if (!$referer) {
+            return;
+        }
+
+        $referer->ref_count = $referer->referrals()->count();
+        $referer->update();
     }
 
     private function grantRewardToReferer(?Subscriber $referer): void
