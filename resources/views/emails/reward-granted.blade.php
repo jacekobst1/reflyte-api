@@ -11,7 +11,7 @@
         }
 
         h1 {
-            color: #ff85b7;
+            color: #fdd619;
         }
 
         p {
@@ -22,12 +22,17 @@
     </style>
 </head>
 <body>
-<div>
-    <h1>Gratulacje!</h1>
-    <p>Dzięki Twoim staraniom, do newslettera {{ $newsletterName }} dołączyło już <b>{{ $rewardPoints }}</b> nowych osób
-        🙌</p>
-    <p>Otrzymujesz nagrodę: <b>{{ $rewardName }}</b></p>
-    <p>{{ $mailText }}</p>
-</div>
+    <main>
+        <h1>Gratulacje!</h1>
+        <p>
+            Dzięki Twoim staraniom, do newslettera {{ $newsletterName }} dołączyło już <b>{{ $rewardPoints }}</b> nowych
+            osób
+            🙌
+        </p>
+        <p>Otrzymujesz nagrodę: <b>{{ $rewardName }}</b></p>
+        <br>
+        <p>Oto wiadomość od twórcy:</p>
+        <p>{{ $mailText }}</p>
+    </main>
 </body>
 </html>
