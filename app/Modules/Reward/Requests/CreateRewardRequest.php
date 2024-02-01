@@ -6,6 +6,7 @@ namespace App\Modules\Reward\Requests;
 
 use App\Modules\ReferralProgram\ReferralProgram;
 use Illuminate\Validation\Rule;
+use Spatie\LaravelData\Attributes\Validation\Nullable;
 use Spatie\LaravelData\Attributes\Validation\Required;
 use Spatie\LaravelData\Attributes\Validation\StringType;
 use Spatie\LaravelData\Data;
@@ -16,8 +17,8 @@ final class CreateRewardRequest extends Data
         #[Required, StringType]
         public readonly string $name,
 
-        #[Required, StringType]
-        public readonly string $description,
+        #[Nullable, StringType]
+        public readonly ?string $description,
 
         // Validated in rules()
         public readonly int $required_points,

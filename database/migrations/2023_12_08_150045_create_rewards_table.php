@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->uuid('rewardable_id')->index();
             $table->string('rewardable_type');
             $table->text('name');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->integer('required_points');
             $table->text('mail_text');
             $table->timestamps();
