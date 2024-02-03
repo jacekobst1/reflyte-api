@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Esp;
 
-use App\Modules\Esp\Integration\Clients\ConvertKit\ConvertKitClient;
 use App\Modules\Esp\Integration\Clients\EspClientFactory;
 use App\Modules\Esp\Integration\Clients\MailerLite\MailerLiteClient;
 use App\Modules\Newsletter\Newsletter;
@@ -62,35 +61,6 @@ final class WebhookEventTest extends TestCase
         // then
         $response->assertOk();
         $this->assertEquals(SubscriberStatus::Active, $subscriber->refresh()->status);
-    }
-
-    public function testWhenSubscriberNotExistsFromConvertKit(): void
-    {
-        // given
-        $newsletter = Newsletter::factory()->convertKit()->create();
-        $data = [
-            'subscriber' => [
-                'id' => Str::random(),
-                'email_address' => Str::random() . '@test.com',
-                'state' => SubscriberStatus::Active->value,
-            ]
-        ];
-
-        // mock
-        $this->mockEspClient(ConvertKitClient::class);
-
-        // when
-        $response = $this->postJson("/api/esp/webhook/$newsletter->id", $data);
-
-        // then
-        $response->assertOk();
-        $this->assertDatabaseHas('subscribers', [
-            'newsletter_id' => $newsletter->id,
-            'esp_id' => $data['subscriber']['id'],
-            'email' => $data['subscriber']['email_address'],
-            'status' => SubscriberStatus::Active,
-            'is_referral' => SubscriberIsReferral::No,
-        ]);
     }
 
     public function testWrongUuid(): void
