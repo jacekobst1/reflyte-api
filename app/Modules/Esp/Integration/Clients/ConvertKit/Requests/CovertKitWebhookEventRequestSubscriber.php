@@ -7,6 +7,7 @@ namespace App\Modules\Esp\Integration\Clients\ConvertKit\Requests;
 use App\Modules\Esp\Integration\Clients\ConvertKit\ConvertKitSubscriberStatusTranslator;
 use App\Modules\Subscriber\SubscriberStatus;
 use Spatie\LaravelData\Attributes\Validation\Email;
+use Spatie\LaravelData\Attributes\Validation\IntegerType;
 use Spatie\LaravelData\Attributes\Validation\Required;
 use Spatie\LaravelData\Attributes\Validation\StringType;
 use Spatie\LaravelData\Data;
@@ -14,8 +15,8 @@ use Spatie\LaravelData\Data;
 final class CovertKitWebhookEventRequestSubscriber extends Data
 {
     public function __construct(
-        #[Required, StringType]
-        public readonly string $id,
+        #[Required, IntegerType]
+        public readonly int $id,
 
         #[Required, StringType, Email]
         public readonly string $email_address,

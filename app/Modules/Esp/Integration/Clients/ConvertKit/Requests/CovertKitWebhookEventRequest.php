@@ -19,7 +19,7 @@ final class CovertKitWebhookEventRequest extends Data implements WebhookEventReq
 
     public function getId(): string
     {
-        return $this->subscriber->id;
+        return (string)$this->subscriber->id;
     }
 
     public function getEmail(): string

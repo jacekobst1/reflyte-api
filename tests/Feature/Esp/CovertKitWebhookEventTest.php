@@ -20,7 +20,7 @@ final class CovertKitWebhookEventTest extends TestCase
         $newsletter = Newsletter::factory()->convertKit()->create();
         $data = [
             'subscriber' => [
-                'id' => Str::random(),
+                'id' => rand(),
                 'email_address' => Str::random() . '@test.com',
                 'state' => SubscriberStatus::Active->value,
             ]
