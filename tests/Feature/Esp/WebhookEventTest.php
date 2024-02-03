@@ -69,9 +69,11 @@ final class WebhookEventTest extends TestCase
         // given
         $newsletter = Newsletter::factory()->convertKit()->create();
         $data = [
-            'id' => Str::random(),
-            'email' => Str::random() . '@test.com',
-            'state' => SubscriberStatus::Active->value,
+            'subscriber' => [
+                'id' => Str::random(),
+                'email_address' => Str::random() . '@test.com',
+                'state' => SubscriberStatus::Active->value,
+            ]
         ];
 
         // mock
@@ -84,8 +86,8 @@ final class WebhookEventTest extends TestCase
         $response->assertOk();
         $this->assertDatabaseHas('subscribers', [
             'newsletter_id' => $newsletter->id,
-            'esp_id' => $data['id'],
-            'email' => $data['email'],
+            'esp_id' => $data['subscriber']['id'],
+            'email' => $data['subscriber']['email_address'],
             'status' => SubscriberStatus::Active,
             'is_referral' => SubscriberIsReferral::No,
         ]);
