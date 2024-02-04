@@ -26,6 +26,7 @@ class SubscriberResource extends JsonResource
             'status' => $this->status,
             'ref_code' => $this->ref_code,
             'ref_link' => $this->ref_link,
+            'ref_count' => $this->ref_count,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
