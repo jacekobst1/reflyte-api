@@ -11,36 +11,36 @@ use Illuminate\Support\Facades\Mail;
 
 class RewardGranter
 {
-    public function grantRewardIfPointsAchieved(Subscriber $subscriber): void
+    public function grantRewardIfPointsAchieved(Subscriber $referer): void
     {
-        $reward = $this->getMatchingReward($subscriber);
-        $rewardAlreadyGranted = $subscriber->rewards()->where('reward_id', $reward?->id)->exists();
+        $reward = $this->getMatchingReward($referer);
+        $rewardAlreadyGranted = $referer->rewards()->where('reward_id', $reward?->id)->exists();
 
         if (!$reward || $rewardAlreadyGranted) {
             return;
         }
 
-        $this->sendMail($subscriber, $reward);
-        $this->attachRewardToSubscriber($subscriber, $reward);
+        $this->sendMail($referer, $reward);
+        $this->attachRewardToSubscriber($referer, $reward);
     }
 
-    private function getMatchingReward(Subscriber $subscriber): ?Reward
+    private function getMatchingReward(Subscriber $referer): ?Reward
     {
-        $referralProgram = $subscriber->getReferralprogram();
-        $points = $subscriber->referrals()->count();
+        $referralProgram = $referer->getReferralprogram();
+        $points = $referer->referrals()->count();
 
         /** @var Reward|null */
         return $referralProgram->rewards()->where('required_points', $points)->first();
     }
 
-    private function attachRewardToSubscriber(Subscriber $subscriber, Reward $reward): void
+    private function attachRewardToSubscriber(Subscriber $referer, Reward $reward): void
     {
-        $subscriber->rewards()->attach($reward);
+        $referer->rewards()->attach($reward);
     }
 
-    private function sendMail(Subscriber $subscriber, Reward $reward): void
+    private function sendMail(Subscriber $referer, Reward $reward): void
     {
-        $mail = (new RewardGrantedMail($subscriber, $reward))->onQueue('emails');
-        Mail::to($subscriber->email)->queue($mail);
+        $mail = (new RewardGrantedMail($referer, $reward))->onQueue('emails');
+        Mail::to($referer->email)->queue($mail);
     }
 }

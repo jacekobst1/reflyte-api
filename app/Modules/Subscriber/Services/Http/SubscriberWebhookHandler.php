@@ -8,7 +8,7 @@ use App\Modules\Esp\Integration\Clients\EspClientFactory;
 use App\Modules\Esp\Integration\WebhookEvent\WebhookEventRequestFactory;
 use App\Modules\Esp\Integration\WebhookEvent\WebhookEventRequestInterface;
 use App\Modules\Newsletter\Newsletter;
-use App\Modules\Reward\Services\Internal\RewardGranter;
+use App\Modules\Subscriber\Services\Internal\RefererRewarder;
 use App\Modules\Subscriber\Subscriber;
 use App\Modules\Subscriber\SubscriberIsReferral;
 use App\Shared\RltFields;
@@ -19,7 +19,7 @@ final readonly class SubscriberWebhookHandler
     public function __construct(
         private WebhookEventRequestFactory $webhookEventRequestFactory,
         private EspClientFactory $espClientFactory,
-        private RewardGranter $rewardGranter,
+        private RefererRewarder $refererRewarder,
     ) {
     }
 
@@ -31,8 +31,7 @@ final readonly class SubscriberWebhookHandler
 
         $subscriber = $this->updateOrCreateModel($newsletterId, $data);
         $this->updateEspSubscriberFields($data->getId(), $subscriber);
-        $this->updateRefererRefCount($subscriber->referer);
-        $this->grantRewardToReferer($subscriber->referer);
+        $this->refererRewarder->handle($subscriber);
 
         return true;
     }
@@ -76,25 +75,5 @@ final readonly class SubscriberWebhookHandler
         $espClient = $this->espClientFactory->make($espConfig);
 
         $espClient->updateSubscriberFields($id, RltFields::getSubscriberFields($subscriber));
-    }
-
-
-    private function updateRefererRefCount(?Subscriber $referer): void
-    {
-        if (!$referer) {
-            return;
-        }
-
-        $referer->ref_count = $referer->referrals()->count();
-        $referer->update();
-    }
-
-    private function grantRewardToReferer(?Subscriber $referer): void
-    {
-        $referralProgramIsActive = $referer?->getReferralprogram()?->active;
-
-        if ($referer && $referralProgramIsActive) {
-            $this->rewardGranter->grantRewardIfPointsAchieved($referer);
-        }
     }
 }

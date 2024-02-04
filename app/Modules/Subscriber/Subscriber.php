@@ -94,4 +94,9 @@ class Subscriber extends Model
     {
         return $this->newsletter->referralProgram;
     }
+
+    public function isActive(): bool
+    {
+        return $this->status === SubscriberStatus::Active;
+    }
 }
