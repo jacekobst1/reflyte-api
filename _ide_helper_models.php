@@ -145,7 +145,7 @@ namespace App\Modules\Reward{
  * @property \Ramsey\Uuid\UuidInterface|null $rewardable_id
  * @property string $rewardable_type
  * @property string $name
- * @property string $description
+ * @property string|null $description
  * @property int $required_points
  * @property string $mail_text
  * @property \Illuminate\Support\Carbon|null $created_at
