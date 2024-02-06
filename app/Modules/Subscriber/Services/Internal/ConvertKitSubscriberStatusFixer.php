@@ -12,7 +12,7 @@ use Exception;
 final readonly class ConvertKitSubscriberStatusFixer
 {
     public function __construct(
-        private readonly EspClientFactory $espClientFactory,
+        private EspClientFactory $espClientFactory,
     ) {
     }
 
