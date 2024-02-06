@@ -18,7 +18,7 @@ final readonly class RefererRewarder
     {
         $referer = $subscriberFromWebhook->referer;
 
-        if (!$referer || !$subscriberFromWebhook->isActive()) {
+        if (!$referer || !$referer->isActive() || !$subscriberFromWebhook->isActive()) {
             return;
         }
 

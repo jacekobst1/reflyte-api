@@ -63,4 +63,29 @@ class RefererRewarderTest extends TestCase
         // then
         $this->assertSame(1, $referer->referrals()->count());
     }
+
+    public function testRefererNotRewardedIfRefererNotActive(): void
+    {
+        // given
+        $newsletter = Newsletter::factory()->create();
+
+        ReferralProgram::factory()->for($newsletter)->create();
+        $referer = Subscriber::factory()->for($newsletter)->create(['status' => SubscriberStatus::Unsubscribed]);
+        $newSubscriber = Subscriber::factory()
+            ->for($referer, 'referer')
+            ->for($newsletter)
+            ->create();
+
+        $rewardGranter = $this->mock(RewardGranter::class);
+        $refererRewarder = new RefererRewarder($rewardGranter);
+
+        // mock
+        $rewardGranter->shouldReceive('grantRewardIfPointsAchieved')->times(0);
+
+        // when
+        $refererRewarder->handle($newSubscriber);
+
+        // then
+        $this->assertSame(1, $referer->referrals()->count());
+    }
 }
