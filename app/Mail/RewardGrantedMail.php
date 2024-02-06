@@ -28,7 +28,7 @@ class RewardGrantedMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Wygrana w programie polecającym newsletter ' . $this->subscriber->newsletter->name,
+            subject: 'Wygrana w programie polecającym newsletter "' . $this->subscriber->newsletter->name . '"',
         );
     }
 

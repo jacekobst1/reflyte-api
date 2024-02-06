@@ -10,8 +10,8 @@
             color: #333;
         }
 
-        h1 {
-            color: #fdd619;
+        h2 {
+            color: #003d7a;
         }
 
         p {
@@ -23,7 +23,7 @@
 </head>
 <body>
     <main>
-        <h1>Gratulacje!</h1>
+        <h2>Gratulacje!</h2>
         <p>
             Dzięki Twoim staraniom, do newslettera {{ $newsletterName }} dołączyło już <b>{{ $rewardPoints }}</b> nowych
             osób
