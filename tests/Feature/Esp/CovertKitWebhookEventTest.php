@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Esp;
 
+use App\Modules\Esp\Dto\EspSubscriberDto;
 use App\Modules\Esp\Integration\Clients\ConvertKit\ConvertKitClient;
 use App\Modules\Esp\Integration\Clients\EspClientFactory;
 use App\Modules\Newsletter\Newsletter;
@@ -81,14 +82,23 @@ final class CovertKitWebhookEventTest extends TestCase
 
     private function mockEspClient(): void
     {
+        $espSubscriber = new EspSubscriberDto(
+            id: Str::random(),
+            email: Str::random() . '@test.com',
+            status: SubscriberStatus::Active,
+        );
+
         $convertKitEspClientMock = $this->mock(ConvertKitClient::class);
+        $convertKitEspClientMock->shouldReceive('getSubscriber')
+            ->once()
+            ->andReturn($espSubscriber);
         $convertKitEspClientMock->shouldReceive('updateSubscriberFields')
             ->once()
             ->andReturn(true);
 
         $espClientFactoryMock = $this->mock(EspClientFactory::class);
         $espClientFactoryMock->shouldReceive('make')
-            ->once()
+            ->twice()
             ->andReturn($convertKitEspClientMock);
     }
 }

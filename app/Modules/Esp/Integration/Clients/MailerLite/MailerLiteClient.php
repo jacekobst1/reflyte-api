@@ -7,6 +7,7 @@ namespace App\Modules\Esp\Integration\Clients\MailerLite;
 use App\Modules\Esp\Dto\EspFieldDto;
 use App\Modules\Esp\Dto\EspSubscriberDto;
 use App\Modules\Esp\Integration\Clients\AuthType;
+use App\Modules\Esp\Integration\Clients\ConvertKit\ConvertKitSubscriberStatusTranslator;
 use App\Modules\Esp\Integration\Clients\EspClientInterface;
 use App\Modules\Esp\Integration\Clients\MailerLite\Dto\MLResponseDto;
 use App\Modules\Esp\Integration\Clients\MakeRequestTrait;
@@ -91,6 +92,25 @@ class MailerLiteClient implements EspClientInterface
         $nextBatchExists = $responseDto->links->next !== null;
 
         return [$subscribers, $nextBatchExists, $response];
+    }
+
+    /**
+     * @throws RequestException
+     */
+    public function getSubscriber(string $id): ?EspSubscriberDto
+    {
+        $response = $this->makeRequest()->get("subscribers/{$id}")->throw()->json();
+        $data = $response['data'] ?? null;
+
+        if (!$data) {
+            return null;
+        }
+
+        return new EspSubscriberDto(
+            id: $data['id'],
+            email: $data['email'],
+            status: ConvertKitSubscriberStatusTranslator::translate($data['status'])
+        );
     }
 
     /**

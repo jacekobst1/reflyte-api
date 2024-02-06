@@ -99,6 +99,25 @@ class ConvertKitClient implements EspClientInterface
     /**
      * @throws RequestException
      */
+    public function getSubscriber(string $id): ?EspSubscriberDto
+    {
+        $response = $this->makeRequest()->get("subscribers/{$id}")->throw()->json();
+        $data = $response['subscriber'] ?? null;
+
+        if (!$data) {
+            return null;
+        }
+
+        return new EspSubscriberDto(
+            id: (string)$data['id'],
+            email: $data['email_address'],
+            status: ConvertKitSubscriberStatusTranslator::translate($data['state'])
+        );
+    }
+
+    /**
+     * @throws RequestException
+     */
     public function getAllFields(): DataCollection
     {
         $response = $this->makeRequest()->get('custom_fields')->throw()->json();

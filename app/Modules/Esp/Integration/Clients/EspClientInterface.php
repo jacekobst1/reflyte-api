@@ -42,6 +42,8 @@ interface EspClientInterface
      */
     public function getSubscribersBatch(?array $previousResponse = null): array;
 
+    public function getSubscriber(string $id): ?EspSubscriberDto;
+
     /**
      * @return DataCollection<array-key, EspFieldDto>
      */

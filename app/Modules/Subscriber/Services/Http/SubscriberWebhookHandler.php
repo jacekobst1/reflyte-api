@@ -8,10 +8,12 @@ use App\Modules\Esp\Integration\Clients\EspClientFactory;
 use App\Modules\Esp\Integration\WebhookEvent\WebhookEventRequestFactory;
 use App\Modules\Esp\Integration\WebhookEvent\WebhookEventRequestInterface;
 use App\Modules\Newsletter\Newsletter;
+use App\Modules\Subscriber\Services\Internal\ConvertKitSubscriberStatusFixer;
 use App\Modules\Subscriber\Services\Internal\RefererRewarder;
 use App\Modules\Subscriber\Subscriber;
 use App\Modules\Subscriber\SubscriberIsReferral;
 use App\Shared\RltFields;
+use Exception;
 use Ramsey\Uuid\UuidInterface;
 
 final readonly class SubscriberWebhookHandler
@@ -20,9 +22,13 @@ final readonly class SubscriberWebhookHandler
         private WebhookEventRequestFactory $webhookEventRequestFactory,
         private EspClientFactory $espClientFactory,
         private RefererRewarder $refererRewarder,
+        private ConvertKitSubscriberStatusFixer $convertKitSubscriberStatusFixer,
     ) {
     }
 
+    /**
+     * @throws Exception
+     */
     public function updateOrCreate(
         UuidInterface $newsletterId,
         array $rawData
@@ -45,6 +51,9 @@ final readonly class SubscriberWebhookHandler
         return $this->webhookEventRequestFactory->validateAndMake($newsletter->getEspConfig(), $rawData);
     }
 
+    /**
+     * @throws Exception
+     */
     private function updateOrCreateModel(
         UuidInterface $newsletterId,
         WebhookEventRequestInterface $data,
@@ -63,6 +72,8 @@ final readonly class SubscriberWebhookHandler
             'esp_id' => $data->getId(),
             'status' => $data->getStatus()
         ]);
+
+        $this->convertKitSubscriberStatusFixer->fixStatus($subscriber);
 
         $subscriber->save();
 
