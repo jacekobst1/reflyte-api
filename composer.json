@@ -12,6 +12,7 @@
         "aws/aws-sdk-php": "^3.295",
         "deployer/deployer": "^7.3",
         "guzzlehttp/guzzle": "^7.2",
+        "itsgoingd/clockwork": "^5.1",
         "laravel/fortify": "^1.18",
         "laravel/framework": "^10.10",
         "laravel/horizon": "^5.21",
