@@ -14,6 +14,8 @@ final class SubscriberGetter
     {
         $newsletter = Auth::user()->getNewsletter();
 
-        return $newsletter->subscribers()->paginate();
+        return $newsletter->subscribers()
+            ->orderBy('ref_count', 'DESC')
+            ->paginate();
     }
 }

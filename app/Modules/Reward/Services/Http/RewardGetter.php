@@ -15,6 +15,8 @@ final class RewardGetter
      */
     public function getByReferralProgram(ReferralProgram $referralProgram): Collection
     {
-        return $referralProgram->rewards()->orderBy('required_points')->get();
+        return $referralProgram->rewards()
+            ->orderBy('required_points')
+            ->get();
     }
 }
