@@ -40,6 +40,7 @@ class Newsletter extends Model
         'landing_url',
         'esp_name',
         'esp_api_key',
+        'esp_api_url',
     ];
 
     /**

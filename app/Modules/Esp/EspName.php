@@ -8,4 +8,5 @@ enum EspName: string
 {
     case MailerLite = 'mailer_lite';
     case ConvertKit = 'convert_kit';
+    case ActiveCampaign = 'active_campaign';
 }

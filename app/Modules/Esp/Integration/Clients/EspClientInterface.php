@@ -13,7 +13,7 @@ interface EspClientInterface
 {
     /*
     |--------------------------------------------------------------------------
-    | Helper methods methods
+    | Helper client methods
     |--------------------------------------------------------------------------
     |
     | Methods responsible for providing data for error-less integration with ESP.

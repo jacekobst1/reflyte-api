@@ -36,7 +36,7 @@ final readonly class NewsletterCreator
         $team = Auth::user()->team;
 
         $this->checkIfTeamHasNoNewsletter($team);
-        $this->validateEspApiKey($data->esp_name, $data->esp_api_key);
+        $this->validateEspApiKey($data->esp_name, $data->esp_api_key, $data->esp_api_url);
 
         $newsletter = $this->storeNewsletter($data, $team);
 
@@ -60,9 +60,9 @@ final readonly class NewsletterCreator
     /**
      * @throws ConflictException
      */
-    private function validateEspApiKey(EspName $espName, string $apiKey): void
+    private function validateEspApiKey(EspName $espName, string $apiKey, ?string $apiUrl): void
     {
-        if (!$this->apiKeyValidator->apiKeyIsValid($espName, $apiKey)) {
+        if (!$this->apiKeyValidator->apiKeyIsValid($espName, $apiKey, $apiUrl)) {
             throw new ConflictException('Invalid ESP API key');
         }
     }

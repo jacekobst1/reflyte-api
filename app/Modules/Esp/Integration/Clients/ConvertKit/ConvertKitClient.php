@@ -20,11 +20,21 @@ class ConvertKitClient implements EspClientInterface
 {
     use MakeRequestTrait;
 
-    private string $baseUrl = 'https://api.convertkit.com/v3';
-    private int $maxRequestsPerMinute = 120;
+    private const string API_URL = 'https://api.convertkit.com/v3';
+    private const int MAX_REQUESTS_PER_MINUTE = 120;
 
     public function __construct(private readonly string $apiKey)
     {
+    }
+
+    private function getApiKey(): string
+    {
+        return $this->apiKey;
+    }
+
+    private function getApiUrl(): string
+    {
+        return self::API_URL;
     }
 
     private function getAuthType(): AuthType
@@ -42,7 +52,7 @@ class ConvertKitClient implements EspClientInterface
         $secondsInMinute = 60;
 
         // TODO try on production, cause safe multiplier is 1.1
-        return ($secondsInMinute / $this->maxRequestsPerMinute) * 0.1;
+        return ($secondsInMinute / self::MAX_REQUESTS_PER_MINUTE) * 0.1;
     }
 
     public function apiKeyIsValid(): bool

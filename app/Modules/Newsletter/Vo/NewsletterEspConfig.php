@@ -13,6 +13,7 @@ final readonly class NewsletterEspConfig
         public UuidInterface $newsletterId,
         public EspName $espName,
         public string $espApiKey,
+        public ?string $espApiUrl = null,
     ) {
     }
 }

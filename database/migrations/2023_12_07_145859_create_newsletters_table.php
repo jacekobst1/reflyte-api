@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->text('landing_url');
             $table->text('esp_name');
             $table->text('esp_api_key');
+            $table->text('esp_api_url')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
