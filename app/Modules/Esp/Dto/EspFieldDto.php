@@ -9,7 +9,8 @@ use Spatie\LaravelData\Data;
 final class EspFieldDto extends Data
 {
     public function __construct(
-        public readonly string $key,
+        public readonly string $id,
+        public readonly int|string $key,
     ) {
     }
 }

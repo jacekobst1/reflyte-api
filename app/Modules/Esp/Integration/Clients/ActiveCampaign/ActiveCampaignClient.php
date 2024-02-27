@@ -6,11 +6,11 @@ namespace App\Modules\Esp\Integration\Clients\ActiveCampaign;
 
 use App\Modules\Esp\Dto\EspFieldDto;
 use App\Modules\Esp\Dto\EspSubscriberDto;
+use App\Modules\Esp\Integration\Clients\ActiveCampaign\Dto\ACContactsResponseDto;
 use App\Modules\Esp\Integration\Clients\AuthType;
-use App\Modules\Esp\Integration\Clients\ConvertKit\ConvertKitSubscriberStatusTranslator;
-use App\Modules\Esp\Integration\Clients\ConvertKit\Dto\CKSubscribersResponseDto;
 use App\Modules\Esp\Integration\Clients\EspClientInterface;
 use App\Modules\Esp\Integration\Clients\MakeRequestTrait;
+use App\Modules\Subscriber\SubscriberStatus;
 use Exception;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Config;
@@ -21,7 +21,7 @@ final readonly class ActiveCampaignClient implements EspClientInterface
 {
     use MakeRequestTrait;
 
-    private const int MAX_REQUESTS_PER_MINUTE = 120;
+    private const int MAX_REQUESTS_PER_MINUTE = 300;
 
     public function __construct(
         private string $apiKey,
@@ -46,20 +46,19 @@ final readonly class ActiveCampaignClient implements EspClientInterface
 
     public function getLimitOfSubscribersBatch(): int
     {
-        return 50;
+        return 100;
     }
 
     public function getSafeIntervalBetweenRequests(): float
     {
         $secondsInMinute = 60;
 
-        // TODO try on production, cause safe multiplier is 1.1
-        return ($secondsInMinute / self::MAX_REQUESTS_PER_MINUTE) * 0.1;
+        return ($secondsInMinute / self::MAX_REQUESTS_PER_MINUTE) * 1.1;
     }
 
     public function apiKeyIsValid(): bool
     {
-        $response = $this->makeRequest()->get('account');
+        $response = $this->makeRequest()->get('users');
 
         return $response->successful();
     }
@@ -71,39 +70,49 @@ final readonly class ActiveCampaignClient implements EspClientInterface
     {
         $response = $this->makeRequest()->get('subscribers')->throw();
 
-        return $response->json()['total_subscribers'];
+        return $response->json()['meta']['total'];
     }
 
     /**
-     * Hard limit of 50 subscribers per page.
      * @throws RequestException
      */
     public function getSubscribersBatch(?array $previousResponse = null): array
     {
         $queryParams = [
-            'sort_field' => 'created_at',
-            'sort_order' => 'asc',
+            'orders[cdate]' => 'desc',
+            'limit' => $this->getLimitOfSubscribersBatch(),
+            'offset' => 0,
+            'status' => 1,
+            // TODO handle also other statuses, by fetching subsribers one by one https://developers.activecampaign.com/reference/contact
         ];
 
         if ($previousResponse !== null) {
-            $queryParams['page'] = CKSubscribersResponseDto::from($previousResponse)->page + 1;
+            $lastResponseDto = ACContactsResponseDto::from($previousResponse);
+            $lastOffset = $lastResponseDto->meta->page_input->offset;
+            $queryParams['offset'] = $lastOffset + $this->getLimitOfSubscribersBatch();
         }
 
-        $response = $this->makeRequest()->withQueryParameters($queryParams)->get('subscribers')->throw()->json();
-        $responseDto = CKSubscribersResponseDto::from($response);
+        $response = (array)$this->makeRequest()
+            ->withQueryParameters($queryParams)
+            ->get('contacts')
+            ->throw()
+            ->json();
+        $responseDto = ACContactsResponseDto::from($response);
 
         $subscribers = EspSubscriberDto::collection(
             array_map(
                 fn($subscriber) => [
                     'id' => $subscriber['id'],
-                    'email' => $subscriber['email_address'],
-                    'status' => ConvertKitSubscriberStatusTranslator::translate($subscriber['state'])
+                    'email' => $subscriber['email'],
+                    'status' => SubscriberStatus::Active,
                 ],
-                $responseDto->subscribers
+                $responseDto->contacts
             )
         );
 
-        $nextBatchExists = $responseDto->page < $responseDto->total_pages;
+        $numberOfAlreadyFetchedSubscribers =
+            $this->getLimitOfSubscribersBatch() + $responseDto->meta->page_input->offset;
+        $nextBatchExists = $responseDto->meta->getTotal() > $numberOfAlreadyFetchedSubscribers;
 
         return [$subscribers, $nextBatchExists, $response];
     }
@@ -113,28 +122,40 @@ final readonly class ActiveCampaignClient implements EspClientInterface
      */
     public function getSubscriber(string $id): ?EspSubscriberDto
     {
-        $response = $this->makeRequest()->get("subscribers/{$id}")->throw()->json();
-        $data = $response['subscriber'] ?? null;
+        $response = $this->makeRequest()->get("contacts/{$id}")->throw()->json();
+        $contact = $response['contact'];
+        $contactLists = $response['contactLists'];
 
-        if (!$data) {
+        if (empty($contactLists)) {
             return null;
         }
 
+        $contactList = $contactLists[0];
+
         return new EspSubscriberDto(
-            id: (string)$data['id'],
-            email: $data['email_address'],
-            status: ConvertKitSubscriberStatusTranslator::translate($data['state'])
+            id: $contact['id'],
+            email: $contact['email'],
+            status: ActiveCampaignSubscriberStatusTranslator::translate($contactList['status'])
         );
     }
 
     /**
+     * @return DataCollection<array-key, EspFieldDto>
      * @throws RequestException
      */
     public function getAllFields(): DataCollection
     {
-        $response = $this->makeRequest()->get('custom_fields')->throw()->json();
+        $response = $this->makeRequest()->get('fields?limit=1000')->throw()->json();
 
-        return EspFieldDto::collection($response['custom_fields']);
+        $data = array_map(
+            fn($field) => [
+                'id' => $field['id'],
+                'key' => $field['title'],
+            ],
+            $response['fields'],
+        );
+
+        return EspFieldDto::collection($data);
     }
 
     /**
@@ -142,20 +163,41 @@ final readonly class ActiveCampaignClient implements EspClientInterface
      */
     public function createField(string $key, string $type): bool
     {
-        $response = $this->makeRequest()->post('custom_fields', [
-            'label' => $key,
+        $response = $this->makeRequest()->post('fields', [
+            'field' => [
+                'title' => $key,
+                'type' => $type,
+                'visible' => 1,
+            ],
         ])->throw();
 
         return $response->created();
     }
 
     /**
+     * @param array<string, string> $fields
      * @throws Exception
      */
     public function updateSubscriberFields(string $id, array $fields): bool
     {
-        $response = $this->makeRequest()->put("subscribers/{$id}", [
-            'fields' => $fields
+        $existsingFields = $this->getAllFields();
+        $formattedFields = [];
+
+        foreach ($existsingFields as $existsingField) {
+            foreach ($fields as $key => $value) {
+                if ($existsingField->key === $key) {
+                    $formattedFields[] = [
+                        'field' => $existsingField->id,
+                        'value' => $value,
+                    ];
+                }
+            }
+        }
+
+        $response = $this->makeRequest()->put("contacts/{$id}", [
+            'contact' => [
+                'fieldValues' => $formattedFields,
+            ]
         ])->throw();
 
         return $response->successful();
@@ -168,20 +210,22 @@ final readonly class ActiveCampaignClient implements EspClientInterface
     {
         $newsletterIdString = $newsletterId->toString();
 
-        $events = [
-            'subscriber.subscriber_activate',
-            'subscriber.subscriber_unsubscribe',
-        ];
-
-        foreach ($events as $event) {
-            $this->makeRequest()->post('automations/hooks', [
-                'target_url' => Config::get('env.api_url') . "/esp/webhook/$newsletterIdString",
-                'event' => [
-                    'name' => $event,
+        $response = $this->makeRequest()->post('webhooks', [
+            'webhook' => [
+                'name' => 'Reflyte webhook',
+                'url' => Config::get('env.api_url') . "/esp/webhook/$newsletterIdString",
+                'events' => [
+                    'subscribe',
                 ],
-            ])->throw();
-        }
+                'sources' => [
+                    'public',
+                    'admin',
+                    'api',
+                    'system',
+                ]
+            ],
+        ])->throw();
 
-        return true;
+        return $response->created();
     }
 }
