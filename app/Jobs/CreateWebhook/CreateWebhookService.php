@@ -14,9 +14,13 @@ final readonly class CreateWebhookService
     {
     }
 
-    public function handle(UuidInterface $newsletterId, EspName $espName, string $espApiKey): void
-    {
-        $espClient = $this->espClientFactory->makeSimple($espName, $espApiKey);
+    public function handle(
+        UuidInterface $newsletterId,
+        EspName $espName,
+        string $espApiKey,
+        ?string $espApiUrl
+    ): void {
+        $espClient = $this->espClientFactory->makeSimple($espName, $espApiKey, $espApiUrl);
 
         $espClient->createWebhook($newsletterId);
     }

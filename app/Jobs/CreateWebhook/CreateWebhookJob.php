@@ -29,7 +29,8 @@ final class CreateWebhookJob implements ShouldQueue, ShouldBeEncrypted
     public function __construct(
         private readonly UuidInterface $newsletterId,
         private readonly EspName $espName,
-        private readonly string $espApiKey
+        private readonly string $espApiKey,
+        private readonly ?string $espApiUrl,
     ) {
     }
 
@@ -38,6 +39,6 @@ final class CreateWebhookJob implements ShouldQueue, ShouldBeEncrypted
      */
     public function handle(CreateWebhookService $service): void
     {
-        $service->handle($this->newsletterId, $this->espName, $this->espApiKey);
+        $service->handle($this->newsletterId, $this->espName, $this->espApiKey, $this->espApiUrl);
     }
 }

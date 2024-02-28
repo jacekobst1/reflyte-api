@@ -31,7 +31,7 @@ final readonly class ActiveCampaignClient implements EspClientInterface
 
     private function getAuthType(): AuthType
     {
-        return AuthType::QueryParameterApiSecret;
+        return AuthType::AuthorizationHeaderApiToken;
     }
 
     private function getApiKey(): string
@@ -68,9 +68,10 @@ final readonly class ActiveCampaignClient implements EspClientInterface
      */
     public function getSubscribersTotalNumber(): int
     {
-        $response = $this->makeRequest()->get('subscribers')->throw();
+        $response = $this->makeRequest()->get('contacts')->throw();
+        $responseDto = ACContactsResponseDto::from($response->json());
 
-        return $response->json()['meta']['total'];
+        return $responseDto->meta->getTotal();
     }
 
     /**

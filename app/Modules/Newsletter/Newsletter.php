@@ -68,6 +68,6 @@ class Newsletter extends Model
      */
     public function getEspConfig(): NewsletterEspConfig
     {
-        return new NewsletterEspConfig($this->id, $this->esp_name, $this->esp_api_key);
+        return new NewsletterEspConfig($this->id, $this->esp_name, $this->esp_api_key, $this->esp_api_url);
     }
 }

@@ -81,6 +81,7 @@ namespace App\Modules\Newsletter{
  * @property string $landing_url
  * @property \App\Modules\Esp\EspName $esp_name
  * @property mixed $esp_api_key
+ * @property string|null $esp_api_url
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -97,6 +98,7 @@ namespace App\Modules\Newsletter{
  * @method static \Illuminate\Database\Eloquent\Builder|Newsletter whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Newsletter whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Newsletter whereEspApiKey($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Newsletter whereEspApiUrl($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Newsletter whereEspName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Newsletter whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Newsletter whereLandingUrl($value)

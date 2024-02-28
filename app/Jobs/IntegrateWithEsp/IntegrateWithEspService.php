@@ -41,10 +41,10 @@ final class IntegrateWithEspService
 
         $this->addJobsToArray();
 
-        [$newsletterId, $espName, $espApiKey] = $this->extractEspConfig($espConfig);
+        [$newsletterId, $espName, $espApiKey, $espApiUrl] = $this->extractEspConfig($espConfig);
 
         Bus::batch($this->synchronizeSubscriberJobs)
-            ->then(fn(Batch $batch) => CreateWebhookJob::dispatch($newsletterId, $espName, $espApiKey))
+            ->then(fn(Batch $batch) => CreateWebhookJob::dispatch($newsletterId, $espName, $espApiKey, $espApiUrl))
             ->name("Synchronize subscribers | newsletterId: $espConfig->newsletterId")
             ->dispatch();
     }
@@ -72,7 +72,7 @@ final class IntegrateWithEspService
 
     private function extractEspConfig(NewsletterEspConfig $espConfig): array
     {
-        return [$espConfig->newsletterId, $espConfig->espName, $espConfig->espApiKey];
+        return [$espConfig->newsletterId, $espConfig->espName, $espConfig->espApiKey, $espConfig->espApiUrl];
     }
 
     /**

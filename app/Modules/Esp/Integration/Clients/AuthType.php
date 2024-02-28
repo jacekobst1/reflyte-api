@@ -7,5 +7,6 @@ namespace App\Modules\Esp\Integration\Clients;
 enum AuthType
 {
     case AuthorizationHeaderBearerToken;
+    case AuthorizationHeaderApiToken;
     case QueryParameterApiSecret;
 }

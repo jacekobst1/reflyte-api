@@ -22,6 +22,7 @@ trait MakeRequestTrait
     {
         match ($this->getAuthType()) {
             AuthType::AuthorizationHeaderBearerToken => $request->withToken($this->getApiKey()),
+            AuthType::AuthorizationHeaderApiToken => $request->withHeader('Api-Token', $this->getApiKey()),
             AuthType::QueryParameterApiSecret => $request->withQueryParameters([
                 'api_secret' => $this->getApiKey(),
             ]),
