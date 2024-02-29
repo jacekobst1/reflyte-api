@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Config;
 use Ramsey\Uuid\UuidInterface;
 use Spatie\LaravelData\DataCollection;
 
+// TODO dopisz testy i przetestuj na produkcji
 final readonly class ActiveCampaignClient implements EspClientInterface
 {
     use MakeRequestTrait;
@@ -60,7 +61,7 @@ final readonly class ActiveCampaignClient implements EspClientInterface
     {
         $response = $this->makeRequest()->get('users');
 
-        return $response->successful();
+        return $response->successful() && is_array($response->json('users'));
     }
 
     /**
