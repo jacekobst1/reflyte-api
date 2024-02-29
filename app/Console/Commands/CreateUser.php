@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
 use App\Modules\Auth\Enums\RoleEnum;
@@ -7,7 +9,7 @@ use App\Modules\User\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
 
-class CreateUser extends Command
+final class CreateUser extends Command
 {
     /**
      * The name and signature of the console command.
