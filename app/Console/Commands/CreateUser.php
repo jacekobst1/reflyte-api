@@ -33,7 +33,7 @@ class CreateUser extends Command
         $name = $this->ask('Name:');
         $email = $this->ask('Email:');
         $password = $this->ask('Password:');
-        $role = $this->choice('Role:', $roles);
+        $role = $this->choice('Role:', $roles, 0);
 
         $user = User::create([
             'name' => $name,
