@@ -71,7 +71,7 @@ class StoreNewsletterTest extends TestCase
             ->once();
 
         // given
-        $requestData = $this->getRequestData();
+        $requestData = $this->getRequestData(EspName::ActiveCampaign);
         $requestData['esp_api_url'] = $apiUrl;
 
         // when
