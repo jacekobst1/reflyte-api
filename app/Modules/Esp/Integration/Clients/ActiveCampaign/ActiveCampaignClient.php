@@ -218,6 +218,8 @@ final readonly class ActiveCampaignClient implements EspClientInterface
                 'url' => Config::get('env.api_url') . "/esp/webhook/$newsletterIdString",
                 'events' => [
                     'subscribe',
+                    'unsubscribe',
+                    'bounce'
                 ],
                 'sources' => [
                     'public',
